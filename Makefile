@@ -21,8 +21,11 @@ LIBFT_PATH		= ${LIB_PATH}libft/
 LIBFT_INC_PATH	= ${LIBFT_PATH}include/
 OBJECTS_PATH	= ./object/
 SOURCES_PATH    = ./src/
+MINILIBX_PATH	= ${LIB_PATH}minilibx-linux/
 
 
+MINILIBX_FILE	= libmlx.a
+MINILIBX_NAME	= ${MINILIBX_PATH}${MINILIBX_FILE}
 LIBFT_FILE		= libft.a
 LIBFT_NAME		= ${LIBFT_PATH}${LIBFT_FILE}
 NAME			= fdf
@@ -40,8 +43,32 @@ SANITIZE_FLAGS	= -fsanitize=address ${DEBUG_SYMBOLS}
 # "--leak-check=full" enable detailed memory leak detection, and 
 #                     report every possible memory leak
 VALGRIND_FLAGS	= --track-origins=yes -s --leak-check=full
+# "-I <path>" instructs the compiler where to look for header files
+# "-L <path>" instructs the linker where to look for static (.a) or 
+#             shared (.so) libraries
+# "-l<file>" instructs the linker to add a specific library by its name.
+#            the linker will consider the "lib" prefix and ".a"/".so" sufix.
+#            e.g. "-lft" links against "libft.a" or "libft.so".
+#            note: this flag can't have a space in between, it's 
+#                  processed as a single token
+#
+# "-lmlx" links against "libmlx.a"
+# "-lmlx_Linux" links against "libmlx_Linux.a"
+# "-lXext" links against the "libXext" library, an extension for 
+#          the X11 windowing system. It's a dependency of minilibx
+# "-lX11" links against the "libX11" library. Provides the core functions 
+#         of the X11 windowing system
+#
+# additional notes: minilibx is a lightweight library that relies on X11 
+#                   for graphical rendering. "-lXext -lX11" are dependencies 
+#                   of minilibx that provide the underlying graphical 
+#                   functionality. "-lmlx -lmlx_Linux" are specific to 
+#                   minilibx itself
+X11_FILES		= -lXext -lX11 -lm
+MLX_SPECIFICS	= -lmlx -lmlx_Linux
+INCLUDE_MLX		= -I ${MINILIBX_PATH} -L ${MINILIBX_PATH} ${X11_FILES} ${MLX_SPECIFICS}
 INCLUDE_LIBFT	= -I ${LIBFT_INC_PATH}
-INCLUDE			= -I ${INCLUDES_PATH} ${INCLUDE_LIBFT}
+INCLUDE			= -I ${INCLUDES_PATH} ${INCLUDE_LIBFT} ${INCLUDE_MLX}
 MAKE_LIB		= make -sC
 
 
@@ -72,6 +99,11 @@ DELETE_LIBFT	= ${MAKE_LIBFT} ${DELETE}
 CLEAN_LIBFT		= ${MAKE_LIBFT} ${CLEAN}
 FCLEAN_LIBFT	= ${MAKE_LIBFT} ${FCLEAN}
 RE_LIBFT		= ${MAKE_LIBFT} ${RE}
+
+
+MAKE_MINILIBX	= ${MAKE_LIB} ${MINILIBX_PATH}
+CLEAN_MINILIBX	= ${MAKE_MINILIBX} ${CLEAN}
+RE_MINILIBX		= ${MAKE_MINILIBX} ${RE}
 
 
 SOURCE_FILES	= $(wildcard ${SOURCES_PATH}*.c)
@@ -114,8 +146,8 @@ ${OBJECTS_PATH}%.o: ${SOURCES_PATH}%.c | ${OBJECTS_PATH}
 	@${CC} ${CFLAGS} ${INCLUDE} -c $< -o $@
 
 
-${NAME}: ${LIBFT_NAME} ${OBJECT_FILES}
-	@${CC} ${CFLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME}
+${NAME}: ${MINILIBX_NAME} ${LIBFT_NAME} ${OBJECT_FILES}
+	@${CC} ${CFLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME} ${INCLUDE_MLX}
 	@echo "The program \"${NAME}\" has been compiled."
 
 
@@ -156,6 +188,10 @@ ${RUN_MOCK_VALUES}: ${NAME}
 # #############
 
 
+${MINILIBX_NAME}:
+	@${MAKE_MINILIBX}
+
+
 ${LIBFT_NAME}:
 	@${MAKE_LIBFT}
 
@@ -166,14 +202,17 @@ ${LIB_DELETE}:
 
 ${LIB_CLEAN}:
 	@${CLEAN_LIBFT}
+	@${CLEAN_MINILIBX}
 
 
 ${LIB_FCLEAN}:
 	@${FCLEAN_LIBFT}
+	@${CLEAN_MINILIBX}
 
 
 ${LIB_RE}:
 	@${RE_LIBFT}
+	@${RE_MINILIBX}
 
 
 ${PHONY}: ${STD_PHONY} ${DEBUG_PHONY} ${LIB_PHONY}

@@ -1,0 +1,167 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mlx_includes.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/29 08:34:07 by jonnavar          #+#    #+#             */
+/*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+#ifndef MLX_INCLUDES_H
+# define MLX_INCLUDES_H
+
+/**
+ * Initializes minilibx and sets up the connection to the underlying 
+ * graphical system (X11 Server on Linux)
+ *
+ * Returns a pointer that will be used in subsequent minilibx function calls
+ *
+ * The pointer to the minilibx instance is a data structure that stores 
+ * minilibx's internal state
+ *
+ * If the initialization fails, it returns NULL
+ */
+void	*mlx_init(void);
+/**
+ * Creates a new graphical window to render images, draw pixels, 
+ * and display content
+ *
+ * The window is created using the graphics system (X11 Server on Linux)
+ *
+ * If the window is successfully created, it returns a pointer to 
+ * the window instance
+ *
+ * If it fails, it returns NULL
+ */
+void	*mlx_new_window(void *mlx_ptr, int width, int height, char *title);
+/**
+ * Binds a specific event to a custom handler function
+ *
+ * Allows to respond to various events, such as key presses, mouse movements, 
+ * or window actions
+ *
+ * Minilibx provides predefined event constants 
+ * (e.g. "17" for the close button)
+ *
+ * The "x_mask" provides additional information about the type of event 
+ * to listen to. In most cases, it can be left to "0"
+ *
+ * The "param" is a pointer to any additional data to be passed to the 
+ * callback function. It can be NULL if not needed
+ */
+int		mlx_hook(void *win_ptr, int x_event, int x_mask,
+			int (*funct)(), void *param);
+/**
+ * Creates a new blank image that can be drawn on
+ *
+ * This image resides in memory and is not immediately visible in the 
+ * window until it's explicitly rendered (using mlx_put_image_to_window())
+ *
+ * Returns a pointer to the created image object, 
+ * or NULL if the creation fails
+ */
+void	*mlx_new_image(void *mlx_ptr, int width, int height);
+/**
+ * Provides access to the memory where the image's pixel data is stored
+ *
+ * This function is essential for directly modifying pixel values in the image
+ *
+ * It essentially gives access to the raw pixel data of the image, 
+ * and allows to modify the image by directly manipulating the memory buffer
+ *
+ * The function stores, in "bits_per_pixel", the number of bits used 
+ * to represent a single pixel (e.g. "32" for a 32-bit color format)
+ *
+ * "size_line" is used to store the number of bytes in each row of the image
+ *
+ * "endian" represents the image's endianess. 
+ * "0" is little-endian (least significant byte stored first), 
+ * "1" is big-endian (most significant byte stored first)
+ *
+ * Returns a pointer to the memory buffer that contains 
+ * the image's pixel data
+ */
+char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel,
+			int *size_line, int *endian);
+/**
+ * Displays an image in a specified position within a window
+ *
+ * It takes the image created by "mlx_new_image()" and places it 
+ * onto the screen
+ *
+ * The "x" and "y" coordinates are in pixels, and refer to
+ * the top-left corner of the image's position in the window
+ *
+ * Coordinates outside the window will cause the image to 
+ * be partially or entirely clipped
+ *
+ * If the window is minimized and restored, the image will disappear 
+ * unless re-rendered in the event loop
+ *
+ * Returns "0" on success
+ *
+ * "blitting" refers to the process of copying pixel data from one place 
+ * in memory (like an image buffer) to another (like a screen's framebuffer). 
+ * The term comes from the word Bit Block Transfer (Bit Blit), which describes 
+ * moving blocks of bits efficiently, often in the context of 
+ * computer graphics. Blitting is commonly used to render images, sprites, 
+ * or textures onto a display surface. It's an essential operation in 
+ * 2D graphics programming
+ *
+ * The relationship between "Bit Block Transfer" and "Bit Blit" lies in 
+ * abbreviation and conceptual evolution. "Bit Block Transfer" is the 
+ * full term that describes the operation of transferring a rectangular 
+ * block of bits from one memory location to another. It's a technical 
+ * phrase from the early days of computer graphics. "Bit Blit" is a 
+ * shortened form of "Bit Block Transfer". The term "Blit" is derived from 
+ * "Block Transfer", and over time, it became the colloquial term 
+ * used by programmers and developers to describe this operation
+ *
+ * "transferido por bloques de bits" highlights the technical process 
+ * of moving bit blocks
+ *
+ * "renderizado" is a simpler translation, focusing on the result 
+ * rather than the method
+ */
+int		mlx_put_image_to_window(void *mlx_ptr, void *win_ptr, void *img_ptr,
+			int x, int y);
+/**
+ * Specifies a function that will be called continuously during the 
+ * program's main event loop
+ *
+ * It allows to execute custom logic at regular intervals without being 
+ * tied to a specific user event, like a key press or mouse action
+ *
+ * "funct_ptr" is the function to be executed during each iteration 
+ * of the event loop. It should return an integer. Conventionally, 
+ * returning "0" signals success
+ *
+ * "param" is a pointer to any parameter to be passed to the hook function. 
+ * It can be NULL if additional data is not needed
+ *
+ * It's often used for continuous rendering or for updating animations, 
+ * physics calculations, or any logic that needs to run regularly
+ */
+int		mlx_loop_hook(void *mlx_ptr, int (*funct_ptr)(), void *param);
+/**
+ * This function is crucial in programs using the minilibx library
+ *
+ * It enters an event-driven loop, allowing the program to handle 
+ * user interactions, such as key presses, mouse movements, 
+ * and window-related events
+ *
+ * First, it blocks execution (the program stays in this function) 
+ * and waits for user inputs or system events
+ *
+ * Then, event handlers registered with functions like "mlx_hook()" or 
+ * "mlx_key_hook()" are executed when the corresponding events occur
+ *
+ * Without this function, the program would terminate immediately after 
+ * drawing the initial frame, as there would be no mechanism to keep the 
+ * window open or respond to events
+ */
+int		mlx_loop(void *mlx_ptr);
+
+#endif
