@@ -42,7 +42,6 @@ int	main(const int argc, const char **argv)
 	void	*parameters[3];
 	char	*image_address;
 	int		bits_in_byte;
-	//		bits per pixel
 	int		bpp;
 	int		line_length;
 	int		endianess;
@@ -50,6 +49,31 @@ int	main(const int argc, const char **argv)
 	int		w_height;
 	int		pixel_index;
 
+	//	TODO:
+	//	1. the program must accept a path to a map file
+	//	2. then, must read the map file and store the data 
+	//	   in a suitable structure, such as a 2D array of integers
+	//	3. display the 3D object on a 2D surface. To do so, 
+	//	   use a Projection Formula, like Isometric Projection
+	//	4. once the 2D positions of each 3D point are calculated, 
+	//	   draw lines between adjacent points to form the object.
+	//	   To do so, use Bresenham's line-drawing algorithm
+	//	5. add Scaling and Translation. The map may need to be scaled 
+	//	   or moved to fit into the window.
+	//	   Scaling is to multiply coordinates by a Scaling Factor 
+	//	   to adjust the size.
+	//	   Translation is to add an offset to center the image 
+	//	   in the window
+	//	6. finally, use "mlx_put_image_to_window()" to display the 
+	//	   drawn image in the window
+	//	
+	//	extra: to add "zoom", adjust the Scaling Factor dynamically 
+	//	       using keyboard events. To add "rotation", modify the 
+	//	       Projection Formula to include rotation matrices. To 
+	//	       add "movement", adjust the Translation offsets based 
+	//	       on user input
+	//	       implement a functionality to switch Projection Mode, 
+	//	       between Isometric and Parallel
 	bits_in_byte = 8;
 	w_width = 1000;
 	w_height = 800;

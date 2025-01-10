@@ -1,16 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   mlx_includes.h                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/29 08:34:07 by jonnavar          #+#    #+#             */
-/*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-#ifndef MLX_INCLUDES_H
-# define MLX_INCLUDES_H
+// the sole purpose of this file is to organize and describe 
+// minilibx functions
 
 /**
  * Initializes minilibx and sets up the connection to the underlying 
@@ -163,5 +152,3 @@ int		mlx_loop_hook(void *mlx_ptr, int (*funct_ptr)(), void *param);
  * window open or respond to events
  */
 int		mlx_loop(void *mlx_ptr);
-
-#endif
