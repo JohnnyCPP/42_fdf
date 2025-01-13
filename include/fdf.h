@@ -17,6 +17,12 @@
 						 "expected file extension (.fdf)"
 # define ERROR_IO "Error opening file"
 # define ERROR_MEMORY "Memory allocation error"
+# define ERROR_MAP_FORMAT "The map file contains invalid characters.\n" \
+						  "Only spaces, digits, and hex colors are allowed. " \
+						  "Colors can be added to each point, with its " \
+						  "hexadecimal value just after the point, " \
+						  "separated with a comma.\n" \
+						  "The hexadecimal format is '0xRRGGBB'."
 # define FDF_EXTENSION ".fdf"
 
 # include "libft.h"
@@ -32,5 +38,8 @@ int		fdf_str_matrix_length(char **matrix);
 void	fdf_str_matrix_shallow_copy(char **dest, char **source, int length);
 void	fdf_str_matrix_print(char **matrix);
 void	fdf_free_str_matrix(char ***matrix_ptr);
+void	fdf_handle_map_failure(char ***matrix_ptr);
+void	fdf_handle_mem_failure(char ***matrix_ptr);
+int		fdf_validate_matrix_row(const char *row);
 
 #endif

@@ -55,8 +55,12 @@ int	main(const int argc, const char **argv)
 	map = fdf_read_map(argc, argv);
 	fdf_str_matrix_print(map);
 	fdf_free_str_matrix(&map);
+	char *str = " 1,0xbAaFfF 2,0xbAaFfF 3,0xbAaFfF 4,0xbAaFfF  5,0xbAaFfF 6,0xbAaFfF \n";
+	int res = fdf_validate_matrix_row(str);
+	ft_printf("Result: %i\n", res);
 	if (1)
 		return (EXIT_SUCCESS);
+	(void) argc; (void) argv;
 	(void) map;
 	bits_in_byte = 8;
 	w_width = 1000;

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read.c                                             :+:      :+:    :+:   */
+/*   read_map_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,31 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "fdf.h"
-
-void	fdf_free_str_matrix(char ***matrix_ptr)
-{
-	char	**matrix;
-	int		i;
-
-	if (!*matrix_ptr)
-		return ;
-	i = 0;
-	matrix = *matrix_ptr;
-	while (matrix[i])
-	{
-		free(matrix[i]);
-		i ++;
-	}
-	free(matrix);
-	*matrix_ptr = NULL;
-}
-
-static	void	fdf_handle_mem_failure(char ***matrix_ptr)
-{
-	fdf_free_str_matrix(matrix_ptr);
-	perror(ERROR_MEMORY);
-	exit(EXIT_FAILURE);
-}
 
 static	void	fdf_add_to_matrix(const char *next_line, char ***matrix_ptr)
 {

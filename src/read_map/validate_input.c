@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input.c                                            :+:      :+:    :+:   */
+/*   validate_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,6 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "fdf.h"
+
+static	void	fdf_validate_str_matrix(char **matrix)
+{
+	const char	*row;
+	int			is_valid;
+	int			i;
+
+	i = 0;
+	row = matrix[i];
+	while (row != NULL)
+	{
+		is_valid = fdf_validate_matrix_row(row);
+		if (!is_valid)
+			fdf_handle_map_failure(&matrix);
+		i ++;
+		row = matrix[i];
+	}
+}
 
 static	int	fdf_validate_file_access(const char *path_to_file)
 {
@@ -52,10 +70,10 @@ static	void	fdf_validate_argument_count(const int argc)
 
 char	**fdf_read_map(const int argc, const char **argv)
 {
-	const	char	*path_to_file;
-	char			**matrix;
-	int				is_readable;
-	int				fd;
+	const char	*path_to_file;
+	char		**matrix;
+	int			is_readable;
+	int			fd;
 
 	fdf_validate_argument_count(argc);
 	path_to_file = argv[1];
@@ -65,5 +83,6 @@ char	**fdf_read_map(const int argc, const char **argv)
 	matrix = NULL;
 	while (is_readable)
 		fdf_fill_str_matrix(fd, &matrix, &is_readable);
+	fdf_validate_str_matrix(matrix);
 	return (matrix);
 }

@@ -11,6 +11,24 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
+void	fdf_free_str_matrix(char ***matrix_ptr)
+{
+	char	**matrix;
+	int		i;
+
+	if (!*matrix_ptr)
+		return ;
+	i = 0;
+	matrix = *matrix_ptr;
+	while (matrix[i])
+	{
+		free(matrix[i]);
+		i ++;
+	}
+	free(matrix);
+	*matrix_ptr = NULL;
+}
+
 void	fdf_str_matrix_print(char **matrix)
 {
 	char	*current_string;
@@ -43,7 +61,7 @@ void	fdf_str_matrix_shallow_copy(char **dest, char **source, int length)
 {
 	int	matrix_length;
 	int	i;
-	
+
 	if (!dest || !source)
 		return ;
 	matrix_length = fdf_str_matrix_length(source);

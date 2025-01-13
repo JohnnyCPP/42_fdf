@@ -87,6 +87,33 @@ int		ft_isalpha(const char character);
 int		ft_isdigit(const char character);
 
 /**
+ * @brief Checks if a character is a lowercase hexadecimal value.
+ *
+ * @param character The character.
+ *
+ * @return 1 if it's a lowercase hexadecimal, 0 if it's not.
+ */
+int		ft_islhex(const char character);
+
+/**
+ * @brief Checks if a character is an uppercase hexadecimal value.
+ *
+ * @param character The character.
+ *
+ * @return 1 if it's an uppercase hexadecimal, 0 if it's not.
+ */
+int		ft_isuhex(const char character);
+
+/**
+ * @brief Checks if a character is a hexadecimal value.
+ *
+ * @param character The character.
+ *
+ * @return 1 if it's hexadecimal, 0 if it's not.
+ */
+int		ft_ishex(const char character);
+
+/**
  * @brief Checks if a character is alphanumeric.
  *
  * @param character The character.

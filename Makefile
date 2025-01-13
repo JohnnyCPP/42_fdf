@@ -20,6 +20,8 @@ LIB_PATH		= ./src/lib/
 LIBFT_PATH		= ${LIB_PATH}libft/
 LIBFT_INC_PATH	= ${LIBFT_PATH}include/
 OBJECTS_PATH	= ./object/
+MATRIX_OBJ_PATH	= ${OBJECTS_PATH}matrix/
+READ_OBJ_PATH	= ${OBJECTS_PATH}read_map/
 SOURCES_PATH    = ./src/
 MINILIBX_PATH	= ${LIB_PATH}minilibx-linux/
 MAPS_PATH		= ./maps/
@@ -106,7 +108,9 @@ CLEAN_MINILIBX	= ${MAKE_MINILIBX} ${CLEAN}
 RE_MINILIBX		= ${MAKE_MINILIBX} ${RE}
 
 
-SOURCE_FILES	= $(wildcard ${SOURCES_PATH}*.c)
+MATRIX_SOURCES	= $(wildcard ${SOURCES_PATH}matrix/*.c)
+READ_SOURCES	= $(wildcard ${SOURCES_PATH}read_map/*.c)
+SOURCE_FILES	= $(wildcard ${SOURCES_PATH}*.c) ${MATRIX_SOURCES} ${READ_SOURCES}
 # "patsubst": pattern substitution
 # parameters: pattern, replacement, text
 #
@@ -132,6 +136,8 @@ ${ALL}: ${NAME}
 
 ${OBJECTS_PATH}:
 	@${CREATE_PATH} ${OBJECTS_PATH}
+	@${CREATE_PATH} ${MATRIX_OBJ_PATH}
+	@${CREATE_PATH} ${READ_OBJ_PATH}
 
 
 # "$@" refers to the target (%.o)
