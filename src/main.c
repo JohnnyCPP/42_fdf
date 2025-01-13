@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.c                                              :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,36 +11,14 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-int	close_window(void *parameter)
-{
-	(void) parameter;
-	exit(0);
-}
-
-int	render_frame(void *parameters)
-{
-	void	**ptr_to_parameters;
-	void	*minilibx;
-	void	*window;
-	void	*image;
-
-	ptr_to_parameters = (void **) parameters;
-	minilibx = ptr_to_parameters[0];
-	window = ptr_to_parameters[1];
-	image = ptr_to_parameters[2];
-	mlx_put_image_to_window(minilibx, window, image, 0, 0);
-	return (0);
-}
-
 int	main(const int argc, const char **argv)
 {
-	(void) argc;
-	(void) argv;
 	void	*minilibx;
 	void	*window;
 	void	*image;
 	void	*parameters[3];
 	char	*image_address;
+	char	**map;
 	int		bits_in_byte;
 	int		bpp;
 	int		line_length;
@@ -74,6 +52,12 @@ int	main(const int argc, const char **argv)
 	//	       on user input
 	//	       implement a functionality to switch Projection Mode, 
 	//	       between Isometric and Parallel
+	map = fdf_read_map(argc, argv);
+	fdf_str_matrix_print(map);
+	fdf_free_str_matrix(&map);
+	if (1)
+		return (EXIT_SUCCESS);
+	(void) map;
 	bits_in_byte = 8;
 	w_width = 1000;
 	w_height = 800;
@@ -83,13 +67,13 @@ int	main(const int argc, const char **argv)
 		ft_printf("Error: MLX initialization failed.\n");
 		return (1);
 	}
-	window = mlx_new_window(minilibx, w_width, w_height, "Test window");
+	window = mlx_new_window(minilibx, w_width, w_height, "FDF");
 	if (!window)
 	{
 		ft_printf("Error: window initialization failed.\n");
 		return (1);
 	}
-	mlx_hook(window, 17, 0, close_window, NULL);
+	mlx_hook(window, 17, 0, fdf_close_window, NULL);
 	image = mlx_new_image(minilibx, w_width, w_height);
 	if (!image)
 		ft_printf("Error: failed to create image.\n");
@@ -105,16 +89,11 @@ int	main(const int argc, const char **argv)
 			image_address[pixel_index + 3] = 0xFF; //	alpha ?
 		}
 	}
-	/*
-	for (int y = 0; y < w_height; y ++)
-		for (int x = 0; x < w_width; x ++)
-			*(int *)(image_address + (y * line_length + x * (bpp / bits_in_byte))) = 0x00FF00;
-	*/
 	mlx_put_image_to_window(minilibx, window, image, 0, 0);
 	parameters[0] = minilibx;
 	parameters[1] = window;
 	parameters[2] = image;
-	mlx_loop_hook(minilibx, render_frame, parameters);
+	mlx_loop_hook(minilibx, fdf_render_frame, parameters);
 	mlx_loop(minilibx);
-	return (0);
+	return (EXIT_SUCCESS);
 }

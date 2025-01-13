@@ -22,6 +22,7 @@ LIBFT_INC_PATH	= ${LIBFT_PATH}include/
 OBJECTS_PATH	= ./object/
 SOURCES_PATH    = ./src/
 MINILIBX_PATH	= ${LIB_PATH}minilibx-linux/
+MAPS_PATH		= ./maps/
 
 
 MINILIBX_FILE	= libmlx.a
@@ -79,8 +80,7 @@ FCLEAN			= fclean
 RE				= re
 CC_SANITIZER	= sanitize
 VALGRIND		= valgrind
-MOCK_VALGRIND	= mock_valgrind
-RUN_MOCK_VALUES	= mock_run
+VALGRIND_ARGS	= ${MAPS_PATH}42.fdf
 PREFIX_LIB		= lib_
 LIB_DELETE		= ${PREFIX_LIB}${DELETE}
 LIB_CLEAN		= ${PREFIX_LIB}${CLEAN}
@@ -90,7 +90,7 @@ LIB_RE			= ${PREFIX_LIB}${RE}
 
 PHONY			= .PHONY
 STD_PHONY		= ${ALL} ${CLEAN} ${FCLEAN} ${RE}
-DEBUG_PHONY		= ${CC_SANITIZER} ${VALGRIND} ${MOCK_VALGRIND} ${RUN_MOCK_VALUES}
+DEBUG_PHONY		= ${CC_SANITIZER} ${VALGRIND}
 LIB_PHONY		= ${LIB_DELETE} ${LIB_CLEAN} ${LIB_FCLEAN} ${LIB_RE}
 
 
@@ -170,18 +170,9 @@ ${CC_SANITIZER}: ${LIBFT_NAME} ${OBJECT_FILES}
 	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME}
 	@echo "C compiler's sanitizer has been added to debug memory issues."
 
-# TODO: add args to valgrind
+
 ${VALGRIND}: ${NAME}
-	#@${VALGRIND} ${VALGRIND_FLAGS} ./${NAME} ${VALGRIND_ARGS}
-
-# TODO: create a run with valgrind and mock values
-${MOCK_VALGRIND}: ${NAME}
-	#@${VALGRIND} ${VALGRIND_FLAGS} ./${NAME} ${MOCK_VALUES}
-
-# TODO: create a run with mock values
-${RUN_MOCK_VALUES}: ${NAME}
-	#@echo "Running ${NAME} with a list of mock values..."
-	#@./${NAME} ${MOCK_VALUES}
+	@${VALGRIND} ${VALGRIND_FLAGS} ./${NAME} ${VALGRIND_ARGS}
 
 
 # library rules
