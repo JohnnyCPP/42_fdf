@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_str.c                                       :+:      :+:    :+:   */
+/*   fdf_matrix_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -29,12 +29,11 @@ void	fdf_free_str_matrix(char ***matrix_ptr)
 	*matrix_ptr = NULL;
 }
 
-void	fdf_str_matrix_print(char **matrix)
+void	fdf_print_str_matrix(char **matrix)
 {
 	char	*current_string;
 	int		i;
 
-	ft_printf("Printing the matrix...\n\n");
 	i = 0;
 	current_string = matrix[0];
 	while (current_string)
@@ -45,7 +44,7 @@ void	fdf_str_matrix_print(char **matrix)
 	}
 }
 
-int	fdf_str_matrix_length(char **matrix)
+int	fdf_get_strmat_len(char **matrix)
 {
 	int		matrix_length;
 
@@ -57,14 +56,14 @@ int	fdf_str_matrix_length(char **matrix)
 	return (matrix_length);
 }
 
-void	fdf_str_matrix_shallow_copy(char **dest, char **source, int length)
+void	fdf_copy_strmat(char **dest, char **source, int length)
 {
 	int	matrix_length;
 	int	i;
 
 	if (!dest || !source)
 		return ;
-	matrix_length = fdf_str_matrix_length(source);
+	matrix_length = fdf_get_strmat_len(source);
 	i = 0;
 	if (length > matrix_length)
 		length = matrix_length;

@@ -40,6 +40,18 @@ static	int	ft_add_value(const char *value, int *index, int *buffer, int s)
 	return (0);
 }
 
+static	void	ft_handle_num_sign(const char *value, int *index, int *sign)
+{
+	*sign = 1;
+	if (value[*index] == '-')
+	{
+		(*sign) *= -1;
+		(*index)++;
+	}
+	else if (value[*index] == '+')
+		(*index)++;
+}
+
 int	ft_ioverflow(const char *value)
 {
 	int		overflows;
@@ -52,12 +64,7 @@ int	ft_ioverflow(const char *value)
 		return (overflows);
 	index = 0;
 	buffer = 0;
-	sign = 1;
-	if (value[index] == '-')
-	{
-		sign *= -1;
-		index ++;
-	}
+	ft_handle_num_sign(value, &index, &sign);
 	while (ft_isdigit(value[index]))
 	{
 		overflows = ft_add_value(value, &index, &buffer, sign);

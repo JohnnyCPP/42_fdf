@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate_matrix_row.c                              :+:      :+:    :+:   */
+/*   fdf_validate_matrix_row.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -42,7 +42,7 @@ static	int	fdf_parse_matrix_digit(const char *row, int *i)
 {
 	while (ft_isspace(row[*i]))
 		(*i)++;
-	if (row[*i] == '+' || row[*i] == '-')
+	if (ft_issign(row[*i]))
 		(*i)++;
 	if (!ft_isdigit(row[*i]))
 		return (0);

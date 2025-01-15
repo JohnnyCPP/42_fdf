@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   fdf_is_comma_present.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,17 +11,13 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-int	fdf_render_frame(void *parameters)
+int	fdf_is_comma_present(const char *row, int i)
 {
-	void	**ptr_to_parameters;
-	void	*minilibx;
-	void	*window;
-	void	*image;
-
-	ptr_to_parameters = (void **) parameters;
-	minilibx = ptr_to_parameters[0];
-	window = ptr_to_parameters[1];
-	image = ptr_to_parameters[2];
-	mlx_put_image_to_window(minilibx, window, image, 0, 0);
+	while (row[i] != '\0' && !ft_isdigit(row[i]))
+	{
+		if (row[i] == ',')
+			return (1);
+		i ++;
+	}
 	return (0);
 }

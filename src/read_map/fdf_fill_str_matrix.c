@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_map_file.c                                    :+:      :+:    :+:   */
+/*   fdf_fill_str_matrix.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -20,13 +20,13 @@ static	void	fdf_add_to_matrix(const char *next_line, char ***matrix_ptr)
 	int		string_length;
 
 	old_matrix = *matrix_ptr;
-	matrix_length = fdf_str_matrix_length(old_matrix);
-	new_matrix = ft_calloc(matrix_length + 2, sizeof(char *));
+	matrix_length = fdf_get_strmat_len(old_matrix);
+	new_matrix = (char **) ft_calloc(matrix_length + 2, sizeof(char *));
 	if (!new_matrix)
 		fdf_handle_mem_failure(matrix_ptr);
-	fdf_str_matrix_shallow_copy(new_matrix, old_matrix, matrix_length);
+	fdf_copy_strmat(new_matrix, old_matrix, matrix_length);
 	string_length = ft_strlen(next_line) + 1;
-	new_string = ft_calloc(string_length, sizeof(char));
+	new_string = (char *) ft_calloc(string_length, sizeof(char));
 	if (!new_string)
 		fdf_handle_mem_failure(matrix_ptr);
 	ft_strlcpy(new_string, next_line, string_length);

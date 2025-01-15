@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_failures.c                                  :+:      :+:    :+:   */
+/*   fdf_matrix_pixel.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,16 +11,51 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-void	fdf_handle_mem_failure(char ***matrix_ptr)
+void	fdf_free_pixel_row(t_row **row_ptr)
 {
-	fdf_free_str_matrix(matrix_ptr);
-	perror(ERROR_MEMORY);
-	exit(EXIT_FAILURE);
+	t_pixel	*pixels;
+	char	*color;
+	int		length;
+	int		i;
+
+	if (!row_ptr || !*row_ptr)
+		return ;
+	i = 0;
+	length = (*row_ptr)->length;
+	pixels = (*row_ptr)->pixels;
+	while (i < length)
+	{
+		color = pixels[i].color;
+		if (color != NULL)
+			free(color);
+		i ++;
+	}
+	free(pixels);
+	free(*row_ptr);
+	*row_ptr = NULL;
 }
 
-void	fdf_handle_map_failure(char ***matrix_ptr)
+void	fdf_print_pixel_row(t_row *row)
 {
-	fdf_free_str_matrix(matrix_ptr);
-	ft_putendl_fd(ERROR_MAP_FORMAT, STDERR_FILENO);
-	exit(EXIT_FAILURE);
+	t_pixel	*pixels;
+	char	*color;
+	int		length;
+	int		i;
+	int		number;
+
+	pixels = row->pixels;
+	length = row->length;
+	i = 0;
+	while (i < length)
+	{
+		number = pixels[i].value;
+		color = pixels[i].color;
+		ft_printf("%i", number);
+		if (color)
+			ft_printf(",0x%s", color);
+		i ++;
+		if (i < length)
+			ft_printf(" ");
+	}
+	ft_printf("\n");
 }

@@ -32,14 +32,16 @@ MINILIBX_NAME	= ${MINILIBX_PATH}${MINILIBX_FILE}
 LIBFT_FILE		= libft.a
 LIBFT_NAME		= ${LIBFT_PATH}${LIBFT_FILE}
 NAME			= fdf
+DEBUG			= debug
 
 
 CC				= cc
-CFLAGS			= -Wall -Wextra -Werror
+DEBUG_SYMBOLS	= -g3
+CFLAGS			= -Wall -Wextra -Werror ${DEBUG_SYMBOLS}
+GDB				= gdb
 # both "-g" or "-g3" flags can be used.
 # "-g3" includes everything included with "-g", but with 
 # additional information to debug preprocessor directives
-DEBUG_SYMBOLS	= -g3
 SANITIZE_FLAGS	= -fsanitize=address ${DEBUG_SYMBOLS}
 # "--track-origin=yes" tracks the origin of uninitialized values
 # "-s" display a summary of the results directly in the terminal
@@ -92,7 +94,7 @@ LIB_RE			= ${PREFIX_LIB}${RE}
 
 PHONY			= .PHONY
 STD_PHONY		= ${ALL} ${CLEAN} ${FCLEAN} ${RE}
-DEBUG_PHONY		= ${CC_SANITIZER} ${VALGRIND}
+DEBUG_PHONY		= ${CC_SANITIZER} ${VALGRIND} ${GDB}
 LIB_PHONY		= ${LIB_DELETE} ${LIB_CLEAN} ${LIB_FCLEAN} ${LIB_RE}
 
 
@@ -179,6 +181,10 @@ ${CC_SANITIZER}: ${LIBFT_NAME} ${OBJECT_FILES}
 
 ${VALGRIND}: ${NAME}
 	@${VALGRIND} ${VALGRIND_FLAGS} ./${NAME} ${VALGRIND_ARGS}
+
+
+${GDB}: ${NAME}
+	@${GDB} ./${NAME}
 
 
 # library rules
