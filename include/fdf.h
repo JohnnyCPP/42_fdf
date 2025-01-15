@@ -251,6 +251,7 @@ void	fdf_copy_strmat(char **dest, char **source, int length);
  * @param row The string of characters to get the data from.
  *
  * @return A struct with the contents of a string of pixels.
+ *         If an error occurs, returns NULL.
  *
  * This function computes the numbers and colors obtained from a 
  * ".fdf" file that have been stored in a string.
@@ -258,5 +259,82 @@ void	fdf_copy_strmat(char **dest, char **source, int length);
  * member which is an array of pixels.
  */
 t_row	*fdf_to_pixel_row(const char *row);
+
+/**
+ * @brief Frees a matrix.
+ *
+ * @param matrix_ptr The matrix to free.
+ *
+ * This function frees the dynamic memory of a matrix, 
+ * all its rows, and sets all the pointers to NULL.
+ */
+void	fdf_free_matrix(t_matrix **matrix_ptr);
+
+/**
+ * @brief Frees the row array of a matrix.
+ *
+ * @param matrix_ptr The matrix whose rows will be freed.
+ *
+ * This function frees the dynamic memory of all the rows of a matrix.
+ * Sets the pointers of all the pixels and the row array to NULL.
+ */
+void	fdf_free_row_array(t_matrix *matrix_ptr);
+
+/**
+ * @brief Creates a dynamically allocated array of rows.
+ *
+ * @param length The amount of rows that the array will have.
+ *
+ * @return The allocated array, or NULL if memory allocation failed.
+ */
+t_row	*fdf_new_row_array(int length);
+
+/**
+ * @brief Moves the rows of "source" to "destination" until "rows".
+ *
+ * @param destination The row array where the values will be moved to.
+ * @param source The row array where the values are obtained from.
+ * @param rows The length of "source".
+ *
+ * This function assigns the "length" and "pixels" members of 
+ * rows from 0 to "rows", of "destination" array 
+ * with the values of "source" array.
+ * The "source" array is not modified.
+ */
+void	fdf_move_row_array(t_row *destination, const t_row *source, int rows);
+
+/**
+ * @brief Adds a new row to a row array.
+ *
+ * @param row_array The array of rows to add a new row to.
+ * @param row The new row to add to the array.
+ * @param length The amount of rows of "row_array".
+ *
+ * This function expects that "row_array" has memory allocated for 
+ * a new row, and will store the values of "row" in the last row (length - 1).
+ */
+void	fdf_push_row(t_row *row_array, t_row *row, int length);
+
+/**
+ * @brief Displays the values of a matrix.
+ *
+ * @param matrix The matrix whose values will be displayed.
+ *
+ * This function iterates for each row of the "rows" member of "matrix", 
+ * to print the numbers and hexadecimal color codes on the terminal.
+ */
+void	fdf_print_matrix(t_matrix *matrix);
+
+/**
+ * @brief Converts a matrix of characters into a t_matrix.
+ *
+ * @param matrix_ptr The matrix of characters to convert to.
+ *
+ * @return A dynamically allocated t_matrix, or NULL if an error occurred.
+ *
+ * This function doesn't free the memory of "matrix_ptr", 
+ * the caller needs to do it.
+ */
+t_matrix	*fdf_to_matrix(char ***matrix_ptr);
 
 #endif

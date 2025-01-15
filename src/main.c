@@ -52,16 +52,16 @@ int	main(const int argc, const char **argv)
 	//	       on user input
 	//	       implement a functionality to switch Projection Mode, 
 	//	       between Isometric and Parallel
-	/*
 	map = fdf_read_map(argc, argv);
 	fdf_print_str_matrix(map);
+	t_matrix *matrix = fdf_to_matrix(&map);
+	fdf_print_matrix(matrix);
 	fdf_free_str_matrix(&map);
-	*/
-	char *row = " 1,0xbAaFfF 2 ,0xbAaFfF 3, 0xbAaFfF 4 , 0xbAaFfF  5,0xaabbcc 6,0xbAaFfF\n";
+	//char *row = " 1,0xbAaFfF 2 ,0xbAaFfF 3, 0xbAaFfF 4 , 0xbAaFfF  5,0xaabbcc 6,0xbAaFfF\n";
 	//char *row = " 1,0xaabbcc 2 3 4 ";
-	t_row	*result = fdf_to_pixel_row(row);
-	fdf_print_pixel_row(result);
-	fdf_free_pixel_row(&result);
+	//t_row	*result = fdf_to_pixel_row(row);
+	//fdf_print_pixel_row(result);
+	//fdf_free_pixel_row(&result);
 	if (1)
 		return (EXIT_SUCCESS);
 	(void) argc; (void) argv;
