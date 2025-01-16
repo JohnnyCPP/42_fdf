@@ -38,15 +38,15 @@ t_row	*fdf_new_row_array(int length)
 	return (rows);
 }
 
-void	fdf_move_row_array(t_row *destination, const t_row *source, int rows)
+void	fdf_move_row_array(t_row *dest, const t_row *source, int rows)
 {
 	int	i;
 
 	i = 0;
 	while (i < rows)
 	{
-		destination[i].length = source[i].length;
-		destination[i].pixels = source[i].pixels;
+		dest[i].length = source[i].length;
+		dest[i].pixels = source[i].pixels;
 		i ++;
 	}
 }

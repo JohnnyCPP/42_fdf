@@ -77,8 +77,8 @@ typedef struct s_matrix
 }				t_matrix;
 
 //	rendering & events, will be documented later
-int		fdf_close_window(void *parameter);
-int		fdf_render_frame(void *parameters);
+int			fdf_close_window(void *parameter);
+int			fdf_render_frame(void *parameters);
 
 /**
  * @brief Validates the argument, map file, and format, before reading it.
@@ -87,18 +87,19 @@ int		fdf_render_frame(void *parameters);
  *             passed to the program, including the program name.
  * @param argv Arguments vector, a double pointer to the program arguments.
  *
- * #return An array of strings, representing a matrix 
- *         of characters read from a ".fdf" file.
+ * #return A t_matrix struct, representing the numbers and colors 
+ *         read from a ".fdf" file.
  *
  * This function leads the input validation:
  *   1. Validates the amount of arguments
  *   2. Validates the file name
  *   3. Validates proper access to the ".fdf" file
  *   4. Validates the ".fdf" file content
+ *
  * If all the validations apply, it will read the ".fdf" file and return 
- * an array of strings with the data read from the file.
+ * a t_matrix with the data read from the file.
  */
-char	**fdf_read_map(const int argc, const char **argv);
+t_matrix	*fdf_read_map(const int argc, const char **argv);
 
 /**
  * @brief Reads a ".fdf" file and fills "data_read" with the content.
@@ -113,7 +114,7 @@ char	**fdf_read_map(const int argc, const char **argv);
  * and strings that the caller needs to free.
  * The matrix pointers end with a NULL pointer.
  */
-void	fdf_fill_str_matrix(int fd, char ***data_read, int *is_readable);
+void		fdf_fill_str_matrix(int fd, char ***data_read, int *is_readable);
 
 /**
  * @brief Verifies the values from a matrix row.
@@ -126,7 +127,7 @@ void	fdf_fill_str_matrix(int fd, char ***data_read, int *is_readable);
  * The digits are separated by spaces, and contain optional hexadecimal 
  * values of 6 digits just after a comma and a hex prefix. E.g. "12,0xAABBCC".
  */
-int		fdf_validate_matrix_row(const char *row);
+int			fdf_validate_matrix_row(const char *row);
 
 /**
  * @brief Prints an error and terminates execution.
@@ -135,7 +136,7 @@ int		fdf_validate_matrix_row(const char *row);
  *
  * This function handles the case when an error occurs reading the map.
  */
-void	fdf_handle_map_failure(char ***matrix_ptr);
+void		fdf_handle_map_failure(char ***matrix_ptr);
 
 /**
  * @brief Prints an error and terminates execution.
@@ -144,7 +145,7 @@ void	fdf_handle_map_failure(char ***matrix_ptr);
  *
  * This function handles the case when an error occurs allocating memory.
  */
-void	fdf_handle_mem_failure(char ***matrix_ptr);
+void		fdf_handle_mem_failure(char ***matrix_ptr);
 
 /**
  * @brief Counts the pixels in a row.
@@ -156,7 +157,7 @@ void	fdf_handle_mem_failure(char ***matrix_ptr);
  * This function counts the amount of numbers in a string, separated 
  * by spaces, and with optional hexadecimal numbers separated by commas.
  */
-int		fdf_count_pixels(const char *row);
+int			fdf_count_pixels(const char *row);
 
 /**
  * @brief Extracts the pixels from a string.
@@ -169,7 +170,7 @@ int		fdf_count_pixels(const char *row);
  * This function expects a dynamically allocated "t_row" 
  * that will have its "pixels" member filled with the data from "row".
  */
-int		fdf_extract_pixels(const char *row, t_row *result);
+int			fdf_extract_pixels(const char *row, t_row *result);
 
 /**
  * @brief Looks for a comma in a string, until the next digit or terminator.
@@ -183,7 +184,7 @@ int		fdf_extract_pixels(const char *row, t_row *result);
  * is found in a row. If it finds digit or a terminator character, 
  * returns 0.
  */
-int		fdf_is_comma_present(const char *row, int i);
+int			fdf_is_comma_present(const char *row, int i);
 
 /**
  * @brief Frees a dynamically allocated row of pixels.
@@ -192,7 +193,7 @@ int		fdf_is_comma_present(const char *row, int i);
  *
  * This function frees a "t_row" and its "pixels" member.
  */
-void	fdf_free_pixel_row(t_row **row_ptr);
+void		fdf_free_pixel_row(t_row **row_ptr);
 
 /**
  * @brief Displays the contents of a row on the terminal.
@@ -202,7 +203,7 @@ void	fdf_free_pixel_row(t_row **row_ptr);
  * This function prints the numbers, followed by (if present) 
  * their hexadecimal colors, from a row of pixels.
  */
-void	fdf_print_pixel_row(t_row *row);
+void		fdf_print_pixel_row(t_row *row);
 
 /**
  * @brief Frees a dynamically allocated matrix of characters.
@@ -212,7 +213,7 @@ void	fdf_print_pixel_row(t_row *row);
  * This function frees the memory of all the strings in a matrix, 
  * the string of pointers, and assigns the pointer array to NULL.
  */
-void	fdf_free_str_matrix(char ***matrix_ptr);
+void		fdf_free_str_matrix(char ***matrix_ptr);
 
 /**
  * @brief Displays a matrix of characters on the terminal.
@@ -222,7 +223,7 @@ void	fdf_free_str_matrix(char ***matrix_ptr);
  * This function displays the contents of a ".fdf" file stored 
  * in a matrix of characters.
  */
-void	fdf_print_str_matrix(char **matrix);
+void		fdf_print_str_matrix(char **matrix);
 
 /**
  * @brief Gets the length of a matrix of characters.
@@ -231,7 +232,7 @@ void	fdf_print_str_matrix(char **matrix);
  *
  * @return The amount of strings in the matrix. 0 if the pointer is NULL.
  */
-int		fdf_get_strmat_len(char **matrix);
+int			fdf_get_strmat_len(char **matrix);
 
 /**
  * @brief Shallow copy of a matrix of characters.
@@ -243,7 +244,7 @@ int		fdf_get_strmat_len(char **matrix);
  * This function copies from 0 to "length" addresses from "source" 
  * to "dest". It just assigns pointers, the strings are left untouched.
  */
-void	fdf_copy_strmat(char **dest, char **source, int length);
+void		fdf_copy_strmat(char **dest, char **source, int length);
 
 /**
  * @brief From a string of pixels, gets a "t_row" struct.
@@ -258,7 +259,7 @@ void	fdf_copy_strmat(char **dest, char **source, int length);
  * It allocates dynamic memory for a "t_row" pointer, and its "pixels" 
  * member which is an array of pixels.
  */
-t_row	*fdf_to_pixel_row(const char *row);
+t_row		*fdf_to_pixel_row(const char *row);
 
 /**
  * @brief Frees a matrix.
@@ -268,7 +269,7 @@ t_row	*fdf_to_pixel_row(const char *row);
  * This function frees the dynamic memory of a matrix, 
  * all its rows, and sets all the pointers to NULL.
  */
-void	fdf_free_matrix(t_matrix **matrix_ptr);
+void		fdf_free_matrix(t_matrix **matrix_ptr);
 
 /**
  * @brief Frees the row array of a matrix.
@@ -278,7 +279,7 @@ void	fdf_free_matrix(t_matrix **matrix_ptr);
  * This function frees the dynamic memory of all the rows of a matrix.
  * Sets the pointers of all the pixels and the row array to NULL.
  */
-void	fdf_free_row_array(t_matrix *matrix_ptr);
+void		fdf_free_row_array(t_matrix *matrix_ptr);
 
 /**
  * @brief Creates a dynamically allocated array of rows.
@@ -287,7 +288,7 @@ void	fdf_free_row_array(t_matrix *matrix_ptr);
  *
  * @return The allocated array, or NULL if memory allocation failed.
  */
-t_row	*fdf_new_row_array(int length);
+t_row		*fdf_new_row_array(int length);
 
 /**
  * @brief Moves the rows of "source" to "destination" until "rows".
@@ -301,7 +302,7 @@ t_row	*fdf_new_row_array(int length);
  * with the values of "source" array.
  * The "source" array is not modified.
  */
-void	fdf_move_row_array(t_row *destination, const t_row *source, int rows);
+void		fdf_move_row_array(t_row *dest, const t_row *source, int rows);
 
 /**
  * @brief Adds a new row to a row array.
@@ -313,7 +314,7 @@ void	fdf_move_row_array(t_row *destination, const t_row *source, int rows);
  * This function expects that "row_array" has memory allocated for 
  * a new row, and will store the values of "row" in the last row (length - 1).
  */
-void	fdf_push_row(t_row *row_array, t_row *row, int length);
+void		fdf_push_row(t_row *row_array, t_row *row, int length);
 
 /**
  * @brief Displays the values of a matrix.
@@ -323,7 +324,7 @@ void	fdf_push_row(t_row *row_array, t_row *row, int length);
  * This function iterates for each row of the "rows" member of "matrix", 
  * to print the numbers and hexadecimal color codes on the terminal.
  */
-void	fdf_print_matrix(t_matrix *matrix);
+void		fdf_print_matrix(t_matrix *matrix);
 
 /**
  * @brief Converts a matrix of characters into a t_matrix.
@@ -335,6 +336,6 @@ void	fdf_print_matrix(t_matrix *matrix);
  * This function doesn't free the memory of "matrix_ptr", 
  * the caller needs to do it.
  */
-t_matrix	*fdf_to_matrix(char ***matrix_ptr);
+t_matrix	*fdf_to_matrix(const char **str_matrix);
 
 #endif

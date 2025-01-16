@@ -11,60 +11,65 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-static	int	fdf_push_to(t_matrix *matrix, char *current_string)
+static	int	fdf_push_to(t_matrix *matrix, const char *str_row)
 {
-	t_row	*old_rows;
+	t_row	*auxiliar;
 	t_row	*new_rows;
-	t_row	*row_to_add;
+	t_row	*old_rows;
 
-	row_to_add = fdf_to_pixel_row(current_string);
-	if (!row_to_add)
+	auxiliar = fdf_to_pixel_row(str_row);
+	if (!auxiliar)
 		return (0);
-	//	create an array of rows of "i+1" rows
 	new_rows = fdf_new_row_array(matrix->length + 1);
 	if (!new_rows)
 	{
-		fdf_free_pixel_row(&row_to_add);
+		fdf_free_pixel_row(&auxiliar);
 		return (0);
 	}
-	//	copy "matrix->rows" to "new_rows"
-	fdf_move_row_array(new_rows, matrix->rows, matrix->length);
-	//	add "row_to_add" to "new_rows"
-	fdf_push_row(new_rows, row_to_add, matrix->length + 1);
 	old_rows = matrix->rows;
+	fdf_move_row_array(new_rows, old_rows, matrix->length);
+	fdf_push_row(new_rows, auxiliar, matrix->length + 1);
 	matrix->rows = new_rows;
 	matrix->length ++;
-	//	free "old_rows"
 	free(old_rows);
+	free(auxiliar);
 	return (1);
 }
 
-t_matrix	*fdf_to_matrix(char ***matrix_ptr)
+static	int	fdf_push_all(t_matrix *matrix, const char **str_matrix)
 {
-	t_matrix	*result;
-	char		**str_matrix;
-	char		*current_string;
-	int			i;
+	const char	*str_row;
 	int			success;
+	int			i;
 
-	result = (t_matrix *) calloc(1, sizeof(t_matrix));
-	if (!result)
-		return (NULL);
-	result->length = 0;
-	result->rows = NULL;
 	i = 0;
-	str_matrix = *matrix_ptr;
-	current_string = str_matrix[i];
-	while (current_string != NULL)
+	str_row = str_matrix[i];
+	while (str_row != NULL)
 	{
-		success = fdf_push_to(result, current_string);
+		success = fdf_push_to(matrix, str_row);
 		if (!success)
 		{
-			fdf_free_matrix(&result);
-			return (NULL);
+			fdf_free_matrix(&matrix);
+			return (0);
 		}
 		i ++;
-		current_string = str_matrix[i];
+		str_row = str_matrix[i];
 	}
-	return (result);
+	return (1);
+}
+
+t_matrix	*fdf_to_matrix(const char **str_matrix)
+{
+	t_matrix	*matrix;
+	int			success;
+
+	matrix = (t_matrix *) calloc(1, sizeof(t_matrix));
+	if (!matrix)
+		return (NULL);
+	matrix->length = 0;
+	matrix->rows = NULL;
+	success = fdf_push_all(matrix, str_matrix);
+	if (!success)
+		return (NULL);
+	return (matrix);
 }

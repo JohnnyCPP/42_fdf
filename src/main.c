@@ -13,24 +13,27 @@
 
 int	main(const int argc, const char **argv)
 {
-	void	*minilibx;
-	void	*window;
-	void	*image;
-	void	*parameters[3];
-	char	*image_address;
-	char	**map;
-	int		bits_in_byte;
-	int		bpp;
-	int		line_length;
-	int		endianess;
-	int		w_width;
-	int		w_height;
-	int		pixel_index;
+	t_matrix	*matrix;
+	void		*minilibx;
+	void		*window;
+	void		*image;
+	void		*parameters[3];
+	char		*image_address;
+	int			bits_in_byte;
+	int			bpp;
+	int			line_length;
+	int			endianess;
+	int			w_width;
+	int			w_height;
+	int			pixel_index;
 
 	//	TODO:
 	//	1. the program must accept a path to a map file
 	//	2. then, must read the map file and store the data 
 	//	   in a suitable structure, such as a 2D array of integers
+	matrix = fdf_read_map(argc, argv);
+	fdf_print_matrix(matrix);
+	fdf_free_matrix(&matrix);
 	//	3. display the 3D object on a 2D surface. To do so, 
 	//	   use a Projection Formula, like Isometric Projection
 	//	4. once the 2D positions of each 3D point are calculated, 
@@ -52,20 +55,7 @@ int	main(const int argc, const char **argv)
 	//	       on user input
 	//	       implement a functionality to switch Projection Mode, 
 	//	       between Isometric and Parallel
-	map = fdf_read_map(argc, argv);
-	fdf_print_str_matrix(map);
-	t_matrix *matrix = fdf_to_matrix(&map);
-	fdf_print_matrix(matrix);
-	fdf_free_str_matrix(&map);
-	//char *row = " 1,0xbAaFfF 2 ,0xbAaFfF 3, 0xbAaFfF 4 , 0xbAaFfF  5,0xaabbcc 6,0xbAaFfF\n";
-	//char *row = " 1,0xaabbcc 2 3 4 ";
-	//t_row	*result = fdf_to_pixel_row(row);
-	//fdf_print_pixel_row(result);
-	//fdf_free_pixel_row(&result);
-	if (1)
-		return (EXIT_SUCCESS);
-	(void) argc; (void) argv;
-	(void) map;
+	return (EXIT_SUCCESS);
 	bits_in_byte = 8;
 	w_width = 1000;
 	w_height = 800;

@@ -68,10 +68,11 @@ static	void	fdf_validate_argument_count(const int argc)
 	}
 }
 
-char	**fdf_read_map(const int argc, const char **argv)
+t_matrix	*fdf_read_map(const int argc, const char **argv)
 {
+	t_matrix	*matrix;
 	const char	*path_to_file;
-	char		**matrix;
+	char		**str_matrix;
 	int			is_readable;
 	int			fd;
 
@@ -80,9 +81,11 @@ char	**fdf_read_map(const int argc, const char **argv)
 	fdf_validate_argument_name(path_to_file);
 	is_readable = 1;
 	fd = fdf_validate_file_access(path_to_file);
-	matrix = NULL;
+	str_matrix = NULL;
 	while (is_readable)
-		fdf_fill_str_matrix(fd, &matrix, &is_readable);
-	fdf_validate_str_matrix(matrix);
+		fdf_fill_str_matrix(fd, &str_matrix, &is_readable);
+	fdf_validate_str_matrix(str_matrix);
+	matrix = fdf_to_matrix((const char **) str_matrix);
+	fdf_free_str_matrix(&str_matrix);
 	return (matrix);
 }
