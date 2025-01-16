@@ -41,16 +41,14 @@ void	fdf_print_pixel_row(t_row *row)
 	char	*color;
 	int		length;
 	int		i;
-	int		number;
 
 	pixels = row->pixels;
 	length = row->length;
 	i = 0;
 	while (i < length)
 	{
-		number = pixels[i].value;
 		color = pixels[i].color;
-		ft_printf("%i", number);
+		ft_printf("(%i,%i,%i)", pixels[i].x, pixels[i].y, pixels[i].z);
 		if (color)
 			ft_printf(",0x%s", color);
 		i ++;
@@ -58,4 +56,21 @@ void	fdf_print_pixel_row(t_row *row)
 			ft_printf(" ");
 	}
 	ft_printf("\n");
+}
+
+
+void	fdf_assign_y_axis(t_row *row, const int y_axis)
+{
+	t_pixel	*pixels;
+	int		length;
+	int		i;
+
+	pixels = row->pixels;
+	length = row->length;
+	i = 0;
+	while (i < length)
+	{
+		pixels[i].y = y_axis;
+		i ++;
+	}
 }

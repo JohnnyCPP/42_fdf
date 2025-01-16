@@ -38,14 +38,20 @@
 /**
  * @brief Structure representing a pixel on the screen.
  *
- * The pixel contains an integer representing the height 
- * of the isometric projection of a matrix.
- * It contains an optional color which determines 
- * how the pixel will be rendered on the window.
+ * The pixel contains an optional color, that determines, 
+ * with what color the pixel will be rendered on the window.
+ *
+ * The pixel has been configured to hold three integers, 
+ * which represent the (x,y,z) coordinates of a point in space.
+ * This point in space will be processed by a projection formula 
+ * of isometric projection, with the objective of represent a 
+ * 3D object on a 2D surface, the minilibx window.
  */
 typedef struct s_pixel
 {
-	int		value;
+	int		x;
+	int		y;
+	int		z;
 	char	*color;
 }				t_pixel;
 
@@ -204,6 +210,17 @@ void		fdf_free_pixel_row(t_row **row_ptr);
  * their hexadecimal colors, from a row of pixels.
  */
 void		fdf_print_pixel_row(t_row *row);
+
+/**
+ * @brief Assigns the value of 'y' to pixels in a row.
+ *
+ * @param row The row whose pixels will be modified.
+ * @param y_axis The value to set.
+ *
+ * This function iterates through all the pixels in a t_row struct,
+ * assigning the value of "y_axis" to the "y" member of each of them.
+ */
+void		fdf_assign_y_axis(t_row *row, const int y_axis);
 
 /**
  * @brief Frees a dynamically allocated matrix of characters.

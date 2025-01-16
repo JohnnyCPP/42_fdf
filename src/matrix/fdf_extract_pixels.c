@@ -52,7 +52,8 @@ static	int	fdf_get_number(const char *row, int i, t_row *result, int pixel)
 		return (0);
 	}
 	number = ft_atoi(copy);
-	result->pixels[pixel].value = number;
+	result->pixels[pixel].x = pixel;
+	result->pixels[pixel].z = number;
 	free(copy);
 	return (1);
 }

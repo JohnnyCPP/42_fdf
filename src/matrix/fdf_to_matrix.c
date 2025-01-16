@@ -17,9 +17,19 @@ static	int	fdf_push_to(t_matrix *matrix, const char *str_row)
 	t_row	*new_rows;
 	t_row	*old_rows;
 
+	//	how do I get "x" coordinate?
+	//		each pixel in the row has it, from 0 to 'n'
+	//		"fdf_extract_pixels()" can take care of that
+	//	how do I get "y" coordinate?
+	//		the current "matrix->length" is the "y" coordinate
+	//		create a new function to assign this value
+	//		"fdf_assign_y_axis"
+	//	the "z" coordinate is just the "value"
+	//		"value" can be renamed to "z"
 	auxiliar = fdf_to_pixel_row(str_row);
 	if (!auxiliar)
 		return (0);
+	fdf_assign_y_axis(auxiliar, matrix->length);
 	new_rows = fdf_new_row_array(matrix->length + 1);
 	if (!new_rows)
 	{
