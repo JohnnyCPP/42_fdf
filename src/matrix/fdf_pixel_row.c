@@ -58,7 +58,6 @@ void	fdf_print_pixel_row(t_row *row)
 	ft_printf("\n");
 }
 
-
 void	fdf_assign_y_axis(t_row *row, const int y_axis)
 {
 	t_pixel	*pixels;

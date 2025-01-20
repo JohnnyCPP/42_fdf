@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   fdf_handle_buffer_failure.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,16 +9,14 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef FDF_H
-# define FDF_H
+#include "fdf.h"
 
-# include "libft.h"
-# include <mlx.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include <math.h>
-# include "fdf_constants.h"
-# include "fdf_structures.h"
-# include "fdf_prototypes.h"
-
-#endif
+void	fdf_handle_buffer_failure(t_data *data)
+{
+	fdf_free_matrix(&data->matrix);
+	mlx_destroy_image(data->mlx, data->img.ptr);
+	mlx_destroy_window(data->mlx, data->win);
+	mlx_destroy_display(data->mlx);
+	ft_putendl_fd(ERROR_WINDOW, STDERR_FILENO);
+	exit(EXIT_FAILURE);
+}

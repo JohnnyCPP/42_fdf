@@ -13,6 +13,7 @@
  * If the initialization fails, it returns NULL
  */
 void	*mlx_init(void);
+
 /**
  * Creates a new graphical window to render images, draw pixels, 
  * and display content
@@ -25,6 +26,7 @@ void	*mlx_init(void);
  * If it fails, it returns NULL
  */
 void	*mlx_new_window(void *mlx_ptr, int width, int height, char *title);
+
 /**
  * Binds a specific event to a custom handler function
  *
@@ -42,6 +44,7 @@ void	*mlx_new_window(void *mlx_ptr, int width, int height, char *title);
  */
 int		mlx_hook(void *win_ptr, int x_event, int x_mask,
 			int (*funct)(), void *param);
+
 /**
  * Creates a new blank image that can be drawn on
  *
@@ -52,6 +55,7 @@ int		mlx_hook(void *win_ptr, int x_event, int x_mask,
  * or NULL if the creation fails
  */
 void	*mlx_new_image(void *mlx_ptr, int width, int height);
+
 /**
  * Provides access to the memory where the image's pixel data is stored
  *
@@ -74,6 +78,7 @@ void	*mlx_new_image(void *mlx_ptr, int width, int height);
  */
 char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel,
 			int *size_line, int *endian);
+
 /**
  * Displays an image in a specified position within a window
  *
@@ -116,6 +121,7 @@ char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel,
  */
 int		mlx_put_image_to_window(void *mlx_ptr, void *win_ptr, void *img_ptr,
 			int x, int y);
+
 /**
  * Specifies a function that will be called continuously during the 
  * program's main event loop
@@ -134,6 +140,7 @@ int		mlx_put_image_to_window(void *mlx_ptr, void *win_ptr, void *img_ptr,
  * physics calculations, or any logic that needs to run regularly
  */
 int		mlx_loop_hook(void *mlx_ptr, int (*funct_ptr)(), void *param);
+
 /**
  * This function is crucial in programs using the minilibx library
  *

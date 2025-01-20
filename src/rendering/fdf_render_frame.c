@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_render.c                                       :+:      :+:    :+:   */
+/*   fdf_render_frame.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,17 +11,15 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-int	fdf_render_frame(void *parameters)
+int	fdf_render_frame(void *data_ptr)
 {
-	void	**ptr_to_parameters;
-	void	*minilibx;
-	void	*window;
-	void	*image;
+	t_data	*data;
+	int		x;
+	int		y;
 
-	ptr_to_parameters = (void **) parameters;
-	minilibx = ptr_to_parameters[0];
-	window = ptr_to_parameters[1];
-	image = ptr_to_parameters[2];
-	mlx_put_image_to_window(minilibx, window, image, 0, 0);
+	data = (t_data *) data_ptr;
+	x = 0;
+	y = 0;
+	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, x, y);
 	return (0);
 }

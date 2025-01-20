@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   fdf_close.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,16 +9,16 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef FDF_H
-# define FDF_H
+#include "fdf.h"
 
-# include "libft.h"
-# include <mlx.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include <math.h>
-# include "fdf_constants.h"
-# include "fdf_structures.h"
-# include "fdf_prototypes.h"
+int	fdf_close(void *data_ptr)
+{
+	t_data	*data;
 
-#endif
+	data = (t_data *) data_ptr;
+	mlx_destroy_image(data->mlx, data->img.ptr);
+	mlx_destroy_window(data->mlx, data->win);
+	mlx_destroy_display(data->mlx);
+	fdf_free_matrix(&data->matrix);
+	exit(EXIT_SUCCESS);
+}

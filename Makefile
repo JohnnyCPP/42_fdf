@@ -22,6 +22,10 @@ LIBFT_INC_PATH	= ${LIBFT_PATH}include/
 OBJECTS_PATH	= ./object/
 MATRIX_OBJ_PATH	= ${OBJECTS_PATH}matrix/
 READ_OBJ_PATH	= ${OBJECTS_PATH}read_map/
+CALC_OBJ_PATH	= ${OBJECTS_PATH}calculation/
+EVENT_OBJ_PATH	= ${OBJECTS_PATH}event/
+RENDER_OBJ_PATH	= ${OBJECTS_PATH}rendering/
+ERROR_OBJ_PATH	= ${OBJECTS_PATH}error_handling/
 SOURCES_PATH    = ./src/
 MINILIBX_PATH	= ${LIB_PATH}minilibx-linux/
 MAPS_PATH		= ./maps/
@@ -47,7 +51,7 @@ SANITIZE_FLAGS	= -fsanitize=address ${DEBUG_SYMBOLS}
 # "-s" display a summary of the results directly in the terminal
 # "--leak-check=full" enable detailed memory leak detection, and 
 #                     report every possible memory leak
-VALGRIND_FLAGS	= --track-origins=yes -s --leak-check=full
+VALGRIND_FLAGS	= --track-origins=yes -s --leak-check=full --show-leak-kinds=all
 # "-I <path>" instructs the compiler where to look for header files
 # "-L <path>" instructs the linker where to look for static (.a) or 
 #             shared (.so) libraries
@@ -112,7 +116,11 @@ RE_MINILIBX		= ${MAKE_MINILIBX} ${RE}
 
 MATRIX_SOURCES	= $(wildcard ${SOURCES_PATH}matrix/*.c)
 READ_SOURCES	= $(wildcard ${SOURCES_PATH}read_map/*.c)
-SOURCE_FILES	= $(wildcard ${SOURCES_PATH}*.c) ${MATRIX_SOURCES} ${READ_SOURCES}
+CALC_SOURCES	= $(wildcard ${SOURCES_PATH}calculation/*.c)
+EVENT_SOURCES	= $(wildcard ${SOURCES_PATH}event/*.c)
+RENDER_SOURCES	= $(wildcard ${SOURCES_PATH}rendering/*.c)
+ERROR_SOURCES	= $(wildcard ${SOURCES_PATH}error_handling/*.c)
+SOURCE_FILES	= $(wildcard ${SOURCES_PATH}*.c) ${MATRIX_SOURCES} ${READ_SOURCES} ${CALC_SOURCES} ${EVENT_SOURCES} ${RENDER_SOURCES} ${ERROR_SOURCES}
 # "patsubst": pattern substitution
 # parameters: pattern, replacement, text
 #
@@ -140,6 +148,10 @@ ${OBJECTS_PATH}:
 	@${CREATE_PATH} ${OBJECTS_PATH}
 	@${CREATE_PATH} ${MATRIX_OBJ_PATH}
 	@${CREATE_PATH} ${READ_OBJ_PATH}
+	@${CREATE_PATH} ${CALC_OBJ_PATH}
+	@${CREATE_PATH} ${EVENT_OBJ_PATH}
+	@${CREATE_PATH} ${RENDER_OBJ_PATH}
+	@${CREATE_PATH} ${ERROR_OBJ_PATH}
 
 
 # "$@" refers to the target (%.o)
@@ -174,8 +186,8 @@ ${FCLEAN}: ${LIB_CLEAN} ${LIB_DELETE} ${CLEAN}
 ${RE}: ${FCLEAN} ${ALL}
 
 
-${CC_SANITIZER}: ${LIBFT_NAME} ${OBJECT_FILES}
-	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME}
+${CC_SANITIZER}: ${MINILIBX_NAME} ${LIBFT_NAME} ${OBJECT_FILES}
+	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME} ${INCLUDE_MLX}
 	@echo "C compiler's sanitizer has been added to debug memory issues."
 
 

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_event.c                                        :+:      :+:    :+:   */
+/*   fdf_handle_mem_failure.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-int	fdf_close_window(void *parameter)
+void	fdf_handle_mem_failure(char ***matrix_ptr)
 {
-	(void) parameter;
-	exit(0);
+	fdf_free_str_matrix(matrix_ptr);
+	perror(ERROR_MEMORY);
+	exit(EXIT_FAILURE);
 }

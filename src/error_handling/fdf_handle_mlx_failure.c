@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_handle_failures.c                              :+:      :+:    :+:   */
+/*   fdf_handle_mlx_failure.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,16 +11,9 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-void	fdf_handle_mem_failure(char ***matrix_ptr)
+void	fdf_handle_mlx_failure(t_data *data)
 {
-	fdf_free_str_matrix(matrix_ptr);
-	perror(ERROR_MEMORY);
-	exit(EXIT_FAILURE);
-}
-
-void	fdf_handle_map_failure(char ***matrix_ptr)
-{
-	fdf_free_str_matrix(matrix_ptr);
-	ft_putendl_fd(ERROR_MAP_FORMAT, STDERR_FILENO);
+	fdf_free_matrix(&data->matrix);
+	ft_putendl_fd(ERROR_MINILIB, STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }
