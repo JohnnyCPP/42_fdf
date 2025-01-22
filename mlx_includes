@@ -1,5 +1,4 @@
-// the sole purpose of this file is to organize and describe 
-// minilibx functions
+// the purpose of this file is to describe minilibx functions
 
 /**
  * Initializes minilibx and sets up the connection to the underlying 
@@ -41,6 +40,13 @@ void	*mlx_new_window(void *mlx_ptr, int width, int height, char *title);
  *
  * The "param" is a pointer to any additional data to be passed to the 
  * callback function. It can be NULL if not needed
+ *
+ *
+ * Research notes: a "hook" is a mechanism or function designed to allow 
+ * the insertion of custom behavior or logic into a predefined 
+ * flow or process.
+ * It acts as a point of extensibility where additional functionality can 
+ * be "hooked in" without altering the original structure of the system.
  */
 int		mlx_hook(void *win_ptr, int x_event, int x_mask,
 			int (*funct)(), void *param);
@@ -159,3 +165,41 @@ int		mlx_loop_hook(void *mlx_ptr, int (*funct_ptr)(), void *param);
  * window open or respond to events
  */
 int		mlx_loop(void *mlx_ptr);
+
+/**
+ * Frees the memory and resources associated with an image previously 
+ * created with "mlx_new_image()".
+ *
+ * "mlx_ptr" is the connection to the minilibx instance.
+ * "img_ptr" is the pointer to the image to be destroyed.
+ *
+ * Call this function when an image is no longer needed.
+ * It ensures avoiding memory leaks by freeing the allocated memory.
+ */
+void	mlx_destroy_image(void *mlx_ptr, void *img_ptr);
+
+/**
+ * Closes and destroys a previously created window.
+ *
+ * "mlx_ptr" is the connection to the minilibx instance.
+ * "win_ptr" is the pointer to the window to be destroyed.
+ *
+ * Use this function to close a window when it's no longer needed.
+ * Failing to call this function may leave the window open in memory 
+ * even after the program ends.
+ */
+void	mlx_destroy_window(void *mlx_ptr, void *win_ptr);
+
+/**
+ * Cleans up the display and connection to the X Server.
+ * It's the last step in resource cleanup.
+ *
+ * "mlx_ptr" is the connection to the minilibx instance.
+ * 
+ * Call this function after destroying all images and windows associated 
+ * with the "mlx_ptr". It ensures the connection to the display is 
+ * properly terminated.
+ *
+ * This function is specific to Linux X11 systems and not available on MacOS.
+ */
+void	mlx_destroy_display(void *mlx_ptr);

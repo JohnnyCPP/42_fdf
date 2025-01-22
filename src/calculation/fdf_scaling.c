@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_isometric_projection.c                         :+:      :+:    :+:   */
+/*   fdf_scaling.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,64 +11,48 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-static	double	fdf_to_radians(const double degrees)
+static	void	fdf_safely_scale(int *axis, const double factor)
 {
-	return (degrees * (M_PI / PI_RADIAN_DEGREES));
+	if (fdf_is_product_safe((const double) *axis, factor))
+		*axis = fdf_round(*axis * factor);
+	else
+	{
+		if (*axis > 0)
+			*axis = INT_MAX;
+		else
+			*axis = INT_MIN;
+	}
 }
 
-void	fdf_isometric_projection(int *x, int *y, const int z)
+static	void	fdf_scale_pixels(t_pixel *pixels, int len, const double factor)
 {
-	double	delta;
-	double	sum;
-	double	cosine;
-	double	sine;
-	double	radians;
-
-	delta = *x - *y;
-	sum = *x + *y;
-	radians = fdf_to_radians(ISOMETRIC_CONV_ROT_ANG);
-	cosine = cos(radians);
-	sine = sin(radians);
-	*x = fdf_round(delta * cosine);
-	*y = fdf_round(sum * sine - (double) z);
-}
-
-static	void	fdf_apply_isometric(t_pixel *pixels, const int length)
-{
-	int	*x;
-	int	*y;
-	int	z;
 	int	pixel;
 
-	if (!pixels || !length)
+	if (!pixels || !len)
 		return ;
 	pixel = 0;
-	while (pixel < length)
+	while (pixel < len)
 	{
-		x = &pixels[pixel].x;
-		y = &pixels[pixel].y;
-		z = pixels[pixel].z;
-		fdf_isometric_projection(x, y, z);
+		fdf_safely_scale(&pixels[pixel].x, factor);
+		fdf_safely_scale(&pixels[pixel].y, factor);
 		pixel ++;
 	}
 }
 
-void	fdf_apply_projection_formula(t_matrix *matrix)
+void	fdf_apply_scaling(t_data data, const double scaling_factor)
 {
 	t_row	*rows;
 	t_pixel	*pixels;
-	int		length;
 	int		row;
 
-	if (!matrix || !matrix->length)
+	if (!data.matrix || !data.matrix->length)
 		return ;
-	rows = matrix->rows;
+	rows = data.matrix->rows;
 	row = 0;
-	while (row < matrix->length)
+	while (row < data.matrix->length)
 	{
-		length = rows[row].length;
 		pixels = rows[row].pixels;
-		fdf_apply_isometric(pixels, length);
+		fdf_scale_pixels(pixels, rows[row].length, scaling_factor);
 		row ++;
 	}
 }

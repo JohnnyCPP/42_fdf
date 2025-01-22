@@ -21,4 +21,5 @@ int	fdf_close(void *data_ptr)
 	mlx_destroy_display(data->mlx);
 	fdf_free_matrix(&data->matrix);
 	exit(EXIT_SUCCESS);
+	return (0);
 }

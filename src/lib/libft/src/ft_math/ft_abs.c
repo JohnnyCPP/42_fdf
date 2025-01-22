@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_render_frame.c                                 :+:      :+:    :+:   */
+/*   ft_abs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/29 08:34:07 by jonnavar          #+#    #+#             */
-/*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
+/*   Created: 2023/10/02 17:55:21 by jonnavar          #+#    #+#             */
+/*   Updated: 2023/10/02 17:56:00 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "fdf.h"
 
-int	fdf_render_frame(void *data_ptr)
+int	ft_abs(const int number)
 {
-	t_data	*data;
-	int		x;
-	int		y;
-
-	data = (t_data *) data_ptr;
-	x = 0;
-	y = 0;
-	fdf_draw_background(data);
-	fdf_draw_matrix(data);
-	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, x, y);
-	return (0);
+	if (number < 0)
+		return (-number);
+	return (number);
 }

@@ -197,6 +197,15 @@ int		ft_isbinarystr(const char *character);
 int		ft_sqrt(const int number);
 
 /**
+ * @brief Calculates the absolute of an integer.
+ *
+ * @param number The integer for which the absolute is to be calculated.
+ *
+ * @return The positive representation of a number, or the number itself.
+ */
+int		ft_abs(const int number);
+
+/**
  * @brief Calculates the length of a string.
  *
  * @param[character] A pointer to the first character of the string.

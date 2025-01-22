@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_render_frame.c                                 :+:      :+:    :+:   */
+/*   fdf_round.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,17 +11,14 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-int	fdf_render_frame(void *data_ptr)
+int	fdf_round(const double value)
 {
-	t_data	*data;
-	int		x;
-	int		y;
+	double	rounded;
 
-	data = (t_data *) data_ptr;
-	x = 0;
-	y = 0;
-	fdf_draw_background(data);
-	fdf_draw_matrix(data);
-	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, x, y);
-	return (0);
+	rounded = value + ROUND_NEAREST_INT;
+	if (rounded > (double) INT_MAX)
+		return (INT_MAX);
+	if (rounded < (double) INT_MIN)
+		return (INT_MIN);
+	return ((int) rounded);
 }

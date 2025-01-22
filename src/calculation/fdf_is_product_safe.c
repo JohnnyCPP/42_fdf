@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_render_frame.c                                 :+:      :+:    :+:   */
+/*   fdf_is_product_safe.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,17 +11,20 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-int	fdf_render_frame(void *data_ptr)
+int	fdf_is_product_safe(const double a, const double b)
 {
-	t_data	*data;
-	int		x;
-	int		y;
+	double	absolute_of_a;
+	double	absolute_of_b;
 
-	data = (t_data *) data_ptr;
-	x = 0;
-	y = 0;
-	fdf_draw_background(data);
-	fdf_draw_matrix(data);
-	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, x, y);
-	return (0);
+	if (a < 0)
+		absolute_of_a = (double) -a;
+	else
+		absolute_of_a = (double) a;
+	if (b < 0)
+		absolute_of_b = (double) -b;
+	else
+		absolute_of_b = (double) b;
+	if (absolute_of_a > (double) INT_MAX / absolute_of_b)
+		return (0);
+	return (1);
 }

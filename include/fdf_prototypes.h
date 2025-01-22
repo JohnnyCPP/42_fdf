@@ -12,11 +12,83 @@
 #ifndef FDF_PROTOTYPES_H
 # define FDF_PROTOTYPES_H
 
-//	rendering & events, will be documented later
+/**
+ * @brief Event handler that frees the allocated memory and stops execution.
+ *
+ * @param data_ptr A pointer to the struct whose members will be freed.
+ *
+ * @return Always 0.
+ *
+ * This function attempts to free the memory from the following resources:
+ *   1. The image created with "mlx_new_image()"
+ *   2. The associated window
+ *   3. The minilibx instance
+ *   4. The matrix
+ *
+ * This operation is performed in the specific order in which it's mentioned.
+ * Finally, it exits the program with an exit code EXIT_SUCCESS.
+ *
+ * This function is expected to be bound to minilibx events.
+ * It returns "int" to comply with the "mlx_hook()" prototype, but actually,
+ * it never reaches the return statement because "exit()" terminates execution.
+ */
 int			fdf_close(void *data_ptr);
-int			fdf_render_frame(void *data_ptr);
+
+/**
+ * @brief Initializes minilibx resources.
+ *
+ * @param data A pointer to the struct whose members will be populated.
+ *
+ * This function provides the following resources:
+ *   1. Initializes the minilibx instance
+ *   2. Initializes the new window, setting the window dimensions
+ *   3. Initializes the new image, setting the image dimensions
+ *   4. Gets the pixel buffer of the new image
+ *
+ * The initialization and provisioning is performed in that exact order.
+ * If any of the initialization tasks runs with errors, this function handles 
+ * the exception freeing the allocated memory, printing a descriptive error 
+ * message, and exiting with error code EXIT_FAILURE.
+ */
 void		fdf_init_mlx(t_data *data);
-void		fdf_render_background(t_data *data);
+
+/**
+ * @brief Sets all pixels from a image to black.
+ *
+ * @param data A pointer to the structure whose image will be modified.
+ *
+ * This function iterates through all the pixels of the image, assigning 
+ * COLOR_BLACK to each of them.
+ */
+void		fdf_draw_background(t_data *data);
+
+/**
+ * @brief Sets colored pixels where the matrix coordinates point to.
+ *
+ * @param data A pointer to the structure whose matrix will be iterated.
+ *
+ * This function iterates through the matrix, getting "x" and "y" axes.
+ * Then, for each 2D coordinate, prints a pixel to that location.
+ *
+ * The color depends on the color read from the map file, but it defaults 
+ * to COLOR_WHITE if the optional color is missing.
+ */
+void		fdf_draw_matrix(t_data *data);
+
+/**
+ * @brief Updates the image before rendering it to the window.
+ *
+ * @param data_ptr A pointer to the structure whose image will be rendered.
+ *
+ * @return 1 if the operation is success, 0 otherwise.
+ *
+ * This function manipulates the image to draw the background and the matrix, 
+ * then puts it to the window with "mlx_put_image_to_window()".
+ * It's meant to be hooked into the main event loop, so it complies with the 
+ * "mlx_loop_hook()" prototype by returning an integer of value "0" 
+ * to signal success, or any non-zero value to signal error.
+ */
+int			fdf_render_frame(void *data_ptr);
 
 /**
  * @brief Validates the argument, map file, and format, before reading it.
@@ -347,5 +419,109 @@ void		fdf_isometric_projection(int *x, int *y, const int z);
  * Modifies the x and y axes to represent a 3D object on a 2D surface.
  */
 void		fdf_apply_projection_formula(t_matrix *matrix);
+
+/**
+ * @brief Calculates the minimum values of "x" and "y" coordinates.
+ *
+ * @param data The struct whose matrix will be iterated through.
+ * @param min_x Pointer to the minimum value of "x".
+ * @param min_y Pointer to the minimum value of "y".
+ *
+ * This function will iterate through the matrix, comparing all the 
+ * "x" and "y" coordinates, starting from the first pixel from the first row.
+ *
+ * It takes pointers to store the minimum values of each axis, so 
+ * the result will be stored in "min_x" and "min_y".
+ */
+void		fdf_compute_minimums(t_data data, int *min_x, int *min_y);
+
+/**
+ * @brief Calculates the maximum values of "x" and "y" coordinates.
+ *
+ * @param data The struct whose matrix will be iterated through.
+ * @param max_x Pointer to the maximum value of "x".
+ * @param max_y Pointer to the maximum value of "y".
+ *
+ * This function will iterate through the matrix, comparing all the 
+ * "x" and "y" coordinates, starting from the first pixel from the first row.
+ *
+ * It takes pointers to store the maximum values of each axis, so 
+ * the result will be stored in "max_x" and "max_y".
+ */
+void		fdf_compute_maximums(t_data data, int *max_x, int *max_y);
+
+/**
+ * @brief Computes how much scaling is applied before the first renderization.
+ *
+ * @param data The struct whose matrix will be modified.
+ *
+ * This function calculates a scaling factor from the values of the matrix 
+ * in "data", and applies a scaling with that value.
+ *
+ * It's intended to be called once when the application starts.
+ */
+void		fdf_compute_initial_scaling(t_data data);
+
+/**
+ * @brief Clamps a double to integer limits.
+ *
+ * @param value The value to convert to int.
+ *
+ * @return If it's safe to be casted, the rounded "value" casted to int.
+ *         If the value would exceed integer limits, returns INT_MAX or 
+ *         INT_MIN when appropiate.
+ */
+int			fdf_round(const double value);
+
+/**
+ * @brief Checks if a multiplication would exceed integer limits.
+ *
+ * @param a One factor of a multiplication.
+ * @param b Another factor of a multiplication.
+ *
+ * @return 1 if the multiplication is safe, 0 otherwise.
+ *
+ * This function checks if the product of multiplying "a" and "b" 
+ * would exceed INT_MAX or INT_MIN.
+ *
+ * Without performing the actual multiplication, by dividing both sides 
+ * of the "a*b>INT_MAX" inequality per |b|, and treating both values 
+ * with their absolute representations, this function performs the 
+ * "|a|>INT_MAX/|b|" expression.
+ *
+ * This expression results from the simplification of:
+ *
+ *     "|a| * |b| / |b| > INT_MAX / |b|"
+ */
+int			fdf_is_product_safe(const double a, const double b);
+
+/**
+ *	@brief Applies translation to the coordinates of a matrix.
+ *
+ *	@param data The structure whose matrix will be modified.
+ *
+ *	Since isometric projection often involves negative coordinates 
+ *	due to the rotation and scaling, the translation needs to be applied 
+ *	to shift the entire drawing into the visible area of the image.
+ *
+ *	This process involves adding an offset to all "x" and "y" coordinates.
+ *
+ *	This offset is calculated with the minimum value of each one.
+ */
+void		fdf_apply_translation_formula(t_data data);
+
+/**
+ * @brief Applies scaling to the coordinates of a matrix.
+ *
+ * @param data The structure whose matrix will be modified.
+ *
+ * Scaling adjusts the size of the rendered 3D object by multiplying 
+ * its coordinates by a scaling factor.
+ *
+ * This can help to fit the object proportionally within 
+ * the window dimensions, no matter the size of the original map 
+ * or the resolution of the window.
+ */
+void		fdf_apply_scaling(t_data data, const double scaling_factor);
 
 #endif

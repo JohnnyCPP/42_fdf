@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_isometric_projection.c                         :+:      :+:    :+:   */
+/*   fdf_compute_minimums.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,64 +11,43 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-static	double	fdf_to_radians(const double degrees)
+static	void	fdf_minimum_of(t_pixel *pixels, int l, int *min_x, int *min_y)
 {
-	return (degrees * (M_PI / PI_RADIAN_DEGREES));
-}
-
-void	fdf_isometric_projection(int *x, int *y, const int z)
-{
-	double	delta;
-	double	sum;
-	double	cosine;
-	double	sine;
-	double	radians;
-
-	delta = *x - *y;
-	sum = *x + *y;
-	radians = fdf_to_radians(ISOMETRIC_CONV_ROT_ANG);
-	cosine = cos(radians);
-	sine = sin(radians);
-	*x = fdf_round(delta * cosine);
-	*y = fdf_round(sum * sine - (double) z);
-}
-
-static	void	fdf_apply_isometric(t_pixel *pixels, const int length)
-{
-	int	*x;
-	int	*y;
-	int	z;
 	int	pixel;
+	int	x;
+	int	y;
 
-	if (!pixels || !length)
+	if (!pixels || !l)
 		return ;
 	pixel = 0;
-	while (pixel < length)
+	while (pixel < l)
 	{
-		x = &pixels[pixel].x;
-		y = &pixels[pixel].y;
-		z = pixels[pixel].z;
-		fdf_isometric_projection(x, y, z);
+		x = pixels[pixel].x;
+		y = pixels[pixel].y;
+		if (x < *min_x)
+			*min_x = x;
+		if (y < *min_y)
+			*min_y = y;
 		pixel ++;
 	}
 }
 
-void	fdf_apply_projection_formula(t_matrix *matrix)
+void	fdf_compute_minimums(t_data data, int *min_x, int *min_y)
 {
 	t_row	*rows;
 	t_pixel	*pixels;
-	int		length;
 	int		row;
 
-	if (!matrix || !matrix->length)
+	if (!data.matrix || !data.matrix->length || !data.matrix->rows[0].length)
 		return ;
-	rows = matrix->rows;
+	rows = data.matrix->rows;
 	row = 0;
-	while (row < matrix->length)
+	*min_x = rows[0].pixels[0].x;
+	*min_y = rows[0].pixels[0].y;
+	while (row < data.matrix->length)
 	{
-		length = rows[row].length;
 		pixels = rows[row].pixels;
-		fdf_apply_isometric(pixels, length);
+		fdf_minimum_of(pixels, rows[row].length, min_x, min_y);
 		row ++;
 	}
 }
