@@ -11,6 +11,12 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
+static	void	fdf_declare_events(t_data *data)
+{
+	mlx_hook(data->win, KeyPress, KeyPressMask, fdf_key_pressed, data);
+	mlx_hook(data->win, DestroyNotify, StructureNotifyMask, fdf_close, data);
+}
+
 void	fdf_init_mlx(t_data *data)
 {
 	t_image	*i;
@@ -23,7 +29,7 @@ void	fdf_init_mlx(t_data *data)
 		fdf_handle_win_failure(data);
 	data->win_w = WIDTH;
 	data->win_h = HEIGHT;
-	mlx_hook(data->win, EVENT_CLOSE, NO_MASK, fdf_close, (void *) data);
+	fdf_declare_events(data);
 	data->img.ptr = mlx_new_image(data->mlx, data->win_w, data->win_h);
 	if (!data->img.ptr)
 		fdf_handle_img_failure(data);
