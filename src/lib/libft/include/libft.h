@@ -206,6 +206,36 @@ int		ft_sqrt(const int number);
 int		ft_abs(const int number);
 
 /**
+ * @brief Calculates the minimum of two integers.
+ *
+ * @param a The first integer.
+ * @param b The second integer.
+ *
+ * @return The smallest of both.
+ */
+int		ft_imin(const int a, const int b);
+
+/**
+ * @brief Calculates the minimum of two floats.
+ *
+ * @param a The first float.
+ * @param b The second float.
+ *
+ * @return The smallest of both.
+ */
+float	ft_fmin(const float a, const float b);
+
+/**
+ * @brief Calculates the minimum of two doubles.
+ *
+ * @param a The first double.
+ * @param b The second double.
+ *
+ * @return The smallest of both.
+ */
+double	ft_dmin(const double a, const double b);
+
+/**
  * @brief Calculates the length of a string.
  *
  * @param[character] A pointer to the first character of the string.
