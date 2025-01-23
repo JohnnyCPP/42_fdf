@@ -39,6 +39,37 @@
  * @brief Amount of bits in a byte.
  */
 # define BYTE 8
+/**
+ * @brief Amount of elements allocated for a null terminator.
+ *
+ * When allocating a block of memory, and an extra element is needed 
+ * to delimite the end of it, this constant is added to make it more explicit.
+ */
+# define N_TERM 1
+/**
+ * @brief Amount of elements added to an array.
+ *
+ * When the size of an array takes into account a new element, 
+ * use this constant.
+ */
+# define NEW_ITEM 1
+/**
+ * @brief Amount of unique digits in hexadecimal number system.
+ */
+# define HEX_BASE 16
+/**
+ * @brief The decimal value of hexadecimal "A".
+ */
+# define HEX_A 10
+/**
+ * @brief Amount of characters in a hexadecimal color.
+ */
+# define HEX_COLOR_LENGTH 8
+/**
+ * @brief Amount of characters in a hexadecimal prefix "0x".
+ */
+# define HEX_PREFIX_LENGTH 2
+//	TODO: document hook constants
 # define EVENT_CLOSE 17
 # define NO_MASK 0
 /**
@@ -50,6 +81,13 @@
  * @brief Rounds to the nearest integer.
  */
 # define ROUND_NEAREST_INT 0.5
+/**
+ * @brief Default scaling factor of initial scaling factor calculation.
+ *
+ * If "x" or "y" axes are equal to 0, applies a scaling of 1.0.
+ * This leaves all pixels untouched.
+ */
+# define DEFAULT_FACTOR 1.0
 /**
  * @brief Rotation angle applied for the isometric projection convention.
  *

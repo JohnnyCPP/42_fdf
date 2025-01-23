@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_row_array.c                                    :+:      :+:    :+:   */
+/*   fdf_hex_to_int.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,51 +11,47 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-void	fdf_free_row_array(t_matrix *matrix)
+static	int	fdf_is_hex(const char *hex)
 {
 	int	i;
+	int	hex_length;
 
-	if (!matrix)
-		return ;
+	if (!hex)
+		return (0);
 	i = 0;
-	while (i < matrix->length)
+	hex_length = HEX_COLOR_LENGTH;
+	while (hex[i] != '\0')
 	{
-		free(matrix->rows[i].pixels);
-		matrix->rows[i].pixels = NULL;
+		if (!ft_ishex(hex[i]) || i >= hex_length)
+			return (0);
 		i ++;
 	}
-	free(matrix->rows);
-	matrix->rows = NULL;
+	if (i != hex_length)
+		return (0);
+	return (1);
 }
 
-t_row	*fdf_new_row_array(int length)
+int	fdf_to_int(const char *hex)
 {
-	t_row	*rows;
+	unsigned int	result;
+	unsigned int	digit;
+	unsigned int	i;
 
-	rows = (t_row *) calloc(length, sizeof(t_row));
-	if (!rows)
-		return (NULL);
-	return (rows);
-}
-
-void	fdf_move_row_array(t_row *dest, const t_row *source, int rows)
-{
-	int	i;
-
+	if (!fdf_is_hex(hex))
+		return (-1);
+	result = 0;
 	i = 0;
-	while (i < rows)
+	while (hex[i] != '\0')
 	{
-		dest[i].length = source[i].length;
-		dest[i].pixels = source[i].pixels;
+		if (ft_isdigit(hex[i]))
+			digit = hex[i] - '0';
+		else if ('A' <= hex[i] && hex[i] <= 'F')
+			digit = hex[i] - 'A' + HEX_A;
+		else if ('a' <= hex[i] && hex[i] <= 'a')
+			digit = hex[i] - 'a' + HEX_A;
+		result *= HEX_BASE;
+		result += digit;
 		i ++;
 	}
-}
-
-void	fdf_push_row(t_row *row_array, t_row *row, int length)
-{
-	int	last_row;
-
-	last_row = length - 1;
-	row_array[last_row].length = row->length;
-	row_array[last_row].pixels = row->pixels;
+	return (result);
 }

@@ -23,13 +23,19 @@
  * This point in space will be processed by a projection formula 
  * of isometric projection, with the objective of represent a 
  * 3D object on a 2D surface, the minilibx window.
+ *
+ * It will hold its original values in "x", "y", and "z", while the 
+ * calculations will be stored on "x_2d" and "y_2d".
  */
 typedef struct s_pixel
 {
-	int		x;
-	int		y;
-	int		z;
-	char	*color;
+	int				x_2d;
+	int				y_2d;
+	int				x;
+	int				y;
+	int				z;
+	char			*color;
+	unsigned int	decimal_color;
 }				t_pixel;
 
 /**

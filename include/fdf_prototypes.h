@@ -267,6 +267,29 @@ void		fdf_print_pixel_row(t_row *row);
 void		fdf_assign_y_axis(t_row *row, const int y_axis);
 
 /**
+ * @brief Assigns the values of 2d axes to pixels in a row.
+ *
+ * @param row The row whose pixels will be modified.
+ *
+ * This function iterates through all the pixels in a t_row struct,
+ * assigning the values of "x" and "y" to the "x_2d" and "y_2d" members.
+ * While "x" and "y" will hold the original values of the map, 
+ * the 2d counterparts will store the result of rendering computations.
+ */
+void		fdf_assign_2d_axes(t_row *row);
+
+/**
+ * @brief Assigns the values of decimal colors to pixels in a row.
+ *
+ * @param row The row whose pixels will be modified.
+ *
+ * This function iterates through all the pixels in a t_row struct,
+ * assigning the values of "decimal_color" with the value stored 
+ * in the hexadecimal string "color".
+ */
+void		fdf_assign_decimal_colors(t_row *row);
+
+/**
  * @brief Frees a dynamically allocated matrix of characters.
  *
  * @param matrix_ptr A pointer to the matrix to free.
@@ -402,14 +425,17 @@ t_matrix	*fdf_to_matrix(const char **str_matrix);
 /**
  * @brief Applies the projection formula of isometric projection.
  *
- * @param x A pointer to the x-axis.
- * @param y A pointer to the y-axis.
+ * @param pixel A pointer to the pixel whose 2D coordinates will be updated.
+ * @param x The x-axis.
+ * @param y The y-axis.
  * @param z The z-axis.
  *
  * Modifies the x and y axes to represent the point in space 
  * of a 3D object on a 2D surface.
+ * To do this, the "x_2d" and "y_2d" members will be assigned with 
+ * the results of the isometric projection formula.
  */
-void		fdf_isometric_projection(int *x, int *y, const int z);
+void		fdf_isometric_projection(t_pixel *pixel, int x, int y, int z);
 
 /**
  * @brief Applies isometric projection to the coordinates of a matrix.
@@ -417,6 +443,8 @@ void		fdf_isometric_projection(int *x, int *y, const int z);
  * @param matrix The matrix whose points will be modified.
  *
  * Modifies the x and y axes to represent a 3D object on a 2D surface.
+ * The "x_2d" and "y_2d" members of each pixel will be modified to
+ * represent their coordinates on a 2D surface.
  */
 void		fdf_apply_projection_formula(t_matrix *matrix);
 
@@ -494,6 +522,17 @@ int			fdf_round(const double value);
  *     "|a| * |b| / |b| > INT_MAX / |b|"
  */
 int			fdf_is_product_safe(const double a, const double b);
+
+/**
+ * @brief Converts an hexadecimal representation to decimal.
+ *
+ * @param hex A pointer to a null-terminated string.
+ *
+ * @return The decimal representation of "hex".
+ *
+ * This function expects a string whose value is a hex number of eight digits.
+ */
+int			fdf_to_int(const char *hex);
 
 /**
  *	@brief Applies translation to the coordinates of a matrix.

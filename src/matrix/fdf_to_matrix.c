@@ -21,7 +21,9 @@ static	int	fdf_push_to(t_matrix *matrix, const char *str_row)
 	if (!auxiliar)
 		return (0);
 	fdf_assign_y_axis(auxiliar, matrix->length);
-	new_rows = fdf_new_row_array(matrix->length + 1);
+	fdf_assign_2d_axes(auxiliar);
+	fdf_assign_decimal_colors(auxiliar);
+	new_rows = fdf_new_row_array(matrix->length + NEW_ITEM);
 	if (!new_rows)
 	{
 		fdf_free_pixel_row(&auxiliar);
@@ -29,7 +31,7 @@ static	int	fdf_push_to(t_matrix *matrix, const char *str_row)
 	}
 	old_rows = matrix->rows;
 	fdf_move_row_array(new_rows, old_rows, matrix->length);
-	fdf_push_row(new_rows, auxiliar, matrix->length + 1);
+	fdf_push_row(new_rows, auxiliar, matrix->length + NEW_ITEM);
 	matrix->rows = new_rows;
 	matrix->length ++;
 	free(old_rows);
@@ -64,7 +66,7 @@ t_matrix	*fdf_to_matrix(const char **str_matrix)
 	t_matrix	*matrix;
 	int			success;
 
-	matrix = (t_matrix *) calloc(1, sizeof(t_matrix));
+	matrix = (t_matrix *) calloc(NEW_ITEM, sizeof(t_matrix));
 	if (!matrix)
 		return (NULL);
 	matrix->length = 0;

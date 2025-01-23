@@ -37,13 +37,13 @@ static	int	fdf_get_number(const char *row, int i, t_row *result, int pixel)
 	int		number;
 
 	length = fdf_get_length(row, i);
-	copy = (char *) calloc(length + 1, sizeof(char));
+	copy = (char *) calloc(length + N_TERM, sizeof(char));
 	if (!copy)
 	{
 		perror(ERROR_MEMORY);
 		return (0);
 	}
-	ft_strlcpy(copy, row + i, length + 1);
+	ft_strlcpy(copy, row + i, length + N_TERM);
 	overflows = ft_ioverflow(copy);
 	if (overflows)
 	{
@@ -63,14 +63,14 @@ static	int	fdf_allocate(const char *row, int *i, int pixel, t_row *result)
 	char	*color;
 	int		color_len;
 
-	color_len = 6;
-	color = (char *) calloc(color_len + 1, sizeof(char));
+	color_len = HEX_COLOR_LENGTH;
+	color = (char *) calloc(color_len + N_TERM, sizeof(char));
 	if (!color)
 	{
 		perror(ERROR_MEMORY);
 		return (0);
 	}
-	ft_strlcpy(color, row + *i, color_len + 1);
+	ft_strlcpy(color, row + *i, color_len + N_TERM);
 	result->pixels[pixel].color = color;
 	(*i) += color_len;
 	return (1);
@@ -91,7 +91,7 @@ static	int	fdf_get_color(const char *row, int *i, int *pixel, t_row *result)
 			(*i)++;
 		while (ft_isspace(row[*i]))
 			(*i)++;
-		prefix_len = 2;
+		prefix_len = HEX_PREFIX_LENGTH;
 		(*i) += prefix_len;
 		if (*pixel >= result->length)
 			return (1);

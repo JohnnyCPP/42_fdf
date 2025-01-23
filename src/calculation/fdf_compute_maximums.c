@@ -22,8 +22,8 @@ static	void	fdf_maximum_of(t_pixel *pixels, int l, int *max_x, int *max_y)
 	pixel = 0;
 	while (pixel < l)
 	{
-		x = pixels[pixel].x;
-		y = pixels[pixel].y;
+		x = pixels[pixel].x_2d;
+		y = pixels[pixel].y_2d;
 		if (x > *max_x)
 			*max_x = x;
 		if (y > *max_y)
@@ -42,8 +42,8 @@ void	fdf_compute_maximums(t_data data, int *max_x, int *max_y)
 		return ;
 	rows = data.matrix->rows;
 	row = 0;
-	*max_x = rows[0].pixels[0].x;
-	*max_y = rows[0].pixels[0].y;
+	*max_x = rows[0].pixels[0].x_2d;
+	*max_y = rows[0].pixels[0].y_2d;
 	while (row < data.matrix->length)
 	{
 		pixels = rows[row].pixels;

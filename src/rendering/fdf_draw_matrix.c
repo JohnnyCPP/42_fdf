@@ -11,20 +11,43 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
+static	char	*fdf_get_address(int x, int y, t_image img)
+{
+	char	*buffer;
+	int		row;
+	int		pixel;
+
+	buffer = img.buf;
+	row = y * img.bpl;
+	pixel = x * (img.bpp / BYTE);
+	return (buffer + (row + pixel));
+}
+
+static	int	fdf_out_of_bounds(int x, int y, t_image img)
+{
+	if (x < 0 || y < 0 || img.w <= x || img.h <= y)
+		return (1);
+	return (0);
+}
+
 static	void	fdf_draw_pixel(t_data *data, t_pixel pixel)
 {
-	t_image	*img;
-	char	*pixel_address;
-	int		x;
-	int		y;
+	t_image			*img;
+	unsigned int	*pixel_address;
+	unsigned int	color;
+	int				x;
+	int				y;
 
-	x = pixel.x;
-	y = pixel.y;
+	color = pixel.decimal_color;
+	x = pixel.x_2d;
+	y = pixel.y_2d;
 	img = &data->img;
-	if (x < 0 || y < 0 || img->w <= x || img->h <= y)
+	if (fdf_out_of_bounds(x, y, *img))
 		return ;
-	pixel_address = img->buf + ((y * img->bpl) + (x * (img->bpp / BYTE)));
-	*(unsigned int *) pixel_address = COLOR_WHITE;
+	pixel_address = (unsigned int *) fdf_get_address(x, y, *img);
+	if (!color)
+		color = COLOR_WHITE;
+	*pixel_address = color;
 }
 
 void	fdf_draw_matrix(t_data *data)

@@ -33,7 +33,7 @@ static	t_row	*fdf_allocate_memory(const char *row)
 	length = fdf_count_pixels(row);
 	if (length == -1)
 		return (NULL);
-	result = (t_row *) calloc(1, sizeof(t_row));
+	result = (t_row *) calloc(NEW_ITEM, sizeof(t_row));
 	if (!result)
 	{
 		perror(ERROR_MEMORY);

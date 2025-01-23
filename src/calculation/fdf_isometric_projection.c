@@ -16,7 +16,7 @@ static	double	fdf_to_radians(const double degrees)
 	return (degrees * (M_PI / PI_RADIAN_DEGREES));
 }
 
-void	fdf_isometric_projection(int *x, int *y, const int z)
+void	fdf_isometric_projection(t_pixel *pixel, int x, int y, int z)
 {
 	double	delta;
 	double	sum;
@@ -24,19 +24,19 @@ void	fdf_isometric_projection(int *x, int *y, const int z)
 	double	sine;
 	double	radians;
 
-	delta = *x - *y;
-	sum = *x + *y;
+	delta = x - y;
+	sum = x + y;
 	radians = fdf_to_radians(ISOMETRIC_CONV_ROT_ANG);
 	cosine = cos(radians);
 	sine = sin(radians);
-	*x = fdf_round(delta * cosine);
-	*y = fdf_round(sum * sine - (double) z);
+	pixel->x_2d = fdf_round(delta * cosine);
+	pixel->y_2d = fdf_round(sum * sine - (double) z);
 }
 
 static	void	fdf_apply_isometric(t_pixel *pixels, const int length)
 {
-	int	*x;
-	int	*y;
+	int	x;
+	int	y;
 	int	z;
 	int	pixel;
 
@@ -45,10 +45,10 @@ static	void	fdf_apply_isometric(t_pixel *pixels, const int length)
 	pixel = 0;
 	while (pixel < length)
 	{
-		x = &pixels[pixel].x;
-		y = &pixels[pixel].y;
+		x = pixels[pixel].x;
+		y = pixels[pixel].y;
 		z = pixels[pixel].z;
-		fdf_isometric_projection(x, y, z);
+		fdf_isometric_projection(&pixels[pixel], x, y, z);
 		pixel ++;
 	}
 }

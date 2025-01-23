@@ -32,7 +32,7 @@ static	int	fdf_parse_matrix_color(const char *row, int *i)
 			j ++;
 			(*i)++;
 		}
-		if (j != 6)
+		if (j != HEX_COLOR_LENGTH)
 			return (0);
 	}
 	return (1);

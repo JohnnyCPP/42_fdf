@@ -18,7 +18,7 @@ static	double	fdf_get_factor(t_data data, int delta_x, int delta_y)
 	double	factor;
 
 	if (delta_x == 0 || delta_y == 0)
-		return (1.0);
+		return (DEFAULT_FACTOR);
 	scaling_factor_x = (double) data.win_w / (double) delta_x;
 	scaling_factor_y = (double) data.win_h / (double) delta_y;
 	if (scaling_factor_x < scaling_factor_y)

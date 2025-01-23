@@ -25,7 +25,7 @@ static	void	fdf_find_color(const char *row, int *i)
 			(*i)++;
 		while (ft_isspace(row[*i]))
 			(*i)++;
-		length_of_hex = 8;
+		length_of_hex = HEX_PREFIX_LENGTH + HEX_COLOR_LENGTH;
 		(*i) += length_of_hex;
 	}
 }

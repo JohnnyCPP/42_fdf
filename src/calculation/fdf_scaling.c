@@ -33,8 +33,8 @@ static	void	fdf_scale_pixels(t_pixel *pixels, int len, const double factor)
 	pixel = 0;
 	while (pixel < len)
 	{
-		fdf_safely_scale(&pixels[pixel].x, factor);
-		fdf_safely_scale(&pixels[pixel].y, factor);
+		fdf_safely_scale(&pixels[pixel].x_2d, factor);
+		fdf_safely_scale(&pixels[pixel].y_2d, factor);
 		pixel ++;
 	}
 }

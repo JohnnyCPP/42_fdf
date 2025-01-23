@@ -30,8 +30,8 @@ static	void	fdf_apply_translation(t_data data, int min_x, int min_y)
 			pixel = 0;
 			while (pixel < rows[row].length)
 			{
-				pixels[pixel].x -= min_x;
-				pixels[pixel].y -= min_y;
+				pixels[pixel].x_2d -= min_x;
+				pixels[pixel].y_2d -= min_y;
 				pixel ++;
 			}
 		}
