@@ -32,10 +32,7 @@ int	main(const int argc, const char **argv)
 	fdf_compute_initial_scaling(data);
 	fdf_apply_translation_formula(data);
 	fdf_print_matrix(data.matrix);
-	//		TODO
-	//		once the 2D positions of each 3D point are calculated, 
-	//		draw lines between adjacent points to form the object.
-	//		To do so, implement Bresenham's line-drawing algorithm
+	fdf_apply_bresenham_formula(data);
 	mlx_loop_hook(data.mlx, fdf_render_frame, (void *) &data);
 	mlx_loop(data.mlx);
 	//	bonus:

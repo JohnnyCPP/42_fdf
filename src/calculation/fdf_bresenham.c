@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_draw_background.c                              :+:      :+:    :+:   */
+/*   fdf_bresenham.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,22 +11,8 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-void	fdf_draw_background(t_data *data)
+void	fdf_apply_bresenham_formula(t_data data)
 {
-	unsigned int	*pixel;
-	int				y;
-	int				x;
-
-	y = 0;
-	while (y < data->win_h)
-	{
-		x = 0;
-		while (x < data->win_w)
-		{
-			pixel = (unsigned int *) fdf_get_pixel_address(x, y, data->img);
-			*pixel = COLOR_BLACK;
-			x ++;
-		}
-		y ++;
-	}
+	(void) data;
+	ft_printf("TODO: implement bresenham's algorithm\n");
 }

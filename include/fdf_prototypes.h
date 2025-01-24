@@ -67,6 +67,50 @@ int			fdf_key_pressed(int keysym, t_data *data);
 void		fdf_init_mlx(t_data *data);
 
 /**
+ * @brief Gets the address of a pixel in an image, to assign a color to it.
+ *
+ * @param x The x-axis of the pixel.
+ * @param y The y-axis of the pixel.
+ * @param img The image that contains the pixel buffer to get the pixel from.
+ *
+ * @return The address of the pixel in the given coordinates.
+ *
+ * This function calculates a row offset and a pixel offset. The row offset 
+ * is calculated with the product of "y" times "bpl", which is actually 
+ * retrieving the actual row where the pixel is.
+ * The pixel offset is calculated with the product of "x" times "bpp/BYTE", 
+ * which retrieves the pixel in a row.
+ *
+ * After the aforementioned calculations, this function applies pointer 
+ * arithmetics to the pixel buffer, returning the sum of:
+ *
+ *     "pixel_buffer + (row_offset + pixel_offset)"
+ *
+ * Effectively returning the memory of the pixel in the ("x","y") 
+ * coordinates from the pixel buffer associated with the "img".
+ *
+ * This "char *" address can be casted to "unsigned int *" to assign 
+ * (32b or 24b) hexadecimal colors.
+ */
+char		*fdf_get_pixel_address(int x, int y, t_image img);
+
+/**
+ * @brief Draws a pixel on an image.
+ *
+ * @param data The struct containing the image to print the pixel on.
+ * @param pixel The pixel containing its coordinates and the optional color.
+ *
+ * This function gets the 2D coordinates of a pixel, its color, and the 
+ * image associated to the "data" struct.
+ * Finally, after getting the pixel address from the pixel buffer with 
+ * "fdf_get_pixel_address", assigns a color to the pixel.
+ *
+ * If the pixel has a color, it will assign that color. If the pixel doesn't 
+ * have a color, it will default to COLOR_WHITE.
+ */
+void		fdf_draw_pixel(t_data *data, t_pixel pixel);
+
+/**
  * @brief Sets all pixels from a image to black.
  *
  * @param data A pointer to the structure whose image will be modified.
@@ -576,5 +620,10 @@ void		fdf_apply_translation_formula(t_data data);
  * or the resolution of the window.
  */
 void		fdf_apply_scaling(t_data data, const double scaling_factor);
+
+/**
+ * TODO: describe this
+ **/
+void		fdf_apply_bresenham_formula(t_data data);
 
 #endif

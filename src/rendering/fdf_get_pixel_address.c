@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_draw_background.c                              :+:      :+:    :+:   */
+/*   fdf_get_pixel_address.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,22 +11,14 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-void	fdf_draw_background(t_data *data)
+char	*fdf_get_pixel_address(int x, int y, t_image img)
 {
-	unsigned int	*pixel;
-	int				y;
-	int				x;
+	char	*pixel_buffer;
+	int		row;
+	int		pixel;
 
-	y = 0;
-	while (y < data->win_h)
-	{
-		x = 0;
-		while (x < data->win_w)
-		{
-			pixel = (unsigned int *) fdf_get_pixel_address(x, y, data->img);
-			*pixel = COLOR_BLACK;
-			x ++;
-		}
-		y ++;
-	}
+	pixel_buffer = img.buf;
+	row = y * img.bpl;
+	pixel = x * (img.bpp / BYTE);
+	return (pixel_buffer + (row + pixel));
 }
