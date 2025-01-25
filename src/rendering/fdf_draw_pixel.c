@@ -18,7 +18,7 @@ static	int	fdf_out_of_bounds(int x, int y, t_image img)
 	return (0);
 }
 
-void	fdf_draw_pixel(t_data *data, t_pixel pixel)
+void	fdf_draw_pixel(t_data data, t_pixel pixel)
 {
 	t_image			img;
 	unsigned int	*pixel_address;
@@ -29,7 +29,7 @@ void	fdf_draw_pixel(t_data *data, t_pixel pixel)
 	color = pixel.decimal_color;
 	x = pixel.x_2d;
 	y = pixel.y_2d;
-	img = data->img;
+	img = data.img;
 	if (fdf_out_of_bounds(x, y, img))
 		return ;
 	pixel_address = (unsigned int *) fdf_get_pixel_address(x, y, img);

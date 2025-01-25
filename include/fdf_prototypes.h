@@ -108,22 +108,22 @@ char		*fdf_get_pixel_address(int x, int y, t_image img);
  * If the pixel has a color, it will assign that color. If the pixel doesn't 
  * have a color, it will default to COLOR_WHITE.
  */
-void		fdf_draw_pixel(t_data *data, t_pixel pixel);
+void		fdf_draw_pixel(t_data data, t_pixel pixel);
 
 /**
  * @brief Sets all pixels from a image to black.
  *
- * @param data A pointer to the structure whose image will be modified.
+ * @param data The structure whose image will be modified.
  *
  * This function iterates through all the pixels of the image, assigning 
  * COLOR_BLACK to each of them.
  */
-void		fdf_draw_background(t_data *data);
+void		fdf_draw_background(t_data data);
 
 /**
  * @brief Sets colored pixels where the matrix coordinates point to.
  *
- * @param data A pointer to the structure whose matrix will be iterated.
+ * @param data The structure whose matrix will be iterated.
  *
  * This function iterates through the matrix, getting "x" and "y" axes.
  * Then, for each 2D coordinate, prints a pixel to that location.
@@ -131,7 +131,7 @@ void		fdf_draw_background(t_data *data);
  * The color depends on the color read from the map file, but it defaults 
  * to COLOR_WHITE if the optional color is missing.
  */
-void		fdf_draw_matrix(t_data *data);
+void		fdf_draw_matrix(t_data data);
 
 /**
  * @brief Updates the image before rendering it to the window.
@@ -622,8 +622,35 @@ void		fdf_apply_translation_formula(t_data data);
 void		fdf_apply_scaling(t_data data, const double scaling_factor);
 
 /**
- * TODO: describe this
+ * @brief Draws a line, between two points, in an image.
+ *
+ * @param d The structure containing the image to draw into.
+ * @param start The starting point.
+ * @param end The ending point.
+ *
+ * To draw a line between two points, where the points are excluded, this 
+ * function performs specific calculations in a given order.
+ * That the points are excluded means that this function doesn't draw 
+ * "start" or "end", this function expects the caller to draw them. This is 
+ * explicitly done to not instruct drawing a given pixel twice.
+ *
+ * The order of calculations is as follows:
+ *
+ *   1. Calculates deltas. Deltas are the differences between "start" and 
+ *      "end" in "x" and "y" axes. "x_delta" is horizontal length.
+ *      "y_delta" is vertical length.
+ *   2. Calculates steps. Steps are the direction of displacement from 
+ *      "start" to "end", in "x" and "y" axes.
+ *      For example, if "start" has a lower "x" value than "end", the "x_step" 
+ *      will be positive in order to move to the right in the horizontal axis.
+ *      Otherwise, it will be negative to move to the left.
+ *      This applies aswell to the y-axis, moving up or down.
+ *   3. Calculates the error term. The error term represents how far is the 
+ *      current position ("start") from the ideal straight-line path.
+ *   4. Loops until "start" is exactly at "end" in both axes. In the loop, 
+ *      calculates the "decision" variable whose purpose is to decide where 
+ *      will be the next position to draw in the line.
  **/
-void		fdf_apply_bresenham_formula(t_data data);
+void		fdf_apply_bresenham_formula(t_data d, t_pixel start, t_pixel end);
 
 #endif

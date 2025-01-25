@@ -166,4 +166,56 @@ typedef struct s_data
 	t_image		img;
 }				t_data;
 
+/**
+ * @brief Structure representing the difference between two points in space.
+ *
+ * It holds data used to compute bresenham's formula, for drawing a line 
+ * between two points in a 2D surface.
+ *
+ * "start" is the current point in space.
+ * "end" is the direction of movement.
+ * "x" is the horizontal length.
+ * "y" is the vertical length.
+ * "x_step" is how much the current point is moved, in the x-axis, 
+ *          each iteration.
+ * "y_step" is how much the current point is moved, in the y-axis, 
+ *          each iteration.
+ * "error" tracks how far the current point is from the ideal
+ *         straight-line path.
+ *         It's initialized as "x_delta - y_delta", which is derived 
+ *         from the slope of the line:
+ *           - If the line is more horizontal, "x_delta" dominates.
+ *           - If the line is more vertical, "y_delta" dominates.
+ *         As the algorithm progresses along the line, it's adjusted 
+ *         based on the difference between "x_delta" and "y_delta".
+ *         This adjustment ensures the line stays 
+ *         close to the ideal path.
+ *         It accumulates the error as the algorithm moves step-by-step 
+ *         through the grid, helping decide whether to move diagonally 
+ *         or in a straight direction (horizontally or vertically).
+ * "decision" is a temporary variable used to make decisions within the loop.
+ *            It's calculated as "error_term * 2", which effectively doubles 
+ *            the error term for comparison purposes. This is done because 
+ *            the decision criteria involve comparing "error_term" with 
+ *            "x_delta" and "y_delta", and doubling "error_term" simplifies 
+ *            the math to avoid division, which was a costly operation 
+ *            in early computing.
+ *            It helps determine the next step (horizontal, vertical, or 
+ *            diagonal) by comparing it with "-y_delta" and "x_delta".
+ *            These comparisons indicate whether the accumulated error 
+ *            ("error_delta") has crossed thresholds that require 
+ *            a corrective movement along one or both axes.
+ */
+typedef struct s_delta
+{
+	t_pixel	*start;
+	t_pixel	*end;
+	int		x_delta;
+	int		y_delta;
+	int		x_step;
+	int		y_step;
+	int		error;
+	int		decision;
+}				t_delta;
+
 #endif

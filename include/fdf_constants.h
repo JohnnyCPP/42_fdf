@@ -69,9 +69,6 @@
  * @brief Amount of characters in a hexadecimal prefix "0x".
  */
 # define HEX_PREFIX_LENGTH 2
-//	TODO: document hook constants
-# define EVENT_CLOSE 17
-# define NO_MASK 0
 /**
  * @brief Hexadecimal colors.
  */
@@ -114,5 +111,28 @@
  * equals a half rotation of a circle (180º).
  */
 # define PI_RADIAN_DEGREES 180.0
+/**
+ * @brief Amount of elements to double a given amount.
+ *
+ * It's used to get the product of "error_term" times two, 
+ * computing the bresenham's algorithm.
+ */
+# define TIMES_TWO 2
+/**
+ * @brief Displacement of current position in bresenham's algorithm.
+ *
+ * Bresenham's algorithm defines "steps" which refer to the direction 
+ * of displacement, in relation to the current position, each loop iteration.
+ *
+ * The "steps" are defined for the "x_axis" (x_step) and "y_axis" (y_step).
+ *
+ * "x_step" INCREASE moves the horizontal axis to the right.
+ * "x_step" DECREASE moves the horizontal axis to the left.
+ *
+ * "y_step" INCREASE moves the vertical axis up.
+ * "y_step" DECREASE moves the vertical axis down.
+ */
+# define INCREASE 1
+# define DECREASE -1
 
 #endif
