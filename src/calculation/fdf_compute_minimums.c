@@ -32,19 +32,21 @@ static	void	fdf_minimum_of(t_pixel *pixels, int l, int *min_x, int *min_y)
 	}
 }
 
-void	fdf_compute_minimums(t_data data, int *min_x, int *min_y)
+void	fdf_compute_minimums(t_data *data, int *min_x, int *min_y)
 {
 	t_row	*rows;
 	t_pixel	*pixels;
 	int		row;
 
-	if (!data.matrix || !data.matrix->length || !data.matrix->rows[0].length)
+	if (!data || !data->matrix || !data->matrix->length)
 		return ;
-	rows = data.matrix->rows;
+	if (!data->matrix->rows[0].length)
+		return ;
+	rows = data->matrix->rows;
 	row = 0;
 	*min_x = rows[0].pixels[0].x_2d;
 	*min_y = rows[0].pixels[0].y_2d;
-	while (row < data.matrix->length)
+	while (row < data->matrix->length)
 	{
 		pixels = rows[row].pixels;
 		fdf_minimum_of(pixels, rows[row].length, min_x, min_y);

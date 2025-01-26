@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_get_pixel_address.c                            :+:      :+:    :+:   */
+/*   fdf_apply_interpolation.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,14 +11,19 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-char	*fdf_get_pixel_address(int x, int y, t_image *img)
+void	fdf_apply_interpolation(t_delta *delta)
 {
-	char	*pixel_buffer;
-	int		row;
-	int		pixel;
+	double	factor;
+	int		start;
+	int		end;
 
-	pixel_buffer = img->buf;
-	row = y * img->bpl;
-	pixel = x * (img->bpp / BYTE);
-	return (pixel_buffer + (row + pixel));
+	if (delta->steps == 0)
+		delta->factor = 0.0;
+	else
+		delta->factor = (double) delta->current_step / (double) delta->steps;
+	factor = delta->factor;
+	start = (int) delta->start->decimal_color;
+	end = (int) delta->end->decimal_color;
+	delta->color = (unsigned int) fdf_interpolate_color(start, end, factor);
+	delta->start->decimal_color = delta->color;
 }

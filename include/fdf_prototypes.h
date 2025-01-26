@@ -92,7 +92,7 @@ void		fdf_init_mlx(t_data *data);
  * This "char *" address can be casted to "unsigned int *" to assign 
  * (32b or 24b) hexadecimal colors.
  */
-char		*fdf_get_pixel_address(int x, int y, t_image img);
+char		*fdf_get_pixel_address(int x, int y, t_image *img);
 
 /**
  * @brief Draws a pixel on an image.
@@ -108,22 +108,22 @@ char		*fdf_get_pixel_address(int x, int y, t_image img);
  * If the pixel has a color, it will assign that color. If the pixel doesn't 
  * have a color, it will default to COLOR_WHITE.
  */
-void		fdf_draw_pixel(t_data data, t_pixel pixel);
+void		fdf_draw_pixel(t_data *data, t_pixel *pixel);
 
 /**
  * @brief Sets all pixels from a image to black.
  *
- * @param data The structure whose image will be modified.
+ * @param data A pointer to the structure whose image will be modified.
  *
  * This function iterates through all the pixels of the image, assigning 
  * COLOR_BLACK to each of them.
  */
-void		fdf_draw_background(t_data data);
+void		fdf_draw_background(t_data *data);
 
 /**
  * @brief Sets colored pixels where the matrix coordinates point to.
  *
- * @param data The structure whose matrix will be iterated.
+ * @param data A pointer to the structure whose matrix will be iterated.
  *
  * This function iterates through the matrix, getting "x" and "y" axes.
  * Then, for each 2D coordinate, prints a pixel to that location.
@@ -131,7 +131,7 @@ void		fdf_draw_background(t_data data);
  * The color depends on the color read from the map file, but it defaults 
  * to COLOR_WHITE if the optional color is missing.
  */
-void		fdf_draw_matrix(t_data data);
+void		fdf_draw_matrix(t_data *data);
 
 /**
  * @brief Updates the image before rendering it to the window.
@@ -519,7 +519,7 @@ void		fdf_apply_projection_formula(t_matrix *matrix);
  * It takes pointers to store the minimum values of each axis, so 
  * the result will be stored in "min_x" and "min_y".
  */
-void		fdf_compute_minimums(t_data data, int *min_x, int *min_y);
+void		fdf_compute_minimums(t_data *data, int *min_x, int *min_y);
 
 /**
  * @brief Calculates the maximum values of "x" and "y" coordinates.
@@ -534,7 +534,7 @@ void		fdf_compute_minimums(t_data data, int *min_x, int *min_y);
  * It takes pointers to store the maximum values of each axis, so 
  * the result will be stored in "max_x" and "max_y".
  */
-void		fdf_compute_maximums(t_data data, int *max_x, int *max_y);
+void		fdf_compute_maximums(t_data *data, int *max_x, int *max_y);
 
 /**
  * @brief Computes how much scaling is applied before the first renderization.
@@ -546,7 +546,7 @@ void		fdf_compute_maximums(t_data data, int *max_x, int *max_y);
  *
  * It's intended to be called once when the application starts.
  */
-void		fdf_compute_initial_scaling(t_data data);
+void		fdf_compute_initial_scaling(t_data *data);
 
 /**
  * @brief Clamps a double to integer limits.
@@ -605,7 +605,7 @@ int			fdf_to_int(const char *hex);
  *
  *	This offset is calculated with the minimum value of each one.
  */
-void		fdf_apply_translation_formula(t_data data);
+void		fdf_apply_translation_formula(t_data *data);
 
 /**
  * @brief Applies scaling to the coordinates of a matrix.
@@ -619,12 +619,12 @@ void		fdf_apply_translation_formula(t_data data);
  * the window dimensions, no matter the size of the original map 
  * or the resolution of the window.
  */
-void		fdf_apply_scaling(t_data data, const double scaling_factor);
+void		fdf_apply_scaling(t_data *data, const double scaling_factor);
 
 /**
  * @brief Draws a line, between two points, in an image.
  *
- * @param d The structure containing the image to draw into.
+ * @param d A pointer to the structure containing the image to draw into.
  * @param start The starting point.
  * @param end The ending point.
  *
@@ -651,6 +651,86 @@ void		fdf_apply_scaling(t_data data, const double scaling_factor);
  *      calculates the "decision" variable whose purpose is to decide where 
  *      will be the next position to draw in the line.
  **/
-void		fdf_apply_bresenham_formula(t_data d, t_pixel start, t_pixel end);
+void		fdf_apply_bresenham_formula(t_data *d, t_pixel *s, t_pixel *e);
+
+/**
+ * @brief Gets the alpha component of a hex color.
+ *
+ * @param color The hexadecimal color to get the component from.
+ *
+ * @return The integer value of the alpha component.
+ */
+int			fdf_get_alpha(int color);
+
+/**
+ * @brief Gets the red component of a hex color.
+ *
+ * @param color The hexadecimal color to get the component from.
+ *
+ * @return The integer value of the red component.
+ */
+int			fdf_get_red(int color);
+
+/**
+ * @brief Gets the green component of a hex color.
+ *
+ * @param color The hexadecimal color to get the component from.
+ *
+ * @return The integer value of the green component.
+ */
+int			fdf_get_green(int color);
+
+/**
+ * @brief Gets the blue component of a hex color.
+ *
+ * @param color The hexadecimal color to get the component from.
+ *
+ * @return The integer value of the blue component.
+ */
+int			fdf_get_blue(int color);
+
+/**
+ * @brief Creates a new color from its individual components.
+ *
+ * @param alpha The alpha component of the new color.
+ * @param red The red component of the new color.
+ * @param green The green component of the new color.
+ * @param blue The blue component of the new color.
+ *
+ * @return A new hexadecimal color built from the given components.
+ */
+int			fdf_new_color(int alpha, int red, int green, int blue);
+
+/**
+ * @brief Gets the color of a pixel between two colors with a given factor.
+ *
+ * @param start The color of the start pixel.
+ * @param end The color of the end pixel.
+ * @param factor A number between 0.0 and 1.0.
+ *
+ * @return The color that the pixel would have with a given factor.
+ *
+ * The different components, alpha, red, green, and blue, are obtained 
+ * from both the start and end colors.
+ *
+ * Then, an interpolation is applied individually to each component. This 
+ * interpolation gets the value that the component of the color would have 
+ * in a given point of the line.
+ *
+ * Finally, the three interpolated components are mixed, creating the 
+ * new color.
+ */
+int			fdf_interpolate_color(int start, int end, double factor);
+
+/**
+ * @brief Calculates the interpolated color for a given step in a delta.
+ *
+ * @param delta The current delta during line drawing.
+ *
+ * This function calculates the factor with the current position in the 
+ * line being drawn. Then, gets the current color through interpolation.
+ * Finally, assigns the current color to the next pixel that will be drawn.
+ */
+void		fdf_apply_interpolation(t_delta *delta);
 
 #endif

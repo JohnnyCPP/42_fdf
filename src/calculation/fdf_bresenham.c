@@ -61,6 +61,10 @@ static	void	fdf_compute_steps(t_delta *delta)
 		delta->y_step = INCREASE;
 	else
 		delta->y_step = DECREASE;
+	if (ft_abs(delta->x_delta) > ft_abs(delta->y_delta))
+		delta->steps = ft_abs(delta->x_delta);
+	else
+		delta->steps = ft_abs(delta->y_delta);
 }
 
 static	void	fdf_compute_deltas(t_delta *delta)
@@ -78,20 +82,23 @@ static	void	fdf_compute_deltas(t_delta *delta)
 	delta->y_delta = ft_abs(y_end - y_start);
 }
 
-void	fdf_apply_bresenham_formula(t_data d, t_pixel start, t_pixel end)
+void	fdf_apply_bresenham_formula(t_data *d, t_pixel *s, t_pixel *e)
 {
 	t_delta	delta;
 
-	delta.start = &start;
-	delta.end = &end;
+	delta.start = s;
+	delta.end = e;
 	fdf_compute_deltas(&delta);
 	fdf_compute_steps(&delta);
 	delta.error = delta.x_delta - delta.y_delta;
+	delta.current_step = 0;
 	while (!fdf_is_end_of_line(&delta))
 	{
+		fdf_apply_interpolation(&delta);
 		fdf_decide_position(&delta);
 		if (fdf_is_end_of_line(&delta))
 			break ;
-		fdf_draw_pixel(d, *delta.start);
+		fdf_draw_pixel(d, delta.start);
+		delta.current_step ++;
 	}
 }

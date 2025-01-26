@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-void	fdf_draw_matrix(t_data data)
+void	fdf_draw_matrix(t_data *data)
 {
 	t_matrix	*matrix;
 	t_row		*rows;
@@ -19,7 +19,7 @@ void	fdf_draw_matrix(t_data data)
 	int			y;
 	int			x;
 
-	matrix = data.matrix;
+	matrix = data->matrix;
 	rows = matrix->rows;
 	y = 0;
 	while (y < matrix->length)
@@ -28,7 +28,7 @@ void	fdf_draw_matrix(t_data data)
 		x = 0;
 		while (x < rows[y].length)
 		{
-			fdf_draw_pixel(data, pixels[x]);
+			fdf_draw_pixel(data, &pixels[x]);
 			x ++;
 		}
 		y ++;

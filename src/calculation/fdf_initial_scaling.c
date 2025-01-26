@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-static	double	fdf_get_factor(t_data data, int delta_x, int delta_y)
+static	double	fdf_get_factor(t_data *data, int delta_x, int delta_y)
 {
 	double	scaling_factor_x;
 	double	scaling_factor_y;
@@ -19,8 +19,8 @@ static	double	fdf_get_factor(t_data data, int delta_x, int delta_y)
 
 	if (delta_x == 0 || delta_y == 0)
 		return (DEFAULT_FACTOR);
-	scaling_factor_x = (double) data.win_w / (double) delta_x;
-	scaling_factor_y = (double) data.win_h / (double) delta_y;
+	scaling_factor_x = (double) data->win_w / (double) delta_x;
+	scaling_factor_y = (double) data->win_h / (double) delta_y;
 	if (scaling_factor_x < scaling_factor_y)
 		factor = scaling_factor_x;
 	else
@@ -28,7 +28,7 @@ static	double	fdf_get_factor(t_data data, int delta_x, int delta_y)
 	return (factor);
 }
 
-static	double	fdf_compute_scaling_factor(t_data data)
+static	double	fdf_compute_scaling_factor(t_data *data)
 {
 	int		min_x;
 	int		min_y;
@@ -46,11 +46,11 @@ static	double	fdf_compute_scaling_factor(t_data data)
 	return (scaling_factor);
 }
 
-void	fdf_compute_initial_scaling(t_data data)
+void	fdf_compute_initial_scaling(t_data *data)
 {
 	double	scaling_factor;
 
-	if (!data.matrix || !data.matrix->length)
+	if (!data->matrix || !data->matrix->length)
 		return ;
 	scaling_factor = fdf_compute_scaling_factor(data);
 	fdf_apply_scaling(data, scaling_factor);

@@ -71,9 +71,29 @@
 # define HEX_PREFIX_LENGTH 2
 /**
  * @brief Hexadecimal colors.
+ *
+ * The black color is used as background. The white color is the 
+ * default color to print pixels that miss the optional color.
  */
 # define COLOR_BLACK 0xFF000000
 # define COLOR_WHITE 0xFFFFFFFF
+/**
+ * @brief Bitmask used to obtain a component of any hex color, 
+ *        with a bitwise AND.
+ */
+# define HEX_COLOR_MASK 0xFF
+/**
+ * @brief Amount of bits shifted to get the alpha component of a hex color.
+ */
+# define BITS_TO_ALPHA 24
+/**
+ * @brief Amount of bits shifted to get the red component of a hex color.
+ */
+# define BITS_TO_RED 16
+/**
+ * @brief Amount of bits shifted to get the green component of a hex color.
+ */
+# define BITS_TO_GREEN 8
 /**
  * @brief Rounds to the nearest integer.
  */

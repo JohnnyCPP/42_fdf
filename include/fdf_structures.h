@@ -205,17 +205,38 @@ typedef struct s_data
  *            These comparisons indicate whether the accumulated error 
  *            ("error_delta") has crossed thresholds that require 
  *            a corrective movement along one or both axes.
+ * "current_step" tracks the progress along the line during the drawing 
+ *                process. It starts at 0 (the first pixel) and increments 
+ *                with each step until it reaches "steps".
+ * "steps" represents the total number of discrete steps required to draw 
+ *         the line from the start point to the end point.
+ *         It's essentially the length of the line in terms of the 
+ *         number of pixels.
+ * "factor" is a normalized value between 0.0 and 1.0 that indicates the 
+ *          relative position of the current pixel along the line.
+ *          Is computed as: "current_step" / "steps"
+ *          It's used for interpolation:
+ *            - It determines the intermediate color of the current 
+ *              pixel between the start color and the end color.
+ *            - It ensures that the transition is smooth and proportional 
+ *              to the progress along the line.
+ * "color" is the result of the interpolated color that will be assigned 
+ *         to the "start" pixel, which is the current pixel in the line.
  */
 typedef struct s_delta
 {
-	t_pixel	*start;
-	t_pixel	*end;
-	int		x_delta;
-	int		y_delta;
-	int		x_step;
-	int		y_step;
-	int		error;
-	int		decision;
+	t_pixel			*start;
+	t_pixel			*end;
+	int				x_delta;
+	int				y_delta;
+	int				x_step;
+	int				y_step;
+	int				error;
+	int				decision;
+	int				current_step;
+	int				steps;
+	double			factor;
+	unsigned int	color;
 }				t_delta;
 
 #endif

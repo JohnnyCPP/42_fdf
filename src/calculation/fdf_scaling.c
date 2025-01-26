@@ -39,17 +39,17 @@ static	void	fdf_scale_pixels(t_pixel *pixels, int len, const double factor)
 	}
 }
 
-void	fdf_apply_scaling(t_data data, const double scaling_factor)
+void	fdf_apply_scaling(t_data *data, const double scaling_factor)
 {
 	t_row	*rows;
 	t_pixel	*pixels;
 	int		row;
 
-	if (!data.matrix || !data.matrix->length)
+	if (!data || !data->matrix || !data->matrix->length)
 		return ;
-	rows = data.matrix->rows;
+	rows = data->matrix->rows;
 	row = 0;
-	while (row < data.matrix->length)
+	while (row < data->matrix->length)
 	{
 		pixels = rows[row].pixels;
 		fdf_scale_pixels(pixels, rows[row].length, scaling_factor);

@@ -29,8 +29,8 @@ int	main(const int argc, const char **argv)
 	data.matrix = fdf_read_map(argc, argv);
 	fdf_init_mlx(&data);
 	fdf_apply_projection_formula(data.matrix);
-	fdf_compute_initial_scaling(data);
-	fdf_apply_translation_formula(data);
+	fdf_compute_initial_scaling(&data);
+	fdf_apply_translation_formula(&data);
 	fdf_print_matrix(data.matrix);
 	//fdf_apply_bresenham_formula(data);
 	mlx_loop_hook(data.mlx, fdf_render_frame, (void *) &data);

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_get_pixel_address.c                            :+:      :+:    :+:   */
+/*   fdf_get_colors.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,14 +11,34 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-char	*fdf_get_pixel_address(int x, int y, t_image *img)
+int	fdf_get_alpha(int color)
 {
-	char	*pixel_buffer;
-	int		row;
-	int		pixel;
+	return ((color >> BITS_TO_ALPHA) & HEX_COLOR_MASK);
+}
 
-	pixel_buffer = img->buf;
-	row = y * img->bpl;
-	pixel = x * (img->bpp / BYTE);
-	return (pixel_buffer + (row + pixel));
+int	fdf_get_red(int color)
+{
+	return ((color >> BITS_TO_RED) & HEX_COLOR_MASK);
+}
+
+int	fdf_get_green(int color)
+{
+	return ((color >> BITS_TO_GREEN) & HEX_COLOR_MASK);
+}
+
+int	fdf_get_blue(int color)
+{
+	return (color & HEX_COLOR_MASK);
+}
+
+int	fdf_new_color(int alpha, int red, int green, int blue)
+{
+	int	a_component;
+	int	r_component;
+	int	g_component;
+
+	a_component = alpha << BITS_TO_ALPHA;
+	r_component = red << BITS_TO_RED;
+	g_component = green << BITS_TO_GREEN;
+	return (a_component | r_component | g_component | blue);
 }

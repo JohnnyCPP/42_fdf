@@ -26,6 +26,7 @@ CALC_OBJ_PATH	= ${OBJECTS_PATH}calculation/
 EVENT_OBJ_PATH	= ${OBJECTS_PATH}event/
 RENDER_OBJ_PATH	= ${OBJECTS_PATH}rendering/
 ERROR_OBJ_PATH	= ${OBJECTS_PATH}error_handling/
+COLOR_OBJ_PATH	= ${OBJECTS_PATH}color/
 SOURCES_PATH    = ./src/
 MINILIBX_PATH	= ${LIB_PATH}minilibx-linux/
 MAPS_PATH		= ./maps/
@@ -122,7 +123,8 @@ CALC_SOURCES	= $(wildcard ${SOURCES_PATH}calculation/*.c)
 EVENT_SOURCES	= $(wildcard ${SOURCES_PATH}event/*.c)
 RENDER_SOURCES	= $(wildcard ${SOURCES_PATH}rendering/*.c)
 ERROR_SOURCES	= $(wildcard ${SOURCES_PATH}error_handling/*.c)
-SOURCE_FILES	= $(wildcard ${SOURCES_PATH}*.c) ${MATRIX_SOURCES} ${READ_SOURCES} ${CALC_SOURCES} ${EVENT_SOURCES} ${RENDER_SOURCES} ${ERROR_SOURCES}
+COLOR_SOURCES	= $(wildcard ${SOURCES_PATH}color/*.c)
+SOURCE_FILES	= $(wildcard ${SOURCES_PATH}*.c) ${MATRIX_SOURCES} ${READ_SOURCES} ${CALC_SOURCES} ${EVENT_SOURCES} ${RENDER_SOURCES} ${ERROR_SOURCES} ${COLOR_SOURCES}
 # "patsubst": pattern substitution
 # parameters: pattern, replacement, text
 #
@@ -154,6 +156,7 @@ ${OBJECTS_PATH}:
 	@${CREATE_PATH} ${EVENT_OBJ_PATH}
 	@${CREATE_PATH} ${RENDER_OBJ_PATH}
 	@${CREATE_PATH} ${ERROR_OBJ_PATH}
+	@${CREATE_PATH} ${COLOR_OBJ_PATH}
 
 
 # "$@" refers to the target (%.o)
