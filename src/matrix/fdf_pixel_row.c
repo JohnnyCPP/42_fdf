@@ -87,8 +87,8 @@ void	fdf_assign_2d_axes(t_row *row)
 	i = 0;
 	while (i < length)
 	{
-		pixels[i].x_2d = pixels[i].x;
-		pixels[i].y_2d = pixels[i].y;
+		pixels[i].x_2d = (double) pixels[i].x;
+		pixels[i].y_2d = (double) pixels[i].y;
 		i ++;
 	}
 }

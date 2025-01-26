@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_round.c                                        :+:      :+:    :+:   */
+/*   fdf_draw_projection.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,17 +11,10 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-int	fdf_round(const double value)
+void	fdf_draw_projection(t_data *data)
 {
-	double	rounded;
-
-	if (value >= 0)
-		rounded = value + ROUND_NEAREST_INT;
-	else
-		rounded = value + -ROUND_NEAREST_INT;
-	if (rounded > (double) INT_MAX)
-		return (INT_MAX);
-	if (rounded < (double) INT_MIN)
-		return (INT_MIN);
-	return ((int) rounded);
+	fdf_draw_background(data);
+	fdf_draw_matrix(data);
+	fdf_draw_rows(data);
+	fdf_draw_columns(data);
 }

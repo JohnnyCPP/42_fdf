@@ -27,8 +27,8 @@ void	fdf_draw_pixel(t_data *data, t_pixel *pixel)
 	int				y;
 
 	color = pixel->decimal_color;
-	x = pixel->x_2d;
-	y = pixel->y_2d;
+	x = fdf_round(pixel->x_2d);
+	y = fdf_round(pixel->y_2d);
 	img = data->img;
 	if (fdf_out_of_bounds(x, y, &img))
 		return ;

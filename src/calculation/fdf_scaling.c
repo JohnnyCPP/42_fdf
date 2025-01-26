@@ -11,10 +11,10 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-static	void	fdf_safely_scale(int *axis, const double factor)
+static	void	fdf_safely_scale(double *axis, const double factor)
 {
-	if (fdf_is_product_safe((const double) *axis, factor))
-		*axis = fdf_round(*axis * factor);
+	if (fdf_is_product_safe(*axis, factor))
+		*axis *= factor;
 	else
 	{
 		if (*axis > 0)

@@ -29,8 +29,8 @@ void	fdf_isometric_projection(t_pixel *pixel, int x, int y, int z)
 	radians = fdf_to_radians(ISOMETRIC_CONV_ROT_ANG);
 	cosine = cos(radians);
 	sine = sin(radians);
-	pixel->x_2d = fdf_round(delta * cosine);
-	pixel->y_2d = fdf_round(sum * sine - (double) z);
+	pixel->x_2d = delta * cosine;
+	pixel->y_2d = sum * sine - (double) z;
 }
 
 static	void	fdf_apply_isometric(t_pixel *pixels, const int length)

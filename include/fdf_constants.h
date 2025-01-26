@@ -78,6 +78,10 @@
 # define COLOR_BLACK 0xFF000000
 # define COLOR_WHITE 0xFFFFFFFF
 /**
+ * @brief The default color set when a pixel doesn't have color.
+ */
+# define STR_COLOR_WHITE "0xFFFFFFFF"
+/**
  * @brief Bitmask used to obtain a component of any hex color, 
  *        with a bitwise AND.
  */
@@ -105,6 +109,15 @@
  * This leaves all pixels untouched.
  */
 # define DEFAULT_FACTOR 1.0
+/**
+ * @brief Used to turn a bit smaller the initial projection.
+ *
+ * The initial scaling calculations sometimes are too exact and allow 
+ * pixels to be out of the screen.
+ * Applying this offset makes the projection a bit smaller 
+ * in order to fix this.
+ */
+# define INITIAL_SCALING_OFFSET 0.9
 /**
  * @brief Rotation angle applied for the isometric projection convention.
  *

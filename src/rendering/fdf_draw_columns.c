@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_compute_maximums.c                             :+:      :+:    :+:   */
+/*   fdf_draw_columns.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,45 +11,44 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-static	void	fdf_maximum_of(t_pixel *pixels, int l, double *mx, double *my)
+static	void	fdf_join_pixels(t_data *data, t_row *top, t_row *bottom)
 {
-	double	x;
-	double	y;
+	t_pixel	*top_pixels;
+	t_pixel	*bottom_pixels;
+	t_pixel	*start;
+	t_pixel	*end;
 	int		pixel;
 
-	if (!pixels || !l)
+	if (!top || !bottom || !top->length || !bottom->length)
 		return ;
+	top_pixels = top->pixels;
+	bottom_pixels = bottom->pixels;
 	pixel = 0;
-	while (pixel < l)
+	while (pixel < top->length && pixel < bottom->length)
 	{
-		x = pixels[pixel].x_2d;
-		y = pixels[pixel].y_2d;
-		if (x > *mx)
-			*mx = x;
-		if (y > *my)
-			*my = y;
+		start = &top_pixels[pixel];
+		end = &bottom_pixels[pixel];
+		fdf_apply_bresenham_formula(data, start, end);
 		pixel ++;
 	}
 }
 
-void	fdf_compute_maximums(t_data *data, double *max_x, double *max_y)
+void	fdf_draw_columns(t_data *data)
 {
 	t_row	*rows;
-	t_pixel	*pixels;
+	t_row	*top_row;
+	t_row	*bottom_row;
 	int		row;
 
 	if (!data || !data->matrix || !data->matrix->length)
 		return ;
-	if (!data->matrix->rows[0].length)
-		return ;
 	rows = data->matrix->rows;
 	row = 0;
-	*max_x = rows[0].pixels[0].x_2d;
-	*max_y = rows[0].pixels[0].y_2d;
-	while (row < data->matrix->length)
+	while (row < data->matrix->length - 1)
 	{
-		pixels = rows[row].pixels;
-		fdf_maximum_of(pixels, rows[row].length, max_x, max_y);
+		top_row = &rows[row];
+		bottom_row = &rows[row + 1];
+		fdf_join_pixels(data, top_row, bottom_row);
 		row ++;
 	}
 }

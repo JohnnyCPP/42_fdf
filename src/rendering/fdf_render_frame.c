@@ -20,8 +20,6 @@ int	fdf_render_frame(void *data_ptr)
 	data = (t_data *) data_ptr;
 	x = 0;
 	y = 0;
-	fdf_draw_background(data);
-	fdf_draw_matrix(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, x, y);
 	return (0);
 }

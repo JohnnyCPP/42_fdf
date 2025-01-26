@@ -29,8 +29,8 @@
  */
 typedef struct s_pixel
 {
-	int				x_2d;
-	int				y_2d;
+	double			x_2d;
+	double			y_2d;
 	int				x;
 	int				y;
 	int				z;

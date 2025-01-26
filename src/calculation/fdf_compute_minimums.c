@@ -11,11 +11,11 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-static	void	fdf_minimum_of(t_pixel *pixels, int l, int *min_x, int *min_y)
+static	void	fdf_minimum_of(t_pixel *pixels, int l, double *mx, double *my)
 {
-	int	pixel;
-	int	x;
-	int	y;
+	double	x;
+	double	y;
+	int		pixel;
 
 	if (!pixels || !l)
 		return ;
@@ -24,15 +24,15 @@ static	void	fdf_minimum_of(t_pixel *pixels, int l, int *min_x, int *min_y)
 	{
 		x = pixels[pixel].x_2d;
 		y = pixels[pixel].y_2d;
-		if (x < *min_x)
-			*min_x = x;
-		if (y < *min_y)
-			*min_y = y;
+		if (x < *mx)
+			*mx = x;
+		if (y < *my)
+			*my = y;
 		pixel ++;
 	}
 }
 
-void	fdf_compute_minimums(t_data *data, int *min_x, int *min_y)
+void	fdf_compute_minimums(t_data *data, double *min_x, double *min_y)
 {
 	t_row	*rows;
 	t_pixel	*pixels;

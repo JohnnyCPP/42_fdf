@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-static	void	fdf_scale_matrix_down(t_data *data, int max_x, int max_y)
+static	void	fdf_scale_matrix_down(t_data *data, double max_x, double max_y)
 {
 	double	width_ratio;
 	double	height_ratio;
@@ -19,9 +19,9 @@ static	void	fdf_scale_matrix_down(t_data *data, int max_x, int max_y)
 
 	if (!data || !data->matrix || !data->matrix->length)
 		return ;
-	width_ratio = (double) data->img.w / (double) max_x;
-	height_ratio = (double) data->img.h / (double) max_y;
-	scaling_factor = ft_fmin(width_ratio, height_ratio);
+	width_ratio = (double) data->img.w / max_x;
+	height_ratio = (double) data->img.h / max_y;
+	scaling_factor = ft_dmin(width_ratio, height_ratio);
 	if (scaling_factor < DEFAULT_FACTOR)
 		fdf_apply_scaling(data, scaling_factor);
 }
@@ -35,7 +35,7 @@ static	int	fdf_struct_is_null(t_data *data)
 	return (0);
 }
 
-static	void	fdf_apply_translation(t_data *data, int min_x, int min_y)
+static	void	fdf_apply_translation(t_data *data, double min_x, double min_y)
 {
 	t_row	*rows;
 	t_pixel	*pixels;
@@ -65,10 +65,10 @@ static	void	fdf_apply_translation(t_data *data, int min_x, int min_y)
 
 void	fdf_apply_translation_formula(t_data *data)
 {
-	int	min_x;
-	int	min_y;
-	int	max_x;
-	int	max_y;
+	double	min_x;
+	double	min_y;
+	double	max_x;
+	double	max_y;
 
 	if (!data || !data->matrix || !data->matrix->length)
 		return ;
@@ -76,6 +76,8 @@ void	fdf_apply_translation_formula(t_data *data)
 	min_y = 0;
 	fdf_compute_minimums(data, &min_x, &min_y);
 	fdf_apply_translation(data, min_x, min_y);
+	max_x = 0;
+	max_y = 0;
 	fdf_compute_maximums(data, &max_x, &max_y);
 	fdf_scale_matrix_down(data, max_x, max_y);
 }

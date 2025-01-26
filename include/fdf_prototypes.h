@@ -134,6 +134,37 @@ void		fdf_draw_background(t_data *data);
 void		fdf_draw_matrix(t_data *data);
 
 /**
+ * @brief Draws lines through all rows of the matrix on the image.
+ *
+ * @param data A pointer to the structure containing the image and the matrix.
+ *
+ * This function iterates through all the rows, printing lines between all 
+ * of their pixels with "fdf_apply_bresenham_formula".
+ */
+void		fdf_draw_rows(t_data *data);
+
+/**
+ * @brief Draws lines through all columns of the matrix on the image.
+ *
+ * @param data A pointer to the structure containing the image and the matrix.
+ *
+ * This function iterates through all the rows, printing lines 
+ * with "fdf_apply_bresenham_formula", between pixels from one row to 
+ * the one under it, effectively drawing the columns.
+ */
+void		fdf_draw_columns(t_data *data);
+
+/**
+ * @brief Draws the entire projection on the image.
+ *
+ * @param data A pointer to the structure containing the image and the matrix.
+ *
+ * This function draws a background, the matrix points, and lines between 
+ * rows and columns.
+ */
+void		fdf_draw_projection(t_data *data);
+
+/**
  * @brief Updates the image before rendering it to the window.
  *
  * @param data_ptr A pointer to the structure whose image will be rendered.
@@ -519,7 +550,7 @@ void		fdf_apply_projection_formula(t_matrix *matrix);
  * It takes pointers to store the minimum values of each axis, so 
  * the result will be stored in "min_x" and "min_y".
  */
-void		fdf_compute_minimums(t_data *data, int *min_x, int *min_y);
+void		fdf_compute_minimums(t_data *data, double *min_x, double *min_y);
 
 /**
  * @brief Calculates the maximum values of "x" and "y" coordinates.
@@ -534,7 +565,7 @@ void		fdf_compute_minimums(t_data *data, int *min_x, int *min_y);
  * It takes pointers to store the maximum values of each axis, so 
  * the result will be stored in "max_x" and "max_y".
  */
-void		fdf_compute_maximums(t_data *data, int *max_x, int *max_y);
+void		fdf_compute_maximums(t_data *data, double *max_x, double *max_y);
 
 /**
  * @brief Computes how much scaling is applied before the first renderization.
