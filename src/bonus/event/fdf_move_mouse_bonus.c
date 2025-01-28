@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   fdf_move_mouse_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,22 +9,22 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef FDF_H
-# define FDF_H
+#include "fdf.h"
 
-# include "libft.h"
-//	adds X Events and X Masks
-# include <X11/X.h>
-//	adds keysymbols to map to, when KeyPress events are fired
-# include <X11/keysym.h>
-# include <mlx.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include <math.h>
-# include "fdf_constants.h"
-# include "fdf_structures.h"
-# include "fdf_prototypes.h"
-# include "fdf_constants_bonus.h"
-# include "fdf_prototypes_bonus.h"
+int	fdf_move_mouse(int mouse_x, int mouse_y, void *d_ptr)
+{
+	t_data	*data;
+	double	delta_x;
+	double	delta_y;
 
-#endif
+	data = (t_data *) d_ptr;
+	if (data->mouse.is_dragging)
+	{
+		delta_x = (double)(mouse_x - data->mouse.last_x);
+		delta_y = (double)(mouse_y - data->mouse.last_y);
+		fdf_translation(data, delta_x, delta_y);
+		data->mouse.last_x = mouse_x;
+		data->mouse.last_y = mouse_y;
+	}
+	return (0);
+}

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   fdf_constants_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,22 +9,18 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef FDF_H
-# define FDF_H
+#ifndef FDF_CONSTANTS_BONUS_H
+# define FDF_CONSTANTS_BONUS_H
 
-# include "libft.h"
-//	adds X Events and X Masks
-# include <X11/X.h>
-//	adds keysymbols to map to, when KeyPress events are fired
-# include <X11/keysym.h>
-# include <mlx.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include <math.h>
-# include "fdf_constants.h"
-# include "fdf_structures.h"
-# include "fdf_prototypes.h"
-# include "fdf_constants_bonus.h"
-# include "fdf_prototypes_bonus.h"
+/**
+ * @brief There are no predefined macros for mouse button codes in X11.
+ *
+ * The following macros are used to handle mouse events.
+ */
+# define MOUSE_LEFT_BUTTON 1
+# define MOUSE_MIDDLE_BUTTON 2
+# define MOUSE_RIGHT_BUTTON 3
+# define MOUSE_SCROLL_UP 4
+# define MOUSE_SCROLL_DOWN 5
 
 #endif

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   fdf_release_button_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,22 +9,18 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef FDF_H
-# define FDF_H
+#include "fdf.h"
 
-# include "libft.h"
-//	adds X Events and X Masks
-# include <X11/X.h>
-//	adds keysymbols to map to, when KeyPress events are fired
-# include <X11/keysym.h>
-# include <mlx.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include <math.h>
-# include "fdf_constants.h"
-# include "fdf_structures.h"
-# include "fdf_prototypes.h"
-# include "fdf_constants_bonus.h"
-# include "fdf_prototypes_bonus.h"
+int	fdf_release_button(int button, int mouse_x, int mouse_y, void *d_ptr)
+{
+	t_data	*data;
 
-#endif
+	(void) mouse_x;
+	(void) mouse_y;
+	if (button == MOUSE_LEFT_BUTTON)
+	{
+		data = (t_data *) d_ptr;
+		data->mouse.is_dragging = 0;
+	}
+	return (0);
+}

@@ -149,6 +149,20 @@ typedef struct s_image
 }				t_image;
 
 /**
+ * @brief Structure representing mouse properties interacting with a window.
+ *
+ * "is_dragging" will be "1" if the left button is pressed, "0" otherwise.
+ * "last_x" is the x-coordinate of the mouse when the left button was clicked.
+ * "last_y" is the y-coordinate of the mouse when the left button was clicked.
+ */
+typedef struct s_mouse
+{
+	int	is_dragging;
+	int	last_x;
+	int	last_y;
+}				t_mouse;
+
+/**
  * @brief Structure representing application resources.
  *
  * It holds references to the minilibx instance, window, images, 
@@ -164,6 +178,7 @@ typedef struct s_data
 	int			win_w;
 	int			win_h;
 	t_image		img;
+	t_mouse		mouse;
 }				t_data;
 
 /**

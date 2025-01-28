@@ -19,6 +19,7 @@ static	void	fdf_to_zero(t_data *data)
 	data->win_w = 0;
 	data->win_h = 0;
 	data->img = (t_image){NULL, NULL, 0, 0, 0, 0, 0};
+	data->mouse = (t_mouse){0, 0, 0};
 }
 
 int	main(const int argc, const char **argv)
@@ -33,7 +34,6 @@ int	main(const int argc, const char **argv)
 	fdf_apply_translation_formula(&data);
 	fdf_print_matrix(data.matrix);
 	mlx_loop_hook(data.mlx, fdf_render_frame, (void *) &data);
-	mlx_loop(data.mlx);
 	//	bonus:
 	//	  - To add "zoom", adjust the Scaling Factor dynamically using events
 	//	  - To add "rotation", modify the Projection Formula to include 
@@ -42,5 +42,7 @@ int	main(const int argc, const char **argv)
 	//	    based on user input
 	//	  - Implement a functionality to switch Projection Mode, 
 	//	    between Isometric, Conical, or Parallel
+	fdf_declare_bonus_events(&data);
+	mlx_loop(data.mlx);
 	return (EXIT_SUCCESS);
 }

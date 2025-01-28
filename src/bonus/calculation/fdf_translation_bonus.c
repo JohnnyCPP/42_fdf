@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   fdf_translation_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,22 +9,41 @@
 /*   Updated: 2024/09/29 08:46:34 by jonnavar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef FDF_H
-# define FDF_H
+#include "fdf.h"
 
-# include "libft.h"
-//	adds X Events and X Masks
-# include <X11/X.h>
-//	adds keysymbols to map to, when KeyPress events are fired
-# include <X11/keysym.h>
-# include <mlx.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include <math.h>
-# include "fdf_constants.h"
-# include "fdf_structures.h"
-# include "fdf_prototypes.h"
-# include "fdf_constants_bonus.h"
-# include "fdf_prototypes_bonus.h"
+static	int	fdf_struct_is_null(t_data *data)
+{
+	if (!data || !data->matrix || !data->matrix->length)
+		return (1);
+	if (!data->matrix->rows[0].length)
+		return (1);
+	return (0);
+}
 
-#endif
+void	fdf_translation(t_data *data, double x, double y)
+{
+	t_row	*rows;
+	t_pixel	*pixels;
+	int		row;
+	int		pixel;
+
+	if (fdf_struct_is_null(data))
+		return ;
+	rows = data->matrix->rows;
+	row = 0;
+	while (row < data->matrix->length)
+	{
+		pixels = rows[row].pixels;
+		if (pixels)
+		{
+			pixel = 0;
+			while (pixel < rows[row].length)
+			{
+				pixels[pixel].x_2d += x;
+				pixels[pixel].y_2d += y;
+				pixel ++;
+			}
+		}
+		row ++;
+	}
+}
