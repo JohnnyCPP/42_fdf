@@ -22,8 +22,7 @@ void	fdf_apply_interpolation(t_delta *delta)
 	else
 		delta->factor = (double) delta->current_step / (double) delta->steps;
 	factor = delta->factor;
-	start = (int) delta->start->decimal_color;
-	end = (int) delta->end->decimal_color;
+	start = (int) delta->start_color;
+	end = (int) delta->end_color;
 	delta->color = (unsigned int) fdf_interpolate_color(start, end, factor);
-	delta->start->decimal_color = delta->color;
 }

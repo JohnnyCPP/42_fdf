@@ -172,8 +172,10 @@ typedef struct s_data
  * It holds data used to compute bresenham's formula, for drawing a line 
  * between two points in a 2D surface.
  *
- * "start" is the current point in space.
- * "end" is the direction of movement.
+ * "start_x" & "start_y" is the current point in space.
+ * "end_x" & "end_y" is the direction of movement.
+ * "start_color" is the color of the first pixel.
+ * "end_color" is the color of the last pixel.
  * "x" is the horizontal length.
  * "y" is the vertical length.
  * "x_step" is how much the current point is moved, in the x-axis, 
@@ -225,8 +227,12 @@ typedef struct s_data
  */
 typedef struct s_delta
 {
-	t_pixel			*start;
-	t_pixel			*end;
+	double			start_x;
+	double			start_y;
+	unsigned int	start_color;
+	double			end_x;
+	double			end_y;
+	unsigned int	end_color;
 	int				x_delta;
 	int				y_delta;
 	int				x_step;

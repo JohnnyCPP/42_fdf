@@ -111,6 +111,19 @@ char		*fdf_get_pixel_address(int x, int y, t_image *img);
 void		fdf_draw_pixel(t_data *data, t_pixel *pixel);
 
 /**
+ * @brief Draws a pixel on an image, with a custom color.
+ *
+ * @param d The struct containing the image to print the pixel on.
+ * @param x The x-coordinate of the pixel.
+ * @param y The y-coordinate of the pixel.
+ * @param c The color which the pixel will be drawn with.
+ *
+ * This function is implemented like "fdf_draw_pixel", but allows the 
+ * flexibility to impose a color passed through parameter.
+ */
+void		fdf_draw_pixel_color(t_data *d, int x, int y, unsigned int c);
+
+/**
  * @brief Sets all pixels from a image to black.
  *
  * @param data A pointer to the structure whose image will be modified.
@@ -651,6 +664,19 @@ void		fdf_apply_translation_formula(t_data *data);
  * or the resolution of the window.
  */
 void		fdf_apply_scaling(t_data *data, const double scaling_factor);
+
+/**
+ * @brief Populates the delta structure from two positions in space.
+ *
+ * @param delta The delta structure that will be populated.
+ * @param s The initial position in space.
+ * @param e The final position in space.
+ *
+ * This function copies the data from two pixels to the t_delta structure.
+ * This data will be used to draw the corresponding pixels between the 
+ * starting and ending points.
+ */
+void		fdf_get_pixel_data(t_delta *delta, t_pixel *s, t_pixel *e);
 
 /**
  * @brief Draws a line, between two points, in an image.

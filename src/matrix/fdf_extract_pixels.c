@@ -99,7 +99,7 @@ static	int	fdf_get_color(const char *row, int *i, int *pixel, t_row *result)
 		if (!success)
 			return (0);
 	}
-	else if (*pixel >= result->length)
+	else
 		result->pixels[*pixel].color = STR_COLOR_WHITE;
 	(*pixel)++;
 	return (1);

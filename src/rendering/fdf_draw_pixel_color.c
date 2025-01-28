@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_draw_background.c                              :+:      :+:    :+:   */
+/*   fdf_draw_pixel_color.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,22 +11,23 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-void	fdf_draw_background(t_data *data)
+static	int	fdf_out_of_bounds(int x, int y, t_image *img)
 {
-	unsigned int	*pixel;
-	int				y;
-	int				x;
+	if (x < 0 || y < 0 || img->w <= x || img->h <= y)
+		return (1);
+	return (0);
+}
 
-	y = 0;
-	while (y < data->win_h)
-	{
-		x = 0;
-		while (x < data->win_w)
-		{
-			pixel = (unsigned int *) fdf_get_pixel_address(x, y, &data->img);
-			*pixel = 0xFF222222;
-			x ++;
-		}
-		y ++;
-	}
+void	fdf_draw_pixel_color(t_data *d, int x, int y, unsigned int c)
+{
+	t_image			img;
+	unsigned int	*pixel_address;
+
+	img = d->img;
+	if (fdf_out_of_bounds(x, y, &img))
+		return ;
+	pixel_address = (unsigned int *) fdf_get_pixel_address(x, y, &img);
+	if (!c)
+		c = COLOR_WHITE;
+	*pixel_address = c;
 }

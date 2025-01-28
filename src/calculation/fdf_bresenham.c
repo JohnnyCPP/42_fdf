@@ -17,12 +17,12 @@ static	void	fdf_decide_position(t_delta *delta)
 	if (delta->decision > -delta->y_delta)
 	{
 		delta->error -= delta->y_delta;
-		delta->start->x_2d += delta->x_step;
+		delta->start_x += delta->x_step;
 	}
 	if (delta->decision < delta->x_delta)
 	{
 		delta->error += delta->x_delta;
-		delta->start->y_2d += delta->y_step;
+		delta->start_y += delta->y_step;
 	}
 }
 
@@ -33,10 +33,10 @@ static	int	fdf_is_end_of_line(t_delta *delta)
 	int	y_start;
 	int	y_end;
 
-	x_start = delta->start->x_2d;
-	x_end = delta->end->x_2d;
-	y_start = delta->start->y_2d;
-	y_end = delta->end->y_2d;
+	x_start = (int) delta->start_x;
+	x_end = (int) delta->end_x;
+	y_start = (int) delta->start_y;
+	y_end = (int) delta->end_y;
 	if (x_start == x_end && y_start == y_end)
 		return (1);
 	return (0);
@@ -49,10 +49,10 @@ static	void	fdf_compute_steps(t_delta *delta)
 	int	y_start;
 	int	y_end;
 
-	x_start = delta->start->x_2d;
-	x_end = delta->end->x_2d;
-	y_start = delta->start->y_2d;
-	y_end = delta->end->y_2d;
+	x_start = (int) delta->start_x;
+	x_end = (int) delta->end_x;
+	y_start = (int) delta->start_y;
+	y_end = (int) delta->end_y;
 	if (x_start < x_end)
 		delta->x_step = INCREASE;
 	else
@@ -74,10 +74,10 @@ static	void	fdf_compute_deltas(t_delta *delta)
 	int	y_start;
 	int	y_end;
 
-	x_start = delta->start->x_2d;
-	x_end = delta->end->x_2d;
-	y_start = delta->start->y_2d;
-	y_end = delta->end->y_2d;
+	x_start = (int) delta->start_x;
+	x_end = (int) delta->end_x;
+	y_start = (int) delta->start_y;
+	y_end = (int) delta->end_y;
 	delta->x_delta = ft_abs(x_end - x_start);
 	delta->y_delta = ft_abs(y_end - y_start);
 }
@@ -85,9 +85,10 @@ static	void	fdf_compute_deltas(t_delta *delta)
 void	fdf_apply_bresenham_formula(t_data *d, t_pixel *s, t_pixel *e)
 {
 	t_delta	delta;
+	int		current_x;
+	int		current_y;
 
-	delta.start = s;
-	delta.end = e;
+	fdf_get_pixel_data(&delta, s, e);
 	fdf_compute_deltas(&delta);
 	fdf_compute_steps(&delta);
 	delta.error = delta.x_delta - delta.y_delta;
@@ -98,7 +99,9 @@ void	fdf_apply_bresenham_formula(t_data *d, t_pixel *s, t_pixel *e)
 		fdf_decide_position(&delta);
 		if (fdf_is_end_of_line(&delta))
 			break ;
-		fdf_draw_pixel(d, delta.start);
+		current_x = fdf_round(delta.start_x);
+		current_y = fdf_round(delta.start_y);
+		fdf_draw_pixel_color(d, current_x, current_y, delta.color);
 		delta.current_step ++;
 	}
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_draw_background.c                              :+:      :+:    :+:   */
+/*   fdf_get_pixel_data.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,22 +11,12 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-void	fdf_draw_background(t_data *data)
+void	fdf_get_pixel_data(t_delta *delta, t_pixel *s, t_pixel *e)
 {
-	unsigned int	*pixel;
-	int				y;
-	int				x;
-
-	y = 0;
-	while (y < data->win_h)
-	{
-		x = 0;
-		while (x < data->win_w)
-		{
-			pixel = (unsigned int *) fdf_get_pixel_address(x, y, &data->img);
-			*pixel = 0xFF222222;
-			x ++;
-		}
-		y ++;
-	}
+	delta->start_x = s->x_2d;
+	delta->start_y = s->y_2d;
+	delta->start_color = s->decimal_color;
+	delta->end_x = e->x_2d;
+	delta->end_y = e->y_2d;
+	delta->end_color = e->decimal_color;
 }
