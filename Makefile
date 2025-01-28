@@ -27,6 +27,7 @@ EVENT_OBJ_PATH	= ${OBJECTS_PATH}event/
 RENDER_OBJ_PATH	= ${OBJECTS_PATH}rendering/
 ERROR_OBJ_PATH	= ${OBJECTS_PATH}error_handling/
 COLOR_OBJ_PATH	= ${OBJECTS_PATH}color/
+BONUS_OBJ_PATH	= ${OBJECTS_PATH}bonus/
 SOURCES_PATH    = ./src/
 MINILIBX_PATH	= ${LIB_PATH}minilibx-linux/
 MAPS_PATH		= ./maps/
@@ -87,6 +88,7 @@ DELETE			= delete_library
 CLEAN			= clean
 FCLEAN			= fclean
 RE				= re
+BONUS			= bonus
 CC_SANITIZER	= sanitize
 VALGRIND		= valgrind
 VALGRIND_ARGS	= ${MAPS_PATH}42.fdf
@@ -100,7 +102,7 @@ LIB_RE			= ${PREFIX_LIB}${RE}
 
 
 PHONY			= .PHONY
-STD_PHONY		= ${ALL} ${CLEAN} ${FCLEAN} ${RE}
+STD_PHONY		= ${ALL} ${CLEAN} ${FCLEAN} ${RE} ${BONUS}
 DEBUG_PHONY		= ${CC_SANITIZER} ${VALGRIND} ${MAP} ${GDB}
 LIB_PHONY		= ${LIB_DELETE} ${LIB_CLEAN} ${LIB_FCLEAN} ${LIB_RE}
 
@@ -124,7 +126,8 @@ EVENT_SOURCES	= $(wildcard ${SOURCES_PATH}event/*.c)
 RENDER_SOURCES	= $(wildcard ${SOURCES_PATH}rendering/*.c)
 ERROR_SOURCES	= $(wildcard ${SOURCES_PATH}error_handling/*.c)
 COLOR_SOURCES	= $(wildcard ${SOURCES_PATH}color/*.c)
-SOURCE_FILES	= $(wildcard ${SOURCES_PATH}*.c) ${MATRIX_SOURCES} ${READ_SOURCES} ${CALC_SOURCES} ${EVENT_SOURCES} ${RENDER_SOURCES} ${ERROR_SOURCES} ${COLOR_SOURCES}
+SOURCE_FILES	= ${SOURCES_PATH}main.c ${MATRIX_SOURCES} ${READ_SOURCES} ${CALC_SOURCES} ${EVENT_SOURCES} ${RENDER_SOURCES} ${ERROR_SOURCES} ${COLOR_SOURCES}
+BONUS_SOURCES	= $(wildcard ${SOURCES_PATH}bonus/*.c) ${MATRIX_SOURCES} ${READ_SOURCES} ${CALC_SOURCES} ${EVENT_SOURCES} ${RENDER_SOURCES} ${ERROR_SOURCES} ${COLOR_SOURCES}
 # "patsubst": pattern substitution
 # parameters: pattern, replacement, text
 #
@@ -134,6 +137,7 @@ SOURCE_FILES	= $(wildcard ${SOURCES_PATH}*.c) ${MATRIX_SOURCES} ${READ_SOURCES} 
 #              wildcard in the pattern
 # text: the list of strings on which the substitution will be performed
 OBJECT_FILES	= ${patsubst ${SOURCES_PATH}%.c, ${OBJECTS_PATH}%.o, ${SOURCE_FILES}}
+BONUS_OBJECTS	= ${patsubst ${SOURCES_PATH}%.c, ${OBJECTS_PATH}%.o, ${BONUS_SOURCES}}
 
 
 CREATE_PATH		= mkdir -p
@@ -159,6 +163,10 @@ ${OBJECTS_PATH}:
 	@${CREATE_PATH} ${COLOR_OBJ_PATH}
 
 
+${BONUS_OBJ_PATH}: ${OBJECTS_PATH}
+	@${CREATE_PATH} ${BONUS_OBJ_PATH}
+
+
 # "$@" refers to the target (%.o)
 # "$<" refers to the dependency (%.c)
 #
@@ -182,13 +190,22 @@ ${CLEAN}: ${LIB_CLEAN}
 	@echo "The objects of program \"${NAME}\" have been deleted."
 
 
-${FCLEAN}: ${LIB_CLEAN} ${LIB_DELETE} ${CLEAN}
+${FCLEAN}: ${LIB_CLEAN} ${LIB_DELETE} ${CLEAN} ${DEL_BONUS_FILE}
 	@${DELETE_FILE} ${LIBFT_NAME}
 	@${DELETE_FILE} ${NAME}
 	@echo "The program \"${NAME}\" has been deleted."
 
 
 ${RE}: ${FCLEAN} ${ALL}
+
+
+${BONUS}: ${MINILIBX_NAME} ${LIBFT_NAME} ${BONUS_OBJ_PATH} ${BONUS_OBJECTS}
+	@if [ ! -e ${NAME} ]; then \
+		${CC} ${CFLAGS} ${BONUS_OBJECTS} ${LIBFT_NAME} -o ${NAME} ${INCLUDE_MLX}; \
+		echo "The program \"${NAME}\" has been compiled including bonus."; \
+	else \
+		echo "The program \"${NAME}\" already exists. Skipping compilation."; \
+	fi
 
 
 ${CC_SANITIZER}: ${MINILIBX_NAME} ${LIBFT_NAME} ${OBJECT_FILES}

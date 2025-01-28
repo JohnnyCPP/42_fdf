@@ -39,6 +39,8 @@ static	int	fdf_is_end_of_line(t_delta *delta)
 	y_end = (int) delta->end_y;
 	if (x_start == x_end && y_start == y_end)
 		return (1);
+	if (delta->current_step == delta->steps)
+		return (1);
 	return (0);
 }
 

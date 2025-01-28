@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -34,5 +34,13 @@ int	main(const int argc, const char **argv)
 	fdf_print_matrix(data.matrix);
 	mlx_loop_hook(data.mlx, fdf_render_frame, (void *) &data);
 	mlx_loop(data.mlx);
+	//	bonus:
+	//	  - To add "zoom", adjust the Scaling Factor dynamically using events
+	//	  - To add "rotation", modify the Projection Formula to include 
+	//	    rotation matrices
+	//	  - To add "movement", adjust the Translation offsets 
+	//	    based on user input
+	//	  - Implement a functionality to switch Projection Mode, 
+	//	    between Isometric, Conical, or Parallel
 	return (EXIT_SUCCESS);
 }

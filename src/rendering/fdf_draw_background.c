@@ -24,7 +24,7 @@ void	fdf_draw_background(t_data *data)
 		while (x < data->win_w)
 		{
 			pixel = (unsigned int *) fdf_get_pixel_address(x, y, &data->img);
-			*pixel = 0xFF222222;
+			*pixel = COLOR_BLACK;
 			x ++;
 		}
 		y ++;
