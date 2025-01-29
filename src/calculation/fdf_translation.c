@@ -35,6 +35,13 @@ static	int	fdf_struct_is_null(t_data *data)
 	return (0);
 }
 
+static	int	fdf_modify_coords(t_pixel *pixel, double x, double y)
+{
+	pixel->x_2d -= x;
+	pixel->y_2d -= y;
+	return (1);
+}
+
 static	void	fdf_apply_translation(t_data *data, double min_x, double min_y)
 {
 	t_row	*rows;
@@ -53,11 +60,7 @@ static	void	fdf_apply_translation(t_data *data, double min_x, double min_y)
 		{
 			pixel = 0;
 			while (pixel < rows[row].length)
-			{
-				pixels[pixel].x_2d -= min_x;
-				pixels[pixel].y_2d -= min_y;
-				pixel ++;
-			}
+				pixel += fdf_modify_coords(&pixels[pixel], min_x, min_y);
 		}
 		row ++;
 	}

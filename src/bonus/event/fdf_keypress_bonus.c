@@ -13,22 +13,17 @@
 
 int	fdf_handle_keypress(int keysym, t_data *data)
 {
-	ft_printf("DEBUG: key pressed with keysym=%i\n", keysym);
 	if (keysym == XK_a)
 	{
-		ft_printf("DEBUG: rotating counterclockwise...\n");
-		//	rotate counterclockwise
-		fdf_rotate_z(data, COUNTERCLOCKWISE);
-		fdf_apply_isometric_rotation(data->matrix);
-		fdf_apply_scaling(data, data->scaling);
+		fdf_rotate_2d(data, COUNTERCLOCKWISE);
+		fdf_apply_translation_formula(data);
 	}
 	else if (keysym == XK_d)
 	{
-		ft_printf("DEBUG: rotating clockwise...\n");
-		//	rotate clockwise
-		fdf_rotate_z(data, CLOCKWISE);
-		fdf_apply_isometric_rotation(data->matrix);
-		fdf_apply_scaling(data, data->scaling);
+		fdf_rotate_2d(data, CLOCKWISE);
+		fdf_apply_translation_formula(data);
 	}
+	else if (keysym == XK_Escape)
+		fdf_close((void *) data);
 	return (0);
 }

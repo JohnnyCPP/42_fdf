@@ -121,12 +121,12 @@ void	fdf_declare_bonus_events(t_data *data);
 void	fdf_set_rotation_cord(t_data *data);
 
 /**
- * @brief Rotates the matrix around the z-axis.
+ * @brief Rotates the matrix in the 2d plane.
  *
  * @param data Structure containing the matrix to rotate.
  * @param angle Magnitude of the rotation.
  */
-void	fdf_rotate_z(t_data *data, const double angle);
+void	fdf_rotate_2d(t_data *data, const double angle);
 
 /**
  * @brief Applies isometric projection with rotated coordinates.

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_rotate_z.c                                     :+:      :+:    :+:   */
+/*   fdf_rotate_2d.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -15,11 +15,13 @@ static	void	fdf_rotate_coordinates(t_pixel *pixel, const double angle)
 {
 	double	cosine;
 	double	sine;
+	double	aux;
 
 	cosine = cos(angle);
 	sine = sin(angle);
-	pixel->rot_x = pixel->x * cosine - pixel->y * sine;
-	pixel->rot_y = pixel->x * sine + pixel->y * cosine;
+	aux = pixel->x_2d;
+	pixel->x_2d = aux * cosine - pixel->y_2d * sine;
+	pixel->y_2d = aux * sine + pixel->y_2d * cosine;
 }
 
 static	int	fdf_struct_is_null(t_data *data)
@@ -31,7 +33,7 @@ static	int	fdf_struct_is_null(t_data *data)
 	return (0);
 }
 
-void	fdf_rotate_z(t_data *data, const double angle)
+void	fdf_rotate_2d(t_data *data, const double angle)
 {
 	t_row	*rows;
 	t_pixel	*pixels;

@@ -31,7 +31,6 @@ int	main(const int argc, const char **argv)
 	fdf_apply_projection_formula(data.matrix);
 	fdf_compute_initial_scaling(&data);
 	fdf_apply_translation_formula(&data);
-	fdf_print_matrix(data.matrix);
 	mlx_loop_hook(data.mlx, fdf_render_frame, (void *) &data);
 	mlx_loop(data.mlx);
 	return (EXIT_SUCCESS);

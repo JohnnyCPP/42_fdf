@@ -23,14 +23,8 @@ int	fdf_press_button(int button, int mouse_x, int mouse_y, void *d_ptr)
 		data->mouse.last_y = mouse_y;
 	}
 	else if (button == MOUSE_SCROLL_UP)
-	{
-		data->scaling += 0.1;
 		fdf_apply_scaling(data, SCALE_UP);
-	}
 	else if (button == MOUSE_SCROLL_DOWN)
-	{
-		data->scaling -= 0.1;
 		fdf_apply_scaling(data, SCALE_DOWN);
-	}
 	return (0);
 }

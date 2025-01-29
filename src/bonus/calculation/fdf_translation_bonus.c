@@ -20,6 +20,13 @@ static	int	fdf_struct_is_null(t_data *data)
 	return (0);
 }
 
+static	int	fdf_modify_coords(t_pixel *pixel, double x, double y)
+{
+	pixel->x_2d += x;
+	pixel->y_2d += y;
+	return (1);
+}
+
 void	fdf_translation(t_data *data, double x, double y)
 {
 	t_row	*rows;
@@ -38,11 +45,7 @@ void	fdf_translation(t_data *data, double x, double y)
 		{
 			pixel = 0;
 			while (pixel < rows[row].length)
-			{
-				pixels[pixel].x_2d += x;
-				pixels[pixel].y_2d += y;
-				pixel ++;
-			}
+				pixel += fdf_modify_coords(&pixels[pixel], x, y);
 		}
 		row ++;
 	}

@@ -179,7 +179,6 @@ typedef struct s_mouse
 typedef struct s_data
 {
 	t_matrix	*matrix;
-	double		scaling;
 	void		*mlx;
 	void		*win;
 	int			win_w;
