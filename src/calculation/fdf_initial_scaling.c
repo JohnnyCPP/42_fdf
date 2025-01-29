@@ -28,13 +28,12 @@ static	double	fdf_get_factor(t_data *data, double delta_x, double delta_y)
 	return (factor);
 }
 
-static	double	fdf_compute_scaling_factor(t_data *data)
+static	void	fdf_compute_scaling_factor(t_data *data)
 {
 	double	min_x;
 	double	min_y;
 	double	max_x;
 	double	max_y;
-	double	scaling_factor;
 
 	min_x = 0;
 	min_y = 0;
@@ -42,16 +41,14 @@ static	double	fdf_compute_scaling_factor(t_data *data)
 	max_y = 0;
 	fdf_compute_minimums(data, &min_x, &min_y);
 	fdf_compute_maximums(data, &max_x, &max_y);
-	scaling_factor = fdf_get_factor(data, max_x - min_x, max_y - min_y);
-	return (scaling_factor * INITIAL_SCALING_OFFSET);
+	data->scaling = fdf_get_factor(data, max_x - min_x, max_y - min_y);
+	data->scaling *= INITIAL_SCALING_OFFSET;
 }
 
 void	fdf_compute_initial_scaling(t_data *data)
 {
-	double	scaling_factor;
-
 	if (!data->matrix || !data->matrix->length)
 		return ;
-	scaling_factor = fdf_compute_scaling_factor(data);
-	fdf_apply_scaling(data, scaling_factor);
+	fdf_compute_scaling_factor(data);
+	fdf_apply_scaling(data, data->scaling);
 }

@@ -32,6 +32,7 @@ BONUS_OBJ_PATH	= ${OBJECTS_PATH}bonus/
 B_EV_OBJ_PATH	= ${BONUS_OBJ_PATH}event/
 B_CALC_OBJ_PATH	= ${BONUS_OBJ_PATH}calculation/
 SOURCES_PATH    = ./src/
+B_SOURCES_PATH	= ${SOURCES_PATH}bonus/
 MINILIBX_PATH	= ${LIB_PATH}minilibx-linux/
 MAPS_PATH		= ./maps/
 
@@ -93,6 +94,7 @@ CLEAN			= clean
 FCLEAN			= fclean
 RE				= re
 BONUS			= bonus
+HELP			= help
 CC_SANITIZER	= sanitize
 VALGRIND		= valgrind
 VALGRIND_ARGS	= ${MAPS_PATH}42.fdf
@@ -106,7 +108,7 @@ LIB_RE			= ${PREFIX_LIB}${RE}
 
 
 PHONY			= .PHONY
-STD_PHONY		= ${ALL} ${CLEAN} ${FCLEAN} ${RE} ${BONUS}
+STD_PHONY		= ${ALL} ${CLEAN} ${FCLEAN} ${RE} ${BONUS} ${HELP}
 DEBUG_PHONY		= ${CC_SANITIZER} ${VALGRIND} ${MAP} ${GDB}
 LIB_PHONY		= ${LIB_DELETE} ${LIB_CLEAN} ${LIB_FCLEAN} ${LIB_RE}
 
@@ -133,7 +135,7 @@ COLOR_SOURCES	= $(wildcard ${SOURCES_PATH}color/*.c)
 SOURCE_FILES	= ${SOURCES_PATH}main.c ${MATRIX_SOURCES} ${READ_SOURCES} ${CALC_SOURCES} ${EVENT_SOURCES} ${RENDER_SOURCES} ${ERROR_SOURCES} ${COLOR_SOURCES}
 B_EVENT_SOURCES	= $(wildcard ${SOURCES_PATH}bonus/event/*.c)
 B_CALC_SOURCES	= $(wildcard ${SOURCES_PATH}bonus/calculation/*.c)
-BONUS_SOURCES	= $(wildcard ${SOURCES_PATH}bonus/*.c) ${B_EVENT_SOURCES} ${B_CALC_SOURCES} ${MATRIX_SOURCES} ${READ_SOURCES} ${CALC_SOURCES} ${EVENT_SOURCES} ${RENDER_SOURCES} ${ERROR_SOURCES} ${COLOR_SOURCES}
+BONUS_SOURCES	= $(wildcard ${B_SOURCES_PATH}*.c) ${B_EVENT_SOURCES} ${B_CALC_SOURCES} ${MATRIX_SOURCES} ${READ_SOURCES} ${CALC_SOURCES} ${EVENT_SOURCES} ${RENDER_SOURCES} ${ERROR_SOURCES} ${COLOR_SOURCES}
 # "patsubst": pattern substitution
 # parameters: pattern, replacement, text
 #
@@ -158,23 +160,6 @@ DELETE_PATH		= rm -fr
 ${ALL}: ${NAME}
 
 
-${OBJECTS_PATH}:
-	@${CREATE_PATH} ${OBJECTS_PATH}
-	@${CREATE_PATH} ${MATRIX_OBJ_PATH}
-	@${CREATE_PATH} ${READ_OBJ_PATH}
-	@${CREATE_PATH} ${CALC_OBJ_PATH}
-	@${CREATE_PATH} ${EVENT_OBJ_PATH}
-	@${CREATE_PATH} ${RENDER_OBJ_PATH}
-	@${CREATE_PATH} ${ERROR_OBJ_PATH}
-	@${CREATE_PATH} ${COLOR_OBJ_PATH}
-
-
-${BONUS_OBJ_PATH}: ${OBJECTS_PATH}
-	@${CREATE_PATH} ${BONUS_OBJ_PATH}
-	@${CREATE_PATH} ${B_EV_OBJ_PATH}
-	@${CREATE_PATH} ${B_CALC_OBJ_PATH}
-
-
 # "$@" refers to the target (%.o)
 # "$<" refers to the dependency (%.c)
 #
@@ -183,7 +168,11 @@ ${BONUS_OBJ_PATH}: ${OBJECTS_PATH}
 #     Order-Only Prerequisites are required, but don't trigger a rebuild.
 #     This means that if an Order-Only Prerequisite changes, its target 
 #     is not built again
-${OBJECTS_PATH}%.o: ${SOURCES_PATH}%.c | ${OBJECTS_PATH}
+#
+#     note: the pipe "|" has been replaced with the create path instruction 
+#           in the recipe.
+${OBJECTS_PATH}%.o: ${SOURCES_PATH}%.c
+	@${CREATE_PATH} $(dir $@)
 	@${CC} ${CFLAGS} ${INCLUDE} -c $< -o $@
 
 
@@ -207,13 +196,26 @@ ${FCLEAN}: ${LIB_CLEAN} ${LIB_DELETE} ${CLEAN} ${DEL_BONUS_FILE}
 ${RE}: ${FCLEAN} ${ALL}
 
 
-${BONUS}: ${MINILIBX_NAME} ${LIBFT_NAME} ${BONUS_OBJ_PATH} ${BONUS_OBJECTS}
+${BONUS}: ${MINILIBX_NAME} ${LIBFT_NAME} ${BONUS_OBJECTS}
 	@if [ ! -e ${NAME} ]; then \
 		${CC} ${CFLAGS} ${BONUS_OBJECTS} ${LIBFT_NAME} -o ${NAME} ${INCLUDE_MLX}; \
 		echo "The program \"${NAME}\" has been compiled including bonus."; \
 	else \
 		echo "The program \"${NAME}\" already exists. Skipping compilation."; \
 	fi
+
+
+${HELP}:
+	@echo "Available targets:"
+	@echo "    all            - Build the project (default)"
+	@echo "    clean          - Remove object files"
+	@echo "    fclean         - Remove object files and the executable"
+	@echo "    re             - Rebuild the project"
+	@echo "    bonus          - Build the project with bonus features"
+	@echo "    map            - Run the program with the default map"
+	@echo "    sanitize       - Build with address sanitizer for debugging"
+	@echo "    valgrind       - Run the program with valgrind"
+	@echo "    gdb            - Run the program with gdb"
 
 
 ${CC_SANITIZER}: ${MINILIBX_NAME} ${LIBFT_NAME} ${OBJECT_FILES}

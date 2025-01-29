@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_declare_events_bonus.c                         :+:      :+:    :+:   */
+/*   fdf_set_rotation_cord.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,21 +11,40 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-void	fdf_declare_bonus_events(t_data *data)
+static	int	fdf_struct_is_null(t_data *data)
 {
-	long	x_event;
-	long	x_mask;
+	if (!data || !data->matrix || !data->matrix->length)
+		return (1);
+	if (!data->matrix->rows[0].length)
+		return (1);
+	return (0);
+}
 
-	x_event = ButtonPress;
-	x_mask = ButtonPressMask;
-	mlx_hook(data->win, x_event, x_mask, fdf_press_button, data);
-	x_event = ButtonRelease;
-	x_mask = ButtonReleaseMask;
-	mlx_hook(data->win, x_event, x_mask, fdf_release_button, data);
-	x_event = MotionNotify;
-	x_mask = PointerMotionMask;
-	mlx_hook(data->win, x_event, x_mask, fdf_move_mouse, data);
-	x_event = KeyPress;
-	x_mask = KeyPressMask;
-	mlx_hook(data->win, x_event, x_mask, fdf_handle_keypress, data);
+void	fdf_set_rotation_cord(t_data *data)
+{
+	t_row	*rows;
+	t_pixel	*pixels;
+	int		row;
+	int		pixel;
+
+	if (fdf_struct_is_null(data))
+		return ;
+	rows = data->matrix->rows;
+	row = 0;
+	while (row < data->matrix->length)
+	{
+		pixels = rows[row].pixels;
+		if (pixels)
+		{
+			pixel = 0;
+			while (pixel < rows[row].length)
+			{
+				pixels[pixel].rot_x = (double) pixels[pixel].x;
+				pixels[pixel].rot_y = (double) pixels[pixel].y;
+				pixels[pixel].rot_z = (double) pixels[pixel].z;
+				pixel ++;
+			}
+		}
+		row ++;
+	}
 }

@@ -27,5 +27,10 @@
  */
 # define SCALE_UP 1.1
 # define SCALE_DOWN 0.9
+/**
+ * @brief Magnitudes of the 3D rotations.
+ */
+# define COUNTERCLOCKWISE 0.1
+# define CLOCKWISE -0.1
 
 #endif

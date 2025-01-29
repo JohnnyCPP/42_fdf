@@ -26,6 +26,9 @@
  *
  * It will hold its original values in "x", "y", and "z", while the 
  * calculations will be stored on "x_2d" and "y_2d".
+ * 
+ * The members "rot_x", "rot_y", and "rot_z" are used to rotate the 
+ * projection without altering the original coordinates.
  */
 typedef struct s_pixel
 {
@@ -36,6 +39,9 @@ typedef struct s_pixel
 	int				z;
 	char			*color;
 	unsigned int	decimal_color;
+	double			rot_x;
+	double			rot_y;
+	double			rot_z;
 }				t_pixel;
 
 /**
@@ -173,6 +179,7 @@ typedef struct s_mouse
 typedef struct s_data
 {
 	t_matrix	*matrix;
+	double		scaling;
 	void		*mlx;
 	void		*win;
 	int			win_w;

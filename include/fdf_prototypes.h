@@ -40,7 +40,7 @@ int			fdf_close(void *data_ptr);
  * @param keysym A symbolic representation of the key, injected 
  *               by minilibx.
  * @param data The struct whose data will be handled depending on 
- *             the "keysym".
+ *             "keysym".
  * @return Always 0.
  *
  * This function is meant to be hooked into a KeyPress event with 

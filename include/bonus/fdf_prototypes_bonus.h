@@ -83,6 +83,21 @@ int		fdf_release_button(int button, int mouse_x, int mouse_y, void *d_ptr);
 int		fdf_move_mouse(int mouse_x, int mouse_y, void *d_ptr);
 
 /**
+ * @brief Event handler that handles when a key is pressed.
+ *
+ * @param keysym A symbolic representation of the key, injected
+ *               by minilibx.
+ * @param data The struct whose data will be handled depending on 
+ *             "keysym".
+ *
+ * @return Always 0.
+ *
+ * This function prototype returns int because it conforms with "mlx_hook" 
+ * handler function passed as paremeter.
+ */
+int		fdf_handle_keypress(int keysym, t_data *data);
+
+/**
  * @brief Hooks the bonus events to their respective handlers.
  *
  * @param data Structure that will be passed to the params of the handlers.
@@ -94,5 +109,35 @@ int		fdf_move_mouse(int mouse_x, int mouse_y, void *d_ptr);
  *   - MotionNotify: the mouse is moved.
  */
 void	fdf_declare_bonus_events(t_data *data);
+
+/**
+ * @brief Assigns values to "rot_x", "rot_y", and "rot_z".
+ *
+ * @param data Structure containing the matrix to iterate through.
+ *
+ * This function saves copies of the original 3D coordinates, in order 
+ * to use them later without losing the original values.
+ */
+void	fdf_set_rotation_cord(t_data *data);
+
+/**
+ * @brief Rotates the matrix around the z-axis.
+ *
+ * @param data Structure containing the matrix to rotate.
+ * @param angle Magnitude of the rotation.
+ */
+void	fdf_rotate_z(t_data *data, const double angle);
+
+/**
+ * @brief Applies isometric projection with rotated coordinates.
+ *
+ * @param matrix The matrix whose rotated coordinates will be updated.
+ *
+ * This function uses "rot_x", "rot_y", and "rot_z" members of the 
+ * "t_pixel" struct to calculate the isometric projection.
+ *
+ * These members hold the result of a previously calculated 3D rotation.
+ */
+void	fdf_apply_isometric_rotation(t_matrix *matrix);
 
 #endif

@@ -14,6 +14,7 @@
 static	void	fdf_to_zero(t_data *data)
 {
 	data->matrix = NULL;
+	data->scaling = 0.0;
 	data->mlx = NULL;
 	data->win = NULL;
 	data->win_w = 0;
@@ -42,6 +43,7 @@ int	main(const int argc, const char **argv)
 	//	    based on user input
 	//	  - Implement a functionality to switch Projection Mode, 
 	//	    between Isometric, Conical, or Parallel
+	fdf_set_rotation_cord(&data);
 	fdf_declare_bonus_events(&data);
 	mlx_loop(data.mlx);
 	return (EXIT_SUCCESS);

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_declare_events_bonus.c                         :+:      :+:    :+:   */
+/*   fdf_isometric_rotation.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,21 +11,42 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-void	fdf_declare_bonus_events(t_data *data)
+static	void	fdf_apply_isometric(t_pixel *pixels, const int length)
 {
-	long	x_event;
-	long	x_mask;
+	double	x;
+	double	y;
+	double	z;
+	int		pixel;
 
-	x_event = ButtonPress;
-	x_mask = ButtonPressMask;
-	mlx_hook(data->win, x_event, x_mask, fdf_press_button, data);
-	x_event = ButtonRelease;
-	x_mask = ButtonReleaseMask;
-	mlx_hook(data->win, x_event, x_mask, fdf_release_button, data);
-	x_event = MotionNotify;
-	x_mask = PointerMotionMask;
-	mlx_hook(data->win, x_event, x_mask, fdf_move_mouse, data);
-	x_event = KeyPress;
-	x_mask = KeyPressMask;
-	mlx_hook(data->win, x_event, x_mask, fdf_handle_keypress, data);
+	if (!pixels || !length)
+		return ;
+	pixel = 0;
+	while (pixel < length)
+	{
+		x = pixels[pixel].rot_x;
+		y = pixels[pixel].rot_y;
+		z = pixels[pixel].rot_z;
+		fdf_isometric_projection(&pixels[pixel], x, y, z);
+		pixel ++;
+	}
+}
+
+void	fdf_apply_isometric_rotation(t_matrix *matrix)
+{
+	t_row	*rows;
+	t_pixel	*pixels;
+	int		length;
+	int		row;
+
+	if (!matrix || !matrix->length)
+		return ;
+	rows = matrix->rows;
+	row = 0;
+	while (row < matrix->length)
+	{
+		length = rows[row].length;
+		pixels = rows[row].pixels;
+		fdf_apply_isometric(pixels, length);
+		row ++;
+	}
 }

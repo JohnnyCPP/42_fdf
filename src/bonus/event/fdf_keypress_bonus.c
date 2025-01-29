@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_declare_events_bonus.c                         :+:      :+:    :+:   */
+/*   fdf_keypress_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,21 +11,24 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-void	fdf_declare_bonus_events(t_data *data)
+int	fdf_handle_keypress(int keysym, t_data *data)
 {
-	long	x_event;
-	long	x_mask;
-
-	x_event = ButtonPress;
-	x_mask = ButtonPressMask;
-	mlx_hook(data->win, x_event, x_mask, fdf_press_button, data);
-	x_event = ButtonRelease;
-	x_mask = ButtonReleaseMask;
-	mlx_hook(data->win, x_event, x_mask, fdf_release_button, data);
-	x_event = MotionNotify;
-	x_mask = PointerMotionMask;
-	mlx_hook(data->win, x_event, x_mask, fdf_move_mouse, data);
-	x_event = KeyPress;
-	x_mask = KeyPressMask;
-	mlx_hook(data->win, x_event, x_mask, fdf_handle_keypress, data);
+	ft_printf("DEBUG: key pressed with keysym=%i\n", keysym);
+	if (keysym == XK_a)
+	{
+		ft_printf("DEBUG: rotating counterclockwise...\n");
+		//	rotate counterclockwise
+		fdf_rotate_z(data, COUNTERCLOCKWISE);
+		fdf_apply_isometric_rotation(data->matrix);
+		fdf_apply_scaling(data, data->scaling);
+	}
+	else if (keysym == XK_d)
+	{
+		ft_printf("DEBUG: rotating clockwise...\n");
+		//	rotate clockwise
+		fdf_rotate_z(data, CLOCKWISE);
+		fdf_apply_isometric_rotation(data->matrix);
+		fdf_apply_scaling(data, data->scaling);
+	}
+	return (0);
 }
