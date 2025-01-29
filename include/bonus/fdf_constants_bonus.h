@@ -22,5 +22,10 @@
 # define MOUSE_RIGHT_BUTTON 3
 # define MOUSE_SCROLL_UP 4
 # define MOUSE_SCROLL_DOWN 5
+/**
+ * @brief Determine how much the projection is scaled up and down.
+ */
+# define SCALE_UP 1.1
+# define SCALE_DOWN 0.9
 
 #endif

@@ -15,12 +15,16 @@ int	fdf_press_button(int button, int mouse_x, int mouse_y, void *d_ptr)
 {
 	t_data	*data;
 
+	data = (t_data *) d_ptr;
 	if (button == MOUSE_LEFT_BUTTON)
 	{
-		data = (t_data *) d_ptr;
 		data->mouse.is_dragging = 1;
 		data->mouse.last_x = mouse_x;
 		data->mouse.last_y = mouse_y;
 	}
+	else if (button == MOUSE_SCROLL_UP)
+		fdf_apply_scaling(data, SCALE_UP);
+	else if (button == MOUSE_SCROLL_DOWN)
+		fdf_apply_scaling(data, SCALE_DOWN);
 	return (0);
 }
