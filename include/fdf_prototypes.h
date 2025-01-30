@@ -525,21 +525,6 @@ void		fdf_print_matrix(t_matrix *matrix);
 t_matrix	*fdf_to_matrix(const char **str_matrix);
 
 /**
- * @brief Applies the projection formula of isometric projection.
- *
- * @param pixel A pointer to the pixel whose 2D coordinates will be updated.
- * @param x The x-axis.
- * @param y The y-axis.
- * @param z The z-axis.
- *
- * Modifies the x and y axes to represent the point in space 
- * of a 3D object on a 2D surface.
- * To do this, the "x_2d" and "y_2d" members will be assigned with 
- * the results of the isometric projection formula.
- */
-void		fdf_isometric_projection(t_pixel *pixel, int x, int y, int z);
-
-/**
  * @brief Applies isometric projection to the coordinates of a matrix.
  *
  * @param matrix The matrix whose points will be modified.

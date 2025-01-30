@@ -32,5 +32,29 @@
  */
 # define COUNTERCLOCKWISE 0.1
 # define CLOCKWISE -0.1
+/**
+ * @brief The default value for focal length when conical projection is active.
+ *
+ * The focal length represents the distance from the viewpoint to 
+ * the projection plane. This is what makes an object appear smaller in 
+ * relation to the distance from the viewer to the object.
+ *
+ * The choice for this value is arbitrary, and depends on the current 
+ * scale of the 3D scene and the desired perspective effect.
+ *
+ * The Focal Length is inversely proportional to the Field of View (FOV).
+ * A smaller Focal Length results in a wider FOV, while a larger value 
+ * results in a narrower FOV.
+ */
+# define DEFAULT_FOCAL_LENGTH 200.0
+/**
+ * @brief The maximum and minimum value for focal length.
+ */
+# define MAXIMUM_FOCAL_LENGTH 1000.0
+# define MINIMUM_FOCAL_LENGTH 10.0
+/**
+ * @brief The magnitude of focal length modification.
+ */
+# define INCREMENT_FOCAL_LENGTH 10.0
 
 #endif

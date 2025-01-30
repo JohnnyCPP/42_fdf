@@ -135,4 +135,17 @@ void	fdf_switch_projection(t_data *data);
  */
 void	fdf_apply_parallel_formula(t_matrix *matrix);
 
+/**
+ * @brief Applies conical projection to the matrix.
+ *
+ * @param matrix The matrix to modify.
+ * @param focal_length The distance of the viewpoint to the projection plane.
+ *
+ * Conical projection, or perspective projection, simulates how the 
+ * human eye would perceive an object in real life at a given distance.
+ *
+ * The focal length would represent the distance of the viewer to the object.
+ */
+void	fdf_apply_conical_formula(t_matrix *matrix, double focal_length);
+
 #endif

@@ -21,6 +21,7 @@ static	void	fdf_to_zero(t_data *data)
 	data->img = (t_image){NULL, NULL, 0, 0, 0, 0, 0};
 	data->mouse = (t_mouse){0, 0, 0};
 	data->projection = ISOMETRIC;
+	data->focal_length = 0.0;
 }
 
 int	main(const int argc, const char **argv)

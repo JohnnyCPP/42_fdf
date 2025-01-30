@@ -20,7 +20,10 @@ static	void	fdf_switch_to_isometric(t_data *data)
 
 static	void	fdf_switch_to_conical(t_data *data)
 {
-	(void) data;
+	data->focal_length = DEFAULT_FOCAL_LENGTH;
+	fdf_apply_conical_formula(data->matrix, data->focal_length);
+	fdf_compute_initial_scaling(data);
+	fdf_apply_translation_formula(data);
 }
 
 static	void	fdf_switch_to_parallel(t_data *data)

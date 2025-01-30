@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_isometric_projection.c                         :+:      :+:    :+:   */
+/*   fdf_conical_projection.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,29 +11,7 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-static	double	fdf_to_radians(const double degrees)
-{
-	return (degrees * (M_PI / PI_RADIAN_DEGREES));
-}
-
-static	void	fdf_isometric_projection(t_pixel *pixel, int x, int y, int z)
-{
-	double	delta;
-	double	sum;
-	double	cosine;
-	double	sine;
-	double	radians;
-
-	delta = x - y;
-	sum = x + y;
-	radians = fdf_to_radians(ISOMETRIC_CONV_ROT_ANG);
-	cosine = cos(radians);
-	sine = sin(radians);
-	pixel->x_2d = delta * cosine;
-	pixel->y_2d = sum * sine - (double) z;
-}
-
-static	void	fdf_apply_isometric(t_pixel *pixels, const int length)
+static	void	fdf_apply_conical(t_pixel *pixels, int length, double focal)
 {
 	int	x;
 	int	y;
@@ -48,12 +26,15 @@ static	void	fdf_apply_isometric(t_pixel *pixels, const int length)
 		x = pixels[pixel].x;
 		y = pixels[pixel].y;
 		z = pixels[pixel].z;
-		fdf_isometric_projection(&pixels[pixel], x, y, z);
+		if (z + focal <= 0)
+			return ;
+		pixels[pixel].x_2d = ((double) x * focal) / ((double) z + focal);
+		pixels[pixel].y_2d = ((double) y * focal) / ((double) z + focal);
 		pixel ++;
 	}
 }
 
-void	fdf_apply_projection_formula(t_matrix *matrix)
+void	fdf_apply_conical_formula(t_matrix *matrix, double focal_length)
 {
 	t_row	*rows;
 	t_pixel	*pixels;
@@ -68,7 +49,7 @@ void	fdf_apply_projection_formula(t_matrix *matrix)
 	{
 		length = rows[row].length;
 		pixels = rows[row].pixels;
-		fdf_apply_isometric(pixels, length);
+		fdf_apply_conical(pixels, length, focal_length);
 		row ++;
 	}
 }

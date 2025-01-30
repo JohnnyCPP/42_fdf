@@ -190,6 +190,7 @@ typedef struct s_data
 	t_image			img;
 	t_mouse			mouse;
 	t_projection	projection;
+	double			focal_length;
 }				t_data;
 
 /**
