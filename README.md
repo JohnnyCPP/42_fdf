@@ -37,5 +37,7 @@ make bonus
 # clean the project before building the bonus version
 make fclean
 make bonus
+```
 
+The default map with colors should look similar to the following example:
 ![42](./resources/42_color.png "42_color.fdf")
