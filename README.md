@@ -37,3 +37,5 @@ make bonus
 # clean the project before building the bonus version
 make fclean
 make bonus
+
+![42](./resources/42_color.png "42_color.fdf")

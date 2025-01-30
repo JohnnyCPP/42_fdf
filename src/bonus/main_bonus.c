@@ -11,6 +11,16 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
+static	void	fdf_show_controls(void)
+{
+	ft_printf("Controls:\n\n");
+	ft_printf("Move the projection holding the left mouse button.\n");
+	ft_printf("Zoom in and out scrolling the mouse wheel.\n");
+	ft_printf("Press \"a\" or \"d\" to rotate the projection.\n");
+	ft_printf("Press \"p\" to switch the projection type.\n");
+	ft_printf("Press \"Esc\" to close.\n");
+}
+
 static	void	fdf_to_zero(t_data *data)
 {
 	data->matrix = NULL;
@@ -36,6 +46,7 @@ int	main(const int argc, const char **argv)
 	fdf_apply_translation_formula(&data);
 	mlx_loop_hook(data.mlx, fdf_render_frame, (void *) &data);
 	fdf_declare_bonus_events(&data);
+	fdf_show_controls();
 	mlx_loop(data.mlx);
 	return (EXIT_SUCCESS);
 }
