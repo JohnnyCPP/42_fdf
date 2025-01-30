@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_set_rotation_cord.c                            :+:      :+:    :+:   */
+/*   fdf_parallel_projection.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,40 +11,46 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-static	int	fdf_struct_is_null(t_data *data)
+static	void	fdf_parallel_projection(t_pixel *pixel, int x, int y)
 {
-	if (!data || !data->matrix || !data->matrix->length)
-		return (1);
-	if (!data->matrix->rows[0].length)
-		return (1);
-	return (0);
+	pixel->x_2d = x;
+	pixel->y_2d = y;
 }
 
-void	fdf_set_rotation_cord(t_data *data)
+static	void	fdf_apply_parallel(t_pixel *pixels, const int length)
+{
+	int	x;
+	int	y;
+	int	pixel;
+
+	if (!pixels || !length)
+		return ;
+	pixel = 0;
+	while (pixel < length)
+	{
+		x = pixels[pixel].x;
+		y = pixels[pixel].y;
+		fdf_parallel_projection(&pixels[pixel], x, y);
+		pixel ++;
+	}
+}
+
+void	fdf_apply_parallel_formula(t_matrix *matrix)
 {
 	t_row	*rows;
 	t_pixel	*pixels;
+	int		length;
 	int		row;
-	int		pixel;
 
-	if (fdf_struct_is_null(data))
+	if (!matrix || !matrix->length)
 		return ;
-	rows = data->matrix->rows;
+	rows = matrix->rows;
 	row = 0;
-	while (row < data->matrix->length)
+	while (row < matrix->length)
 	{
+		length = rows[row].length;
 		pixels = rows[row].pixels;
-		if (pixels)
-		{
-			pixel = 0;
-			while (pixel < rows[row].length)
-			{
-				pixels[pixel].rot_x = (double) pixels[pixel].x;
-				pixels[pixel].rot_y = (double) pixels[pixel].y;
-				pixels[pixel].rot_z = (double) pixels[pixel].z;
-				pixel ++;
-			}
-		}
+		fdf_apply_parallel(pixels, length);
 		row ++;
 	}
 }

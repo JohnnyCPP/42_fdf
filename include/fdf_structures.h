@@ -39,9 +39,6 @@ typedef struct s_pixel
 	int				z;
 	char			*color;
 	unsigned int	decimal_color;
-	double			rot_x;
-	double			rot_y;
-	double			rot_z;
 }				t_pixel;
 
 /**
@@ -168,6 +165,13 @@ typedef struct s_mouse
 	int	last_y;
 }				t_mouse;
 
+typedef enum e_projection
+{
+	ISOMETRIC,
+	PARALLEL,
+	CONICAL
+}				t_projection;
+
 /**
  * @brief Structure representing application resources.
  *
@@ -178,13 +182,14 @@ typedef struct s_mouse
  */
 typedef struct s_data
 {
-	t_matrix	*matrix;
-	void		*mlx;
-	void		*win;
-	int			win_w;
-	int			win_h;
-	t_image		img;
-	t_mouse		mouse;
+	t_matrix		*matrix;
+	void			*mlx;
+	void			*win;
+	int				win_w;
+	int				win_h;
+	t_image			img;
+	t_mouse			mouse;
+	t_projection	projection;
 }				t_data;
 
 /**

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_isometric_rotation.c                           :+:      :+:    :+:   */
+/*   fdf_switch_projection.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,42 +11,40 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-static	void	fdf_apply_isometric(t_pixel *pixels, const int length)
+static	void	fdf_switch_to_isometric(t_data *data)
 {
-	double	x;
-	double	y;
-	double	z;
-	int		pixel;
-
-	if (!pixels || !length)
-		return ;
-	pixel = 0;
-	while (pixel < length)
-	{
-		x = pixels[pixel].rot_x;
-		y = pixels[pixel].rot_y;
-		z = pixels[pixel].rot_z;
-		fdf_isometric_projection(&pixels[pixel], x, y, z);
-		pixel ++;
-	}
+	fdf_apply_projection_formula(data->matrix);
+	fdf_compute_initial_scaling(data);
+	fdf_apply_translation_formula(data);
 }
 
-void	fdf_apply_isometric_rotation(t_matrix *matrix)
+static	void	fdf_switch_to_conical(t_data *data)
 {
-	t_row	*rows;
-	t_pixel	*pixels;
-	int		length;
-	int		row;
+	(void) data;
+}
 
-	if (!matrix || !matrix->length)
-		return ;
-	rows = matrix->rows;
-	row = 0;
-	while (row < matrix->length)
+static	void	fdf_switch_to_parallel(t_data *data)
+{
+	fdf_apply_parallel_formula(data->matrix);
+	fdf_compute_initial_scaling(data);
+	fdf_apply_translation_formula(data);
+}
+
+void	fdf_switch_projection(t_data *data)
+{
+	if (data->projection == ISOMETRIC)
 	{
-		length = rows[row].length;
-		pixels = rows[row].pixels;
-		fdf_apply_isometric(pixels, length);
-		row ++;
+		fdf_switch_to_parallel(data);
+		data->projection = PARALLEL;
+	}
+	else if (data->projection == PARALLEL)
+	{
+		fdf_switch_to_conical(data);
+		data->projection = CONICAL;
+	}
+	else if (data->projection == CONICAL)
+	{
+		fdf_switch_to_isometric(data);
+		data->projection = ISOMETRIC;
 	}
 }

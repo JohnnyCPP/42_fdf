@@ -111,16 +111,6 @@ int		fdf_handle_keypress(int keysym, t_data *data);
 void	fdf_declare_bonus_events(t_data *data);
 
 /**
- * @brief Assigns values to "rot_x", "rot_y", and "rot_z".
- *
- * @param data Structure containing the matrix to iterate through.
- *
- * This function saves copies of the original 3D coordinates, in order 
- * to use them later without losing the original values.
- */
-void	fdf_set_rotation_cord(t_data *data);
-
-/**
  * @brief Rotates the matrix in the 2d plane.
  *
  * @param data Structure containing the matrix to rotate.
@@ -129,15 +119,20 @@ void	fdf_set_rotation_cord(t_data *data);
 void	fdf_rotate_2d(t_data *data, const double angle);
 
 /**
- * @brief Applies isometric projection with rotated coordinates.
+ * @brief Toggles between the different projection types.
  *
- * @param matrix The matrix whose rotated coordinates will be updated.
- *
- * This function uses "rot_x", "rot_y", and "rot_z" members of the 
- * "t_pixel" struct to calculate the isometric projection.
- *
- * These members hold the result of a previously calculated 3D rotation.
+ * @param data Structure containing the current projection type.
  */
-void	fdf_apply_isometric_rotation(t_matrix *matrix);
+void	fdf_switch_projection(t_data *data);
+
+/**
+ * @brief Applies parallel projection to the matrix.
+ *
+ * @param matrix The matrix to modify.
+ *
+ * This function just ignores the "z" axis and sets the values of 
+ * "x" and "y" directly to the "x_2d" and "y_2d" before rendering.
+ */
+void	fdf_apply_parallel_formula(t_matrix *matrix);
 
 #endif

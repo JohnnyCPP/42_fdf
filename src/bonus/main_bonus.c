@@ -20,6 +20,7 @@ static	void	fdf_to_zero(t_data *data)
 	data->win_h = 0;
 	data->img = (t_image){NULL, NULL, 0, 0, 0, 0, 0};
 	data->mouse = (t_mouse){0, 0, 0};
+	data->projection = ISOMETRIC;
 }
 
 int	main(const int argc, const char **argv)
@@ -33,10 +34,6 @@ int	main(const int argc, const char **argv)
 	fdf_compute_initial_scaling(&data);
 	fdf_apply_translation_formula(&data);
 	mlx_loop_hook(data.mlx, fdf_render_frame, (void *) &data);
-	//	bonus:
-	//	  - Implement a functionality to switch Projection Mode, 
-	//	    between Isometric, Conical, or Parallel
-	fdf_set_rotation_cord(&data);
 	fdf_declare_bonus_events(&data);
 	mlx_loop(data.mlx);
 	return (EXIT_SUCCESS);

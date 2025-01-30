@@ -17,10 +17,8 @@ int	fdf_release_button(int button, int mouse_x, int mouse_y, void *d_ptr)
 
 	(void) mouse_x;
 	(void) mouse_y;
+	data = (t_data *) d_ptr;
 	if (button == MOUSE_LEFT_BUTTON)
-	{
-		data = (t_data *) d_ptr;
 		data->mouse.is_dragging = 0;
-	}
 	return (0);
 }

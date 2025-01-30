@@ -23,6 +23,8 @@ int	fdf_handle_keypress(int keysym, t_data *data)
 		fdf_rotate_2d(data, CLOCKWISE);
 		fdf_apply_translation_formula(data);
 	}
+	else if (keysym == XK_p)
+		fdf_switch_projection(data);
 	else if (keysym == XK_Escape)
 		fdf_close((void *) data);
 	return (0);

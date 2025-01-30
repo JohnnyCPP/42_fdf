@@ -19,6 +19,7 @@ static	void	fdf_to_zero(t_data *data)
 	data->win_w = 0;
 	data->win_h = 0;
 	data->img = (t_image){NULL, NULL, 0, 0, 0, 0, 0};
+	data->projection = ISOMETRIC;
 }
 
 int	main(const int argc, const char **argv)
