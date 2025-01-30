@@ -96,6 +96,7 @@ RE				= re
 BONUS			= bonus
 HELP			= help
 CC_SANITIZER	= sanitize
+B_CC_SANITIZER	= sanitize_bonus
 VALGRIND		= valgrind
 VALGRIND_ARGS	= ${MAPS_PATH}42.fdf
 MAP				= map
@@ -109,7 +110,7 @@ LIB_RE			= ${PREFIX_LIB}${RE}
 
 PHONY			= .PHONY
 STD_PHONY		= ${ALL} ${CLEAN} ${FCLEAN} ${RE} ${BONUS} ${HELP}
-DEBUG_PHONY		= ${CC_SANITIZER} ${VALGRIND} ${MAP} ${GDB}
+DEBUG_PHONY		= ${CC_SANITIZER} ${B_CC_SANITIZER} ${VALGRIND} ${MAP} ${GDB}
 LIB_PHONY		= ${LIB_DELETE} ${LIB_CLEAN} ${LIB_FCLEAN} ${LIB_RE}
 
 
@@ -214,12 +215,17 @@ ${HELP}:
 	@echo "    bonus          - Build the project with bonus features"
 	@echo "    map            - Run the program with the default map"
 	@echo "    sanitize       - Build with address sanitizer for debugging"
+	@echo "    sanitize_bonus - Build the bonus version with address sanitizer for debugging"
 	@echo "    valgrind       - Run the program with valgrind"
 	@echo "    gdb            - Run the program with gdb"
 
 
 ${CC_SANITIZER}: ${MINILIBX_NAME} ${LIBFT_NAME} ${OBJECT_FILES}
 	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME} ${INCLUDE_MLX}
+
+
+${B_CC_SANITIZER}: ${MINILIBX_NAME} ${LIBFT_NAME} ${BONUS_OBJECTS}
+	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${BONUS_OBJECTS} ${LIBFT_NAME} -o ${NAME} ${INCLUDE_MLX}
 	@echo "C compiler's sanitizer has been added to debug memory issues."
 
 

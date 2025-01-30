@@ -109,7 +109,7 @@ void	fdf_assign_decimal_colors(t_row *row)
 		if (color)
 			pixels[i].decimal_color = fdf_to_int(color);
 		else
-			pixels[i].decimal_color = 0;
+			pixels[i].decimal_color = fdf_to_int(STR_COLOR_WHITE);
 		i ++;
 	}
 }

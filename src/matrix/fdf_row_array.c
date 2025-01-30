@@ -11,17 +11,39 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
+static	void	fdf_free_pixel_colors(t_pixel **pixels, int length)
+{
+	char	*color;
+	int		pixel;
+
+	if (!pixels || !*pixels)
+		return ;
+	pixel = 0;
+	while (pixel < length)
+	{
+		color = (*pixels)[pixel].color;
+		if (color != NULL)
+			free(color);
+		pixel ++;
+	}
+	free(*pixels);
+	*pixels = NULL;
+}
+
 void	fdf_free_row_array(t_matrix *matrix)
 {
-	int	i;
+	t_pixel	**pixels;
+	int		length;
+	int		i;
 
 	if (!matrix)
 		return ;
 	i = 0;
 	while (i < matrix->length)
 	{
-		free(matrix->rows[i].pixels);
-		matrix->rows[i].pixels = NULL;
+		pixels = &matrix->rows[i].pixels;
+		length = matrix->rows[i].length;
+		fdf_free_pixel_colors(pixels, length);
 		i ++;
 	}
 	free(matrix->rows);
