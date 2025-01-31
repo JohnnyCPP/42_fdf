@@ -32,7 +32,7 @@
  * It returns "int" to comply with the "mlx_hook()" prototype, but actually,
  * it never reaches the return statement because "exit()" terminates execution.
  */
-int			fdf_close(void *data_ptr);
+int			fdf_close(void *data_ptr)	__attribute__((noreturn));
 
 /**
  * @brief Handles the logic called when a key of the keyboard is pressed.

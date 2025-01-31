@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "fdf.h"
 
-int	fdf_close(void *data_ptr)
+__attribute__((noreturn))	int	fdf_close(void *data_ptr)
 {
 	t_data	*data;
 
@@ -21,5 +21,4 @@ int	fdf_close(void *data_ptr)
 	mlx_destroy_display(data->mlx);
 	fdf_free_matrix(&data->matrix);
 	exit(EXIT_SUCCESS);
-	return (0);
 }
