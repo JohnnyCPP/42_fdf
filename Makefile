@@ -222,11 +222,12 @@ ${HELP}:
 
 ${CC_SANITIZER}: ${MINILIBX_NAME} ${LIBFT_NAME} ${OBJECT_FILES}
 	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME} ${INCLUDE_MLX}
+	@echo "C compiler's sanitizer has been added to debug memory issues."
 
 
 ${B_CC_SANITIZER}: ${MINILIBX_NAME} ${LIBFT_NAME} ${BONUS_OBJECTS}
 	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${BONUS_OBJECTS} ${LIBFT_NAME} -o ${NAME} ${INCLUDE_MLX}
-	@echo "C compiler's sanitizer has been added to debug memory issues."
+	@echo "C compiler's sanitizer has been added, to the bonus, to debug memory issues."
 
 
 ${VALGRIND}: ${NAME}
