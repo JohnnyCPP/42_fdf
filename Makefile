@@ -6,7 +6,7 @@
 #    By: jonnavar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/26 20:27:13 by jonnavar          #+#    #+#              #
-#    Updated: 2024/09/26 20:37:23 by jonnavar         ###   ########.fr        #
+#    Updated: 2025/02/12 17:30:19 by jonnavar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,8 @@ VALGRIND_FLAGS	= --track-origins=yes -s --leak-check=full --show-leak-kinds=all
 #                   minilibx itself
 X11_FILES		= -lXext -lX11 -lm
 MLX_SPECIFICS	= -lmlx -lmlx_Linux
-INCLUDE_MLX		= -I ${MINILIBX_PATH} -L ${MINILIBX_PATH} ${X11_FILES} ${MLX_SPECIFICS}
+LINKER_FLAGS	= -L ${MINILIBX_PATH} ${X11_FILES} ${MLX_SPECIFICS}
+INCLUDE_MLX		= -I ${MINILIBX_PATH}
 INCLUDE_LIBFT	= -I ${LIBFT_INC_PATH}
 INCLUDE_BONUS	= -I ${B_INCLUDES_PATH}
 INCLUDE			= -I ${INCLUDES_PATH} ${INCLUDE_BONUS} ${INCLUDE_LIBFT} ${INCLUDE_MLX}
@@ -178,7 +179,7 @@ ${OBJECTS_PATH}%.o: ${SOURCES_PATH}%.c
 
 
 ${NAME}: ${MINILIBX_NAME} ${LIBFT_NAME} ${OBJECT_FILES}
-	@${CC} ${CFLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME} ${INCLUDE_MLX}
+	@${CC} ${CFLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME} ${LINKER_FLAGS}
 	@echo "The program \"${NAME}\" has been compiled."
 
 
@@ -199,7 +200,7 @@ ${RE}: ${FCLEAN} ${ALL}
 
 ${BONUS}: ${MINILIBX_NAME} ${LIBFT_NAME} ${BONUS_OBJECTS}
 	@if [ ! -e ${NAME} ]; then \
-		${CC} ${CFLAGS} ${BONUS_OBJECTS} ${LIBFT_NAME} -o ${NAME} ${INCLUDE_MLX}; \
+		${CC} ${CFLAGS} ${BONUS_OBJECTS} ${LIBFT_NAME} -o ${NAME} ${LINKER_FLAGS}; \
 		echo "The program \"${NAME}\" has been compiled including bonus."; \
 	else \
 		echo "The program \"${NAME}\" already exists. Skipping compilation."; \
@@ -221,12 +222,12 @@ ${HELP}:
 
 
 ${CC_SANITIZER}: ${MINILIBX_NAME} ${LIBFT_NAME} ${OBJECT_FILES}
-	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME} ${INCLUDE_MLX}
+	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${OBJECT_FILES} ${LIBFT_NAME} -o ${NAME} ${LINKER_FLAGS}
 	@echo "C compiler's sanitizer has been added to debug memory issues."
 
 
 ${B_CC_SANITIZER}: ${MINILIBX_NAME} ${LIBFT_NAME} ${BONUS_OBJECTS}
-	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${BONUS_OBJECTS} ${LIBFT_NAME} -o ${NAME} ${INCLUDE_MLX}
+	@${CC} ${CFLAGS} ${SANITIZE_FLAGS} ${BONUS_OBJECTS} ${LIBFT_NAME} -o ${NAME} ${LINKER_FLAGS}
 	@echo "C compiler's sanitizer has been added, to the bonus, to debug memory issues."
 
 
